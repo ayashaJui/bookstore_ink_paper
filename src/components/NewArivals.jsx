@@ -19,12 +19,12 @@ import {
 } from "@mui/material";
 import BookCard from "./BookCard";
 
-export default function NewArrivals() {
+const NewArrivals = () => {
   return (
     <Box component="div" sx={{ mx: 2, mb: 10 }}>
       <Typography
         variant="h3"
-        sx={{ mt: 5, mb: 3, float: "left", fontFamily: "Roboto" }}
+        sx={{ mt: 7, mb: 3, fontFamily: "Roboto", color: '#272643', textAlign: 'left' }}
       >
         New Arrivals
       </Typography>
@@ -40,7 +40,7 @@ export default function NewArrivals() {
               <CardMedia
                 component="img"
                 height="500"
-                image="/images/new_arrivals/pride_and_prejudice_chiltern_800x.jpg"
+                image="/images/new_arrivals/pride_and_prejudice.jpg"
                 alt="pride_prejudice"
               />
               <Chip
@@ -120,14 +120,14 @@ export default function NewArrivals() {
 
         <Grid item xs={12} sm={10} md={9} elevation={6}>
           <Grid container spacing={1}>
-            <BookCard />
-            <BookCard />
-            <BookCard />
-            <BookCard />
-            <BookCard />
-            <BookCard />
-            <BookCard />
-            <BookCard />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
+            <BookCard mediaHeight="180" cardColor="#e3f6f5" />
           </Grid>
         </Grid>
       </Grid>
@@ -141,4 +141,6 @@ export default function NewArrivals() {
       </Button>
     </Box>
   );
-}
+};
+
+export default NewArrivals;

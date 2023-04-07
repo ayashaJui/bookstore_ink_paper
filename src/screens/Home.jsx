@@ -1,5 +1,7 @@
+import FeaturedBooks from "../components/FeaturedBooks";
 import HeroCarousal from "../components/HeroCarousal";
 import NewArrivals from "../components/NewArivals";
+import PopularBooks from "../components/PopularBook";
 import SearchBar from "../components/SearchBar";
 
 const Home = () => {
@@ -8,6 +10,8 @@ const Home = () => {
       <HeroCarousal />
       <SearchBar />
       <NewArrivals />
+      <PopularBooks />
+      <FeaturedBooks />
     </div>
   );
 };

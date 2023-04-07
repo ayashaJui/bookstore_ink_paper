@@ -9,15 +9,21 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Button from "@mui/material/Button";
 
-const BookCard = () => {
+const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
   return (
-    <Grid item sm={4} xs={6} md={3} >
-      <Card sx={{ bgcolor: "#e3f6f5" }}>
+    <Grid item sm={4} xs={6} md={3}>
+      <Card
+        sx={{
+          bgcolor: `${cardColor}`,
+          mx: `${cardMargin}`,
+          boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
+        }}
+      >
         <CardActionArea>
           <CardMedia
             component="img"
-            height="180"
-            image="/images/new_arrivals/pride_and_prejudice_chiltern_800x.jpg"
+            height={mediaHeight}
+            image="/images/new_arrivals/pride_and_prejudice.jpg"
             alt="pride_prejudice"
           />
           <CardContent sx={{ textAlign: "left" }}>
@@ -28,16 +34,18 @@ const BookCard = () => {
               Pride & Prejudice
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Jane Austen
+              by Jane Austen
             </Typography>
-            <Grid container spacing={2} sx={{ }} >
-              <Grid item md={8} sx={{ color: "#FF9529",  mt: 0.5 }}>
-                <StarIcon sx={{fontSize: 20}} />
-                <StarIcon sx={{fontSize: 20}} />
-                <StarIcon sx={{fontSize: 20}} />
-                <StarHalfIcon sx={{fontSize: 20}} />
-                <StarBorderIcon sx={{fontSize: 20}} />
-                <Typography variant="subtitle2" sx={{fontSize: 10}}>(1500 Reviews)</Typography>
+            <Grid container spacing={2} sx={{}}>
+              <Grid item md={8} sx={{ color: "#FF9529", mt: 0.5 }}>
+                <StarIcon sx={{ fontSize: 20 }} />
+                <StarIcon sx={{ fontSize: 20 }} />
+                <StarIcon sx={{ fontSize: 20 }} />
+                <StarHalfIcon sx={{ fontSize: 20 }} />
+                <StarBorderIcon sx={{ fontSize: 20 }} />
+                <Typography variant="subtitle2" sx={{ fontSize: 10 }}>
+                  (1500 Reviews)
+                </Typography>
               </Grid>
               <Grid item md={4}>
                 <Typography variant="subtitle1">BDT 5.58</Typography>
@@ -67,7 +75,7 @@ const BookCard = () => {
             <Button
               size="large"
               sx={{ color: "#e3f6f5", my: 2 }}
-              href="/book/details/id"
+              href="/book/id/details"
             >
               Details
             </Button>
