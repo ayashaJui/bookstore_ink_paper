@@ -1,4 +1,10 @@
-import { Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -73,8 +79,9 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
             }}
           >
             <Button
-              size="large"
-              sx={{ color: "#e3f6f5", my: 2 }}
+              variant="contained"
+              size="small"
+              sx={{ color: "#e3f6f5", my: 2, bgcolor: "#2c698d" }}
               href="/book/id/details"
             >
               Details
@@ -82,16 +89,20 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
             <Button
               size="large"
               href="/book/id/add_cart"
-              sx={{ color: "#e3f6f5", my: 2 }}
+              sx={{  color: "#e3f6f5", my: 2 }}
             >
-              <ShoppingCartIcon />
+              <Avatar sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}>
+                <ShoppingCartIcon />
+              </Avatar>
             </Button>
             <Button
               size="large"
               href="/book/id/add_favorite"
               sx={{ color: "#e3f6f5", my: 2 }}
             >
-              <FavoriteBorderIcon />
+              <Avatar sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" }  }}>
+                <FavoriteBorderIcon />
+              </Avatar>
             </Button>
           </Box>
         </CardActionArea>

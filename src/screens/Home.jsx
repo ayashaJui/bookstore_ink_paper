@@ -1,3 +1,4 @@
+import FavouriteAuthors from "../components/FavouriteAuthors";
 import FeaturedBooks from "../components/FeaturedBooks";
 import HeroCarousal from "../components/HeroCarousal";
 import NewArrivals from "../components/NewArivals";
@@ -12,6 +13,7 @@ const Home = () => {
       <NewArrivals />
       <PopularBooks />
       <FeaturedBooks />
+      <FavouriteAuthors />
     </div>
   );
 };
