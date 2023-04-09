@@ -48,8 +48,7 @@ const FavouriteAuthors = () => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
-          dots: true,
+          infinite: true
         },
       },
       {
@@ -71,7 +70,7 @@ const FavouriteAuthors = () => {
   };
   return (
     <Box component="div" sx={{ mt: 15, mx: 2, mb: 10 }}>
-      <Grid container spacing={3} sx={{mb: 5}}>
+      <Grid container spacing={3} sx={{ mb: 5 }}>
         <Grid item sm={6}>
           <Typography
             variant="h3"
@@ -101,7 +100,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -120,7 +119,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -139,7 +138,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -158,7 +157,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -177,7 +176,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -196,7 +195,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -215,7 +214,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
@@ -234,7 +233,7 @@ const FavouriteAuthors = () => {
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 3 }}
+            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
           />
           <Typography
             variant="h6"
