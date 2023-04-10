@@ -1,6 +1,8 @@
+import BookDeals from "../components/BookDeals";
 import FavouriteAuthors from "../components/FavouriteAuthors";
 import FeaturedBooks from "../components/FeaturedBooks";
 import HeroCarousal from "../components/HeroCarousal";
+import LatestNews from "../components/LatestNews";
 import NewArrivals from "../components/NewArivals";
 import PopularBooks from "../components/PopularBook";
 import SearchBar from "../components/SearchBar";
@@ -14,6 +16,8 @@ const Home = () => {
       <PopularBooks />
       <FeaturedBooks />
       <FavouriteAuthors />
+      <BookDeals />
+      <LatestNews />
     </div>
   );
 };
