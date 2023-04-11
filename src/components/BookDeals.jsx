@@ -15,7 +15,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const BookDeals = () => {
   return (
-    <Box component="div" sx={{ mx: 2, mb: 10 }}>
+    <Box component="div" sx={{ mx: 4, mb: 8 }}>
       <Typography
         variant="h3"
         sx={{

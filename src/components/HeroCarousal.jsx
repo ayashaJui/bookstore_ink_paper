@@ -17,6 +17,7 @@ function HeroCarousal() {
     fade: true,
     speed: 500,
     slidesToShow: 1,
+    autoplay: true,
     slidesToScroll: 1,
   };
 
@@ -26,7 +27,7 @@ function HeroCarousal() {
         sx={{
           position: "relative",
           marginBottom: "20px",
-          backgroundImage: 'url("images/carousal/1.jpg")',
+          backgroundImage: 'url("images/static/carousal/1.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "500px",
@@ -76,7 +77,7 @@ function HeroCarousal() {
         sx={{
           position: "relative",
           marginBottom: "20px",
-          backgroundImage: 'url("images/carousal/2.jpg")',
+          backgroundImage: 'url("images/static/carousal/2.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "500px",
@@ -125,7 +126,7 @@ function HeroCarousal() {
         sx={{
           position: "relative",
           marginBottom: "20px",
-          backgroundImage: 'url("images/carousal/3.jpg")',
+          backgroundImage: 'url("images/static/carousal/3.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "500px",

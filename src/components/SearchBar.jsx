@@ -15,7 +15,7 @@ export default function SearchBar() {
   };
 
   return (
-    <Box component="form" onSubmit={handleFormSubmit} sx={{ my: 4, mx: 2 }}>
+    <Box component="form" onSubmit={handleFormSubmit} sx={{ my: 4, mx: 5 }}>
       <Grid container spacing={2}>
         <Grid item xs={3.3}>
           <Autocomplete

@@ -69,7 +69,7 @@ const FavouriteAuthors = () => {
     ],
   };
   return (
-    <Box component="div" sx={{ mt: 15, mx: 2, mb: 12 }}>
+    <Box component="div" sx={{ mt: 15, mx: 4, mb: 12 }}>
       <Grid container spacing={3} sx={{ mb: 5 }}>
         <Grid item sm={6}>
           <Typography

@@ -15,7 +15,7 @@ const FeaturedBooks = () => {
   };
 
   return (
-    <Box component="div" sx={{ m: 3 }}>
+    <Box component="div" sx={{ my: 3, mx: 4 }}>
       <Grid
         container
         spacing={3} sx={{}}

@@ -39,10 +39,10 @@ const PopularBooks = () => {
     ],
   };
   return (
-    <Box component="div" sx={{ m: 2 }}>
+    <Box component="div" sx={{ mx: 1 , my: 2}}>
       <Typography
         variant="h3"
-        sx={{ fontFamily: "Roboto", my: 3, color: "#272643", textAlign: 'left' }}
+        sx={{ fontFamily: "Roboto", my: 3, mx: 4, color: "#272643", textAlign: 'left' }}
       >
         Popular Books
       </Typography>
