@@ -68,11 +68,12 @@ function HeroCarousal() {
               size="small"
               sx={{ backgroundColor: "#272643" }}
             >
-              Shop Now
+              Browse Our Store
             </Button>
           </Box>
         </CardContent>
       </Card>
+
       <Card
         sx={{
           position: "relative",
@@ -122,6 +123,7 @@ function HeroCarousal() {
           </Box>
         </CardContent>
       </Card>
+      
       <Card
         sx={{
           position: "relative",

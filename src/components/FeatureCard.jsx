@@ -20,7 +20,7 @@ const FeatureCard = () => {
         <Grid item xs={12} sm={4}>
           <CardMedia
             component="img"
-            image="/images/new_arrivals/pride_and_prejudice.jpg" // Replace with the image URL or path
+            image="/images/new_arrivals/pride_and_prejudice.jpg" 
             alt="featured image"
             height="100%" 
           />
