@@ -15,7 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const pages = ["Home", "Shop", "Blog", "About", "Contact Us"];
-const pagesLink = ["/", "/shop", "/blog", "/about", "/contact"];
+const pagesLink = ["/", "/shop", "/blogs", "/about", "/contact"];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {

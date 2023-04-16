@@ -7,6 +7,7 @@ import Blog from "./screens/Blog";
 import About from "./screens/About";
 import Contact from "./screens/Contact";
 import Signin from "./screens/Signin";
+import BlogDetails from "./screens/BlogDetails";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <main>
           <Routes>
             <Route exact path="/" Component={Home} />
-            <Route exact path="/blog" Component={Blog} />
+            <Route exact path="/blogs" Component={Blog} />
+            <Route exact path='/blogs/:id/details' Component={BlogDetails} />
             <Route exact path="/about" Component={About} />
             <Route exact path='/contact' Component={Contact}  />
             <Route exact path="/signin" Component={Signin} />

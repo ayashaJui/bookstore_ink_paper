@@ -113,7 +113,7 @@ function HeroCarousal() {
             zIndex={2}
           >
             <Button
-              href="/blog"
+              href="/blogs"
               variant="contained"
               size="small"
               sx={{ backgroundColor: "#272643" }}
