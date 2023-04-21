@@ -11,17 +11,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import BlogHeader from "../components/BlogHeader";
 import BlogSidebar from "../components/BlogSidebar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
+import HeroImage from "../components/HeroImage";
 
 const BlogDetails = () => {
   const handleSubmit = () => {};
 
   return (
     <Box component="div">
-      <BlogHeader title="Lizard" imgPath="/images/static/blog.jpg" />
+      <HeroImage title="Lizard" imgPath="/images/static/blog.jpg" />
 
       <Box component="div" sx={{ mx: 5 }}>
         <Grid container spacing={2}>
@@ -55,7 +55,12 @@ const BlogDetails = () => {
                 textAlign="left"
                 fontWeight="bold"
                 fontFamily="Roboto"
-                sx={{ my: 3, fontSize: "40px", letterSpacing: "1.5px", color: "#272643" }}
+                sx={{
+                  my: 3,
+                  fontSize: "40px",
+                  letterSpacing: "1.5px",
+                  color: "#272643",
+                }}
               >
                 Lizard
               </Typography>
@@ -188,6 +193,13 @@ const BlogDetails = () => {
                           src="/images/authors/14.jpg"
                           sx={{ height: 100, width: 100 }}
                         />
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight="bold"
+                          sx={{ p: 2, textAlign: "left" }}
+                        >
+                          John Doe
+                        </Typography>
                       </Grid>
                       <Grid item md={10}>
                         <Typography variant="body2" textAlign="left">
@@ -209,14 +221,20 @@ const BlogDetails = () => {
                         </Typography>
                         <Box component="div" sx={{ mt: 2, textAlign: "left" }}>
                           <Typography variant="body2" fontWeight="bold">
-                            John Doe
+                            March 23, 2023
                             <Typography
                               variant="body2"
                               component="span"
                               sx={{ ml: 5 }}
                             >
-                              {" "}
-                              March 13, 2023
+                              <Button
+                                sx={{
+                                  textTransform: "capitalize",
+                                  color: "#000",
+                                }}
+                              >
+                                Like
+                              </Button>
                             </Typography>
                           </Typography>
                         </Box>
@@ -234,6 +252,13 @@ const BlogDetails = () => {
                           src="/images/authors/14.jpg"
                           sx={{ height: 100, width: 100 }}
                         />
+                        <Typography
+                          variant="subtitle2"
+                          fontWeight="bold"
+                          sx={{ p: 2, textAlign: "left" }}
+                        >
+                          John Doe
+                        </Typography>
                       </Grid>
                       <Grid item md={10}>
                         <Typography variant="body2" textAlign="left">
@@ -255,14 +280,20 @@ const BlogDetails = () => {
                         </Typography>
                         <Box component="div" sx={{ mt: 2, textAlign: "left" }}>
                           <Typography variant="body2" fontWeight="bold">
-                            John Doe
+                            March 23, 2023
                             <Typography
                               variant="body2"
                               component="span"
                               sx={{ ml: 5 }}
                             >
-                              {" "}
-                              March 13, 2023
+                              <Button
+                                sx={{
+                                  textTransform: "capitalize",
+                                  color: "#000",
+                                }}
+                              >
+                                Like
+                              </Button>
                             </Typography>
                           </Typography>
                         </Box>
@@ -274,7 +305,7 @@ const BlogDetails = () => {
 
               <Divider />
 
-              <Box component="div" sx={{ mt: 2 }}>
+              <Box component="div" sx={{ mt: 2, mb: 15 }}>
                 <Typography
                   variant="h5"
                   textAlign="left"
@@ -287,7 +318,7 @@ const BlogDetails = () => {
                 <Box
                   component="form"
                   onSubmit={handleSubmit}
-                  sx={{ mt: 4, mx: 2, mb: 10 }}
+                  sx={{ mt: 4, mx: 2 }}
                 >
                   <TextField
                     margin="normal"
@@ -295,9 +326,9 @@ const BlogDetails = () => {
                     fullWidth
                     multiline
                     rows={8}
-                    id="message"
-                    label="Message"
-                    name="message"
+                    id="comment"
+                    label="Comment"
+                    name="comment"
                   />
                   <Grid container spacing={2}>
                     <Grid item md={6} sm={12} xs={12}>
@@ -317,7 +348,7 @@ const BlogDetails = () => {
                         required
                         fullWidth
                         id="email"
-                        label="Email"
+                        label="Email (won't be published)"
                         name="email"
                         size="small"
                       />
@@ -344,7 +375,6 @@ const BlogDetails = () => {
                   </Button>
                 </Box>
               </Box>
-
             </Box>
           </Grid>
           <Grid item md={3} sm={9} xs={12}>

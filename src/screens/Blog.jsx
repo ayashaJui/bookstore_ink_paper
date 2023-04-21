@@ -16,12 +16,12 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import BlogSidebar from "../components/BlogSidebar";
-import BlogHeader from "../components/BlogHeader";
+import HeroImage from "../components/HeroImage";
 
 const Blog = () => {
   return (
     <Box component="div">
-      <BlogHeader title='Blog' imgPath='/images/static/blog.jpg' />
+      <HeroImage title="Blog" imgPath="/images/static/blog.jpg" />
 
       <Box component="div" sx={{ mx: 5 }}>
         <Grid container spacing={3}>

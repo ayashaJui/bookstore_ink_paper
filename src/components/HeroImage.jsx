@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Typography } from "@mui/material"
 
-const BlogHeader = ({title, imgPath}) => {
+const HeroImage = ({title, imgPath}) => {
     return(
         <Card
         sx={{
@@ -34,11 +34,11 @@ const BlogHeader = ({title, imgPath}) => {
             fontFamily="Roboto"
             letterSpacing={3}
           >
-            
+            {title}
           </Typography>
         </CardContent>
       </Card>
     )
 }
 
-export default BlogHeader
+export default HeroImage
