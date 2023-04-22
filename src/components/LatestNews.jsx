@@ -10,6 +10,7 @@ import {
 import { Box } from "@mui/system";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const LatestNews = () => {
   return (
@@ -30,7 +31,8 @@ const LatestNews = () => {
         <Grid item md={4} sm={6} xs={false}>
           <Card
             sx={{
-              boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
+              // boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
+              boxShadow: "1px 1px 5px 0px rgba(0,0,0,0.59)",
             }}
           >
             <CardMedia
@@ -39,7 +41,72 @@ const LatestNews = () => {
               height="300"
               image="/images/static/carousal/1.jpg"
             />
-            <CardContent sx = {{ mx: 1}}>
+            <CardContent sx={{ mx: 1 }}>
+              <Grid container spacing={1} sx={{ color: "#9B908A" }}>
+                <Grid item>
+                  <AccountCircleOutlinedIcon sx={{ fontSize: "21px" }} />
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle">By John Doe</Typography>
+                </Grid>
+              </Grid>
+              <Grid container spacing={1} sx={{ color: "#9B908A", my: 0.5 }}>
+                <Grid item>
+                  <CalendarMonthOutlinedIcon />
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle">April 4, 2020</Typography>
+                </Grid>
+              </Grid>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                sx={{
+                  textAlign: "left",
+                  my: 2,
+                  fontFamily: "Roboto",
+                  fontWeight: "bolder",
+                }}
+              >
+                Lizard
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ textAlign: "left" }}
+              >
+                Lizards are a widespread group of squamate reptiles, with over
+                6,000 species, ranging across all continents except Antarctica
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ mb: 2, mx: 2 }}>
+              <Button
+                size="small"
+                href="/blogs/1/details"
+                variant="contained"
+                sx={{ bgcolor: "#2c698d" }}
+              >
+                Read More <ArrowRightAltIcon sx={{ ml: 1 }} />
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+
+        <Grid item md={4} sm={6} xs={false}>
+          <Card
+            sx={{
+              // boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
+              boxShadow: "1px 1px 5px 0px rgba(0,0,0,0.59)",
+            }}
+          >
+            <CardMedia
+              component="img"
+              alt="blog"
+              height="300"
+              image="/images/static/carousal/1.jpg"
+            />
+            <CardContent sx={{ mx: 1 }}>
               <Grid container spacing={1} sx={{ color: "#9B908A" }}>
                 <Grid item>
                   <AccountCircleOutlinedIcon sx={{ fontSize: "21px" }} />
@@ -81,28 +148,30 @@ const LatestNews = () => {
             <CardActions sx={{ mb: 2, mx: 2 }}>
               <Button
                 size="small"
-                href="/blog/id"
+                href="/blogs/1/details"
                 variant="contained"
                 sx={{ bgcolor: "#2c698d" }}
               >
-                Read More
+                Read More <ArrowRightAltIcon sx={{ ml: 1 }} />
               </Button>
             </CardActions>
           </Card>
         </Grid>
 
         <Grid item md={4} sm={6} xs={false}>
-          <Card sx={{
-          boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
-          
-          }}>
+          <Card
+            sx={{
+              // boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
+              boxShadow: "1px 1px 5px 0px rgba(0,0,0,0.59)",
+            }}
+          >
             <CardMedia
               component="img"
               alt="blog"
               height="300"
               image="/images/static/carousal/1.jpg"
             />
-            <CardContent sx={{mx: 1}}>
+            <CardContent sx={{ mx: 1 }}>
               <Grid container spacing={1} sx={{ color: "#9B908A" }}>
                 <Grid item>
                   <AccountCircleOutlinedIcon sx={{ fontSize: "21px" }} />
@@ -141,77 +210,14 @@ const LatestNews = () => {
                 6,000 species, ranging across all continents except Antarctica
               </Typography>
             </CardContent>
-            <CardActions sx={{ mb: 2, mx:2 }}>
+            <CardActions sx={{ mb: 2, mx: 2 }}>
               <Button
                 size="small"
-                href="/blog/id"
+                href="/blogs/1/details"
                 variant="contained"
                 sx={{ bgcolor: "#2c698d" }}
               >
-                Read More
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-
-        <Grid item md={4} sm={6} xs={false}>
-          <Card sx={{
-          boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
-
-          }}>
-            <CardMedia
-              component="img"
-              alt="blog"
-              height="300"
-              image="/images/static/carousal/1.jpg"
-            />
-            <CardContent sx={{mx:1}}>
-              <Grid container spacing={1} sx={{ color: "#9B908A" }}>
-                <Grid item>
-                  <AccountCircleOutlinedIcon sx={{ fontSize: "21px" }} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle">By John Doe</Typography>
-                </Grid>
-              </Grid>
-              <Grid container spacing={1} sx={{ color: "#9B908A", my: 0.5 }}>
-                <Grid item>
-                  <CalendarMonthOutlinedIcon />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle">APril 4, 2020</Typography>
-                </Grid>
-              </Grid>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                sx={{
-                  textAlign: "left",
-                  my: 2,
-                  fontFamily: "Roboto",
-                  fontWeight: "bolder",
-                }}
-              >
-                Lizard
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ textAlign: "left" }}
-              >
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
-              </Typography>
-            </CardContent>
-            <CardActions sx={{ mb: 2, mx:2 }}>
-              <Button
-                size="small"
-                href="/blog/id"
-                variant="contained"
-                sx={{ bgcolor: "#2c698d" }}
-              >
-                Read More
+                Read More <ArrowRightAltIcon sx={{ ml: 1 }} />
               </Button>
             </CardActions>
           </Card>
@@ -220,7 +226,7 @@ const LatestNews = () => {
 
       <Button
         variant="contained"
-        href="/blog"
+        href="/blogs"
         sx={{ my: 8, bgcolor: "#272643" }}
       >
         Visit Our Blog

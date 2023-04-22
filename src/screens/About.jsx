@@ -39,6 +39,7 @@ const About = () => {
           zIndex={1}
           bgcolor="rgba(0, 0, 0, 0.6)"
         />
+
         <CardContent>
           <Typography
             variant="h2"

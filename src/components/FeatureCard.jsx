@@ -5,28 +5,28 @@ import {
   CardContent,
   CardMedia,
   Grid,
+  Rating,
   Typography,
 } from "@mui/material";
 
 import StarIcon from "@mui/icons-material/Star";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Box } from "@mui/system";
 
 const FeatureCard = () => {
   return (
     <Card sx={{ bgcolor: "#272643" }}>
-      <Grid container >
+      <Grid container>
         <Grid item xs={12} sm={4}>
           <CardMedia
             component="img"
-            image="/images/new_arrivals/pride_and_prejudice.jpg" 
+            image="/images/new_arrivals/pride_and_prejudice.jpg"
             alt="featured image"
-            height="100%" 
+            height="100%"
           />
         </Grid>
         <Grid item xs={12} sm={8}>
-          <CardContent sx={{ml: 3, mt:2}}>
+          <CardContent sx={{ ml: 3, mt: 2 }}>
             <Typography
               gutterBottom
               variant="h4"
@@ -47,19 +47,34 @@ const FeatureCard = () => {
             >
               BDT 5.58
             </Typography>
-            <Box component="div" sx={{ color: "#fff", textAlign: "left", my: 3 }}>
-              <StarIcon sx={{ fontSize: 20 }} />
-              <StarIcon sx={{ fontSize: 20 }} />
-              <StarIcon sx={{ fontSize: 20 }} />
-              <StarHalfIcon sx={{ fontSize: 20 }} />
-              <StarBorderIcon sx={{ fontSize: 20 }} />
-              <Typography variant="subtitle2" sx={{ fontSize: 10 }}>
+            <Box component="div" sx={{ textAlign: "left", my: 3 }}>
+              <Rating
+                readOnly
+                name="customized"
+                defaultValue={2.5}
+                precision={0.5}
+                icon={<StarIcon fontSize="inherit" sx={{ color: "#fff" }} />}
+                emptyIcon={
+                  <StarBorderIcon fontSize="inherit" sx={{ color: "#fff" }} />
+                }
+              />
+              <Typography
+                variant="subtitle2"
+                sx={{ fontSize: 10, color: "#fff" }}
+              >
                 (1500 Reviews)
               </Typography>
             </Box>
           </CardContent>
-          <CardActions sx={{ml: 3, mb: 2}}>
-            <Button size="small" href='/books/id/details' variant="outlined" sx={{color: '#fff', borderColor: '#fff'}}>view Details</Button>
+          <CardActions sx={{ ml: 3, mb: 2 }}>
+            <Button
+              size="small"
+              href="/books/1/details"
+              variant="outlined"
+              sx={{ color: "#fff", borderColor: "#fff" }}
+            >
+              view Details
+            </Button>
           </CardActions>
         </Grid>
       </Grid>

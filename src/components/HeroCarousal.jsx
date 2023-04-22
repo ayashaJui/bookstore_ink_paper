@@ -52,7 +52,8 @@ function HeroCarousal() {
             right="20%"
             zIndex={2}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, quo!
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
+            dolor sit amet consectetur adipisicing elit. Libero, quo!
           </Typography>
 
           <Box
@@ -123,7 +124,7 @@ function HeroCarousal() {
           </Box>
         </CardContent>
       </Card>
-      
+
       <Card
         sx={{
           position: "relative",

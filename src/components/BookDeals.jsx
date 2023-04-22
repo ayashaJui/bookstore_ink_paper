@@ -12,6 +12,7 @@ import { Box } from "@mui/system";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 const BookDeals = () => {
   return (
@@ -95,12 +96,18 @@ const BookDeals = () => {
                 }}
               >
                 <Button
-                  variant="contained"
-                  size="small"
-                  sx={{ color: "#e3f6f5", my: 2, bgcolor: "#2c698d" }}
-                  href="/book/id/details"
+                  size="large"
+                  href="/book/1/details"
+                  sx={{ color: "#e3f6f5", my: 2 }}
                 >
-                  Details
+                  <Avatar
+                    sx={{
+                      bgcolor: "#2c698d",
+                      "&:hover": { bgcolor: "#1565C0" },
+                    }}
+                  >
+                    <ReadMoreIcon />
+                  </Avatar>
                 </Button>
                 <Button
                   size="large"
@@ -201,12 +208,18 @@ const BookDeals = () => {
                 }}
               >
                 <Button
-                  variant="contained"
-                  size="small"
-                  sx={{ color: "#e3f6f5", my: 2, bgcolor: "#2c698d" }}
-                  href="/book/id/details"
+                  size="large"
+                  href="/book/1/details"
+                  sx={{ color: "#e3f6f5", my: 2 }}
                 >
-                  Details
+                  <Avatar
+                    sx={{
+                      bgcolor: "#2c698d",
+                      "&:hover": { bgcolor: "#1565C0" },
+                    }}
+                  >
+                    <ReadMoreIcon />
+                  </Avatar>
                 </Button>
                 <Button
                   size="large"

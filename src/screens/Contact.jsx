@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 
 import HomeIcon from "@mui/icons-material/Home";
-import SmartphoneIcon from '@mui/icons-material/Smartphone';
-import EmailIcon from '@mui/icons-material/Email';
+import SmartphoneIcon from "@mui/icons-material/Smartphone";
+import EmailIcon from "@mui/icons-material/Email";
 
 const Contact = () => {
   const handleSubmit = () => {};
@@ -47,7 +47,6 @@ const Contact = () => {
             right="20%"
             zIndex={2}
             fontFamily="Roboto"
-            
           >
             Contact Us
           </Typography>
@@ -111,36 +110,50 @@ const Contact = () => {
               </Button>
             </Box>
           </Grid>
-          
+
           <Grid item md={4} sm={12} xs={12}>
-            <Paper elevation={2} sx={{ mt: 7, p: 2}}>
-              <Grid container spacing={2} sx={{my: 4}}>
+            <Paper elevation={2} sx={{ mt: 7, p: 2 }}>
+              <Grid container spacing={2} sx={{ my: 4 }}>
                 <Grid item>
-                  <HomeIcon sx={{ fontSize: "40px", color: "#505350" , ml: 2, }} />
+                  <HomeIcon
+                    sx={{ fontSize: "40px", color: "#505350", ml: 2 }}
+                  />
                 </Grid>
                 <Grid item justifyContent={"flex-start"} textAlign={"left"}>
-                  <Typography variant="body2">Greenville, California</Typography>
-                  <Typography variant="caption" sx={{color: "#505350"}}>22, abcd Avenue</Typography>
+                  <Typography variant="body2">
+                    Greenville, California
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "#505350" }}>
+                    22, abcd Avenue
+                  </Typography>
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2} sx={{my: 4}}>
+              <Grid container spacing={2} sx={{ my: 4 }}>
                 <Grid item>
-                  <SmartphoneIcon sx={{ fontSize: "40px", color: "#505350" , ml: 2, }} />
+                  <SmartphoneIcon
+                    sx={{ fontSize: "40px", color: "#505350", ml: 2 }}
+                  />
                 </Grid>
                 <Grid item justifyContent={"flex-start"} textAlign={"left"}>
                   <Typography variant="body2">+21545652565</Typography>
-                  <Typography variant="caption" sx={{ color: '#505350'}}>Sun - Mon: 9Am - 10Pm</Typography>
+                  <Typography variant="caption" sx={{ color: "#505350" }}>
+                    Sun - Mon: 9Am - 10Pm
+                  </Typography>
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2} sx={{my: 4}}>
+              <Grid container spacing={2} sx={{ my: 4 }}>
                 <Grid item>
-                  <EmailIcon sx={{ fontSize: "40px", color: "#505350" , ml: 2, }} />
+                  <EmailIcon
+                    sx={{ fontSize: "40px", color: "#505350", ml: 2 }}
+                  />
                 </Grid>
                 <Grid item justifyContent={"flex-start"} textAlign={"left"}>
                   <Typography variant="body2">inkpaper@gmail.com</Typography>
-                  <Typography variant="caption" sx={{ color: "#505350"}}>Send us your query</Typography>
+                  <Typography variant="caption" sx={{ color: "#505350" }}>
+                    Send us your query
+                  </Typography>
                 </Grid>
               </Grid>
             </Paper>

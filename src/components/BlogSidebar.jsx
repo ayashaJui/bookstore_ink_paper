@@ -137,7 +137,7 @@ const BlogSidebar = () => {
               />
             </Grid>
             <Grid item>
-              <CardContent sx={{pt: 0}}>
+              <CardContent sx={{ pt: 0 }}>
                 <Typography
                   variant="h6"
                   sx={{
@@ -146,7 +146,12 @@ const BlogSidebar = () => {
                     fontFamily: "Roboto",
                   }}
                 >
-                    <a href="/#" style={{ textDecoration: 'none', color: 'inherit'}}>Lizard</a>
+                  <a
+                    href="/#"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    Lizard
+                  </a>
                 </Typography>
                 <Typography
                   variant="subtitle2"

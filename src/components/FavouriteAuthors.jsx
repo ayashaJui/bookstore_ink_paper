@@ -1,4 +1,5 @@
-import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Grid, Typography, Link } from "@mui/material";
+
 import Slider from "react-slick";
 
 function SampleNextArrow(props) {
@@ -48,7 +49,7 @@ const FavouriteAuthors = () => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true
+          infinite: true,
         },
       },
       {
@@ -96,11 +97,14 @@ const FavouriteAuthors = () => {
       </Grid>
 
       <Slider {...settings}>
-        <div>
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -114,12 +118,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -133,12 +141,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -152,12 +164,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -171,12 +187,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -190,12 +210,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -209,12 +233,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -228,12 +256,16 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
-        <div>
+        </Link>
+
+        <Link
+          href="/authors/1/profile"
+          sx={{ textDecoration: "none", color: "#000" }}
+        >
           <Avatar
             alt="author"
             src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: 'auto' }}
+            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
           />
           <Typography
             variant="h6"
@@ -247,7 +279,7 @@ const FavouriteAuthors = () => {
           >
             12 Published Books
           </Typography>
-        </div>
+        </Link>
       </Slider>
     </Box>
   );

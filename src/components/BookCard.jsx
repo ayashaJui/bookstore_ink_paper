@@ -4,15 +4,14 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  Rating,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import StarIcon from "@mui/icons-material/Star";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import Button from "@mui/material/Button";
 
 const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
@@ -43,13 +42,17 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
               by Jane Austen
             </Typography>
             <Grid container spacing={2} sx={{}}>
-              <Grid item md={8} sx={{ color: "#FF9529", mt: 0.5 }}>
-                <StarIcon sx={{ fontSize: 20 }} />
-                <StarIcon sx={{ fontSize: 20 }} />
-                <StarIcon sx={{ fontSize: 20 }} />
-                <StarHalfIcon sx={{ fontSize: 20 }} />
-                <StarBorderIcon sx={{ fontSize: 20 }} />
-                <Typography variant="subtitle2" sx={{ fontSize: 10 }}>
+              <Grid item md={8} sx={{ mt: 0.5 }}>
+                <Rating
+                  name="half-rating-read"
+                  defaultValue={2.5}
+                  precision={0.5}
+                  readOnly
+                />
+                <Typography
+                  variant="subtitle2"
+                  sx={{ color: "#FF9529", fontSize: 10 }}
+                >
                   (1500 Reviews)
                 </Typography>
               </Grid>
@@ -79,28 +82,35 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
             }}
           >
             <Button
-              variant="contained"
-              size="small"
-              sx={{ color: "#e3f6f5", my: 2, bgcolor: "#2c698d" }}
-              href="/book/id/details"
+              size="large"
+              href="/books/1/details"
+              sx={{ color: "#e3f6f5", my: 2 }}
             >
-              Details
+              <Avatar
+                sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
+              >
+                <ReadMoreIcon />
+              </Avatar>
             </Button>
             <Button
               size="large"
-              href="/book/id/add_cart"
-              sx={{  color: "#e3f6f5", my: 2 }}
+              href="/books/1/add_cart"
+              sx={{ color: "#e3f6f5", my: 2 }}
             >
-              <Avatar sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}>
+              <Avatar
+                sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
+              >
                 <ShoppingCartIcon />
               </Avatar>
             </Button>
             <Button
               size="large"
-              href="/book/id/add_favorite"
+              href="/books/1/add_favorite"
               sx={{ color: "#e3f6f5", my: 2 }}
             >
-              <Avatar sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" }  }}>
+              <Avatar
+                sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
+              >
                 <FavoriteBorderIcon />
               </Avatar>
             </Button>
