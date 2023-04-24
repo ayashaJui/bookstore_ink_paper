@@ -6,7 +6,10 @@ import {
   CardMedia,
   Chip,
   Grid,
+  Pagination,
+  PaginationItem,
   Rating,
+  Stack,
   Typography,
 } from "@mui/material";
 import HeroImage from "../components/HeroImage";
@@ -14,6 +17,8 @@ import ShopSidebar from "../components/ShopSidebar";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Button from "@mui/material/Button";
 
 const Shop = () => {
@@ -522,6 +527,21 @@ const Shop = () => {
                 </Card>
               </Grid>
             </Grid>
+
+            <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
+              <Pagination
+                count={10}
+                renderItem={(item) => (
+                  <PaginationItem
+                    slots={{
+                      previous: ArrowBackIcon,
+                      next: ArrowForwardIcon,
+                    }}
+                    {...item}
+                  />
+                )}
+              />
+            </Stack>
           </Grid>
         </Grid>
       </Box>

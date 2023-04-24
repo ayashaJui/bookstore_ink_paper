@@ -9,6 +9,7 @@ import Contact from "./screens/Contact";
 import Signin from "./screens/Signin";
 import BlogDetails from "./screens/BlogDetails";
 import Shop from "./screens/Shop";
+import BookDetails from "./screens/BookDetails";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Routes>
             <Route exact path="/" Component={Home} />
             <Route exact path="/shop" Component={Shop} />
+            <Route exact path='/book/:id/details' Component={BookDetails} />
             <Route exact path="/blogs" Component={Blog} />
             <Route exact path='/blogs/:id/details' Component={BlogDetails} />
             <Route exact path="/about" Component={About} />
