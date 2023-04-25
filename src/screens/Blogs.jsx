@@ -18,7 +18,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import BlogSidebar from "../components/BlogSidebar";
 import HeroImage from "../components/HeroImage";
 
-const Blog = () => {
+const Blogs = () => {
   return (
     <Box component="div">
       <HeroImage title="Blog" imgPath="/images/static/blog.jpg" />
@@ -248,4 +248,4 @@ const Blog = () => {
     </Box>
   );
 };
-export default Blog;
+export default Blogs;
