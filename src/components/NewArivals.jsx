@@ -35,7 +35,7 @@ const NewArrivals = () => {
 
       <Button
         variant="contained"
-        href="/new_arrivals"
+        href="/shop/new-arrivals"
         sx={{ my: 5, bgcolor: "#2c698d" }}
       >
         Browse More

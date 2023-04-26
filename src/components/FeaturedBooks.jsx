@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, Typography } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Slider from "react-slick";
 import FeatureCard from "./FeatureCard";
@@ -16,30 +16,17 @@ const FeaturedBooks = () => {
 
   return (
     <Box component="div" sx={{ my: 3, mx: 4 }}>
-      <Grid container spacing={3} sx={{}}>
-        <Grid item sm={6}>
-          <Typography
-            variant="h3"
-            sx={{
-              textAlign: "left",
-              fontFamily: "Roboto",
-              my: 3,
-              color: "#272643",
-            }}
-          >
-            Featured in this Month
-          </Typography>
-        </Grid>
-        <Grid item sm={6} container justifyContent="flex-end">
-          <Button
-            size="large"
-            href="/featured"
-            sx={{ my: 3, py: 0, px: 3, color: "#272643", fontWeight: " bold" }}
-          >
-            View All
-          </Button>
-        </Grid>
-      </Grid>
+      <Typography
+        variant="h3"
+        sx={{
+          textAlign: "left",
+          fontFamily: "Roboto",
+          my: 3,
+          color: "#272643",
+        }}
+      >
+        Featured in this Month
+      </Typography>
       <Paper elevation={3}>
         <Slider {...settings}>
           <FeatureCard />

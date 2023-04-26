@@ -53,6 +53,12 @@ const rows = [
   createData("GENRE", "Fiction", "/categories/1"),
   createData("Author", "Jane Austen", "/author/1/profile"),
   createData("Book Format", "Kindle, Hardcover, Paperback"),
+  createData("Publisher", "Sheba"),
+  createData("Published Year", 1992),
+  createData("Editions", 223),
+  createData("Pages", 500),
+  createData("Series", "Standalone"),
+
 ];
 
 const progressValues = [

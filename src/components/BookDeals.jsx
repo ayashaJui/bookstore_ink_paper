@@ -469,7 +469,7 @@ const BookDeals = () => {
 
       <Button
         variant="contained"
-        href="/offers"
+        href="/shop/sale"
         sx={{ my: 8, bgcolor: "#2c698d" }}
       >
         Browse More

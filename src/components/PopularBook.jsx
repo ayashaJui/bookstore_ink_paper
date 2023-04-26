@@ -64,7 +64,7 @@ const PopularBooks = () => {
 
       <Button
         variant="contained"
-        href="/popular_books"
+        href="/shop/popular"
         size="large"
         sx={{ my: 5, bgcolor: "#2c698d" }}
       >

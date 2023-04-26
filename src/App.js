@@ -12,6 +12,7 @@ import Shop from "./screens/Shop";
 import BookDetails from "./screens/BookDetails";
 import Signup from "./screens/Signup";
 import Authors from "./screens/Authors";
+import AuthorProfile from "./screens/AuthorProfile";
 
 function App() {
   return (
@@ -22,10 +23,14 @@ function App() {
           <Routes>
             <Route exact path="/" Component={Home} />
             <Route exact path="/shop" Component={Shop} />
+            <Route exact path="/shop/new-arrivals" Component={Shop} />
+            <Route exact path="/shop/popular" Component={Shop} />
+            <Route exact path="/shop/sale" Component={Shop} />
             <Route exact path='/book/:id/details' Component={BookDetails} />
             <Route exact path="/blogs" Component={Blogs} />
             <Route exact path='/blogs/:id/details' Component={BlogDetails} />
             <Route exact path='/authors' Component={Authors} />
+            <Route exact path='/authors/:id/profile' Component={AuthorProfile} />
             <Route exact path="/signin" Component={Signin} />
             <Route exact path="/signup" Component={Signup} />
             <Route exact path="/about" Component={About} />

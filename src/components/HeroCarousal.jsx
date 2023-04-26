@@ -165,7 +165,7 @@ function HeroCarousal() {
             zIndex={2}
           >
             <Button
-              href="/sale"
+              href="/shop"
               variant="contained"
               size="small"
               sx={{ backgroundColor: "#272643" }}
