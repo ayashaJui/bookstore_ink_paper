@@ -29,12 +29,11 @@ const Signup = () => {
           alignItems: "center",
         }}
       >
-        
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-        <TextField
+          <TextField
             margin="normal"
             required
             fullWidth

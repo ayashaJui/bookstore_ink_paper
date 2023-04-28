@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 // import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const pages = ["Home", "Shop", "Blog", "About", "Contact Us"];
 const pagesLink = ["/", "/shop", "/blogs", "/about", "/contact"];
@@ -193,7 +194,18 @@ const Navbar = () => {
               }}
               href="/cart"
             >
-              <ShoppingCartIcon sx={{ fontSize: 22 }} />
+              <ShoppingCartIcon sx={{ fontSize: 22, pt: .5 }} />
+            </Button>
+            <Button
+              key="favorite"
+              sx={{
+                my: 2,
+                color: location.pathname === "/favorite" ? "#2c698d" : "white",
+                display: "inline",
+              }}
+              href="/favorite"
+            >
+              <FavoriteIcon sx={{ fontSize: 22, pt: .5 }} />
             </Button>
           </Box>
         </Toolbar>
