@@ -23,15 +23,22 @@ const HeroImage = ({ title, imgPath }) => {
         zIndex={1}
         bgcolor="rgba(0, 0, 0, 0.6)"
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)", zIndex: 2
+        }}
+      >
         <Typography
           variant="h2"
-          position="absolute"
-          top="40%"
-          left="20%"
-          right="20%"
-          zIndex={2}
-          fontFamily="Roboto"
+          // position="absolute"
+          // top="40%"
+          // left="20%"
+          // right="20%"
+          // zIndex={2}
+          fontFamily="Nunito"
           letterSpacing={3}
         >
           {title}

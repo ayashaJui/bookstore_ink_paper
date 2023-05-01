@@ -20,7 +20,7 @@ const LatestNews = () => {
         sx={{
           mt: 7,
           mb: 3,
-          fontFamily: "Roboto",
+          fontFamily: "Nunito",
           color: "#272643",
           textAlign: "left",
         }}

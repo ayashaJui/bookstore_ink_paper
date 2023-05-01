@@ -16,12 +16,12 @@ import Button from "@mui/material/Button";
 
 const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
   return (
-    <Grid item sm={4} xs={6} md={3}>
+    <Grid item sm={4} xs={12} md={3}>
       <Card
         sx={{
           bgcolor: `${cardColor}`,
-          mx: `${cardMargin}`,
-          boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
+          mx: `${cardMargin}`, my:2
+          // boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
         }}
       >
         <CardActionArea>

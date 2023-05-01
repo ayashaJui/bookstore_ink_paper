@@ -21,8 +21,8 @@ const BookDeals = () => {
         variant="h3"
         sx={{
           mt: 7,
-          mb: 3,
-          fontFamily: "Roboto",
+          mb: 4,
+          fontFamily: "Nunito",
           color: "#272643",
           textAlign: "left",
         }}
@@ -35,7 +35,7 @@ const BookDeals = () => {
             sx={{
               bgcolor: "#e3f6f5",
 
-              boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
+              boxShadow: "0px 3px 4px 0px rgba(0,0,0,0.48)"
             }}
           >
             <CardActionArea>
@@ -147,7 +147,7 @@ const BookDeals = () => {
             sx={{
               bgcolor: "#e3f6f5",
 
-              boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
+              boxShadow: "0px 3px 4px 0px rgba(0,0,0,0.48)"
             }}
           >
             <CardActionArea>
@@ -258,8 +258,7 @@ const BookDeals = () => {
           <Card
             sx={{
               bgcolor: "#e3f6f5",
-
-              boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
+              boxShadow: "0px 3px 4px 0px rgba(0,0,0,0.48)"
             }}
           >
             <CardActionArea>
@@ -364,8 +363,7 @@ const BookDeals = () => {
           <Card
             sx={{
               bgcolor: "#e3f6f5",
-
-              boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
+              boxShadow: "0px 3px 4px 0px rgba(0,0,0,0.48)"
             }}
           >
             <CardActionArea>

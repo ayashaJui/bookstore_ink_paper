@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Grid,
   Paper,
   TextField,
@@ -12,12 +10,13 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
+import HeroImage from "../components/HeroImage";
 
 const Contact = () => {
   const handleSubmit = () => {};
   return (
-    <Box component="div" sx={{ mx: 6 }}>
-      <Card
+    <Box component="div" sx={{ mx: {md: 6, sm: 2, xs: 0} }}>
+      {/* <Card
         sx={{
           position: "relative",
           marginBottom: "20px",
@@ -51,7 +50,9 @@ const Contact = () => {
             Contact Us
           </Typography>
         </CardContent>
-      </Card>
+      </Card> */}
+      <HeroImage title="Contact Us" imgPath="/images/static/contact.jpg" />
+
       <Box component="div" sx={{ my: 8 }}>
         <Typography variant="h4" fontFamily="Roboto" textAlign="left">
           Get in Touch

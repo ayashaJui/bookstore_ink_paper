@@ -14,11 +14,12 @@ import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import EmailIcon from "@mui/icons-material/Email";
+import HeroImage from "../components/HeroImage";
 
 const About = () => {
   return (
-    <Box component="div" sx={{ mx: 6 }}>
-      <Card
+    <Box component="div" sx={{ mx: {md: 6, sm: 2, xs: 0} }}>
+      {/* <Card
         sx={{
           position: "relative",
           marginBottom: "20px",
@@ -54,7 +55,8 @@ const About = () => {
             About
           </Typography>
         </CardContent>
-      </Card>
+      </Card> */}
+      <HeroImage title="About Us" imgPath="/images/static/about.jpg" />
 
       <Box component="div" sx={{ mx: 8, my: 5 }}>
         <Typography

@@ -25,7 +25,7 @@ const Shop = () => {
   return (
     <Box component="div">
       <HeroImage title="Shop" imgPath="/images/static/shop.jpg" />
-      <Box component="div" sx={{ mx: 10, mb: 8 }}>
+      <Box component="div" sx={{ mx: {md: 10, sm: 5, xs: 1}, mb: 8 }}>
         <Grid container spacing={4}>
           <Grid item md={3} sm={9} xs={12}>
             <Card sx={{ mt: 4, boxShadow: "none", border: "1px solid #ccc" }}>

@@ -15,12 +15,12 @@ const FeaturedBooks = () => {
   };
 
   return (
-    <Box component="div" sx={{ my: 3, mx: 4 }}>
+    <Box component="div" sx={{ mb: 3, mt: 4, mx: 4 }}>
       <Typography
         variant="h3"
         sx={{
           textAlign: "left",
-          fontFamily: "Roboto",
+          fontFamily: "Nunito",
           my: 3,
           color: "#272643",
         }}

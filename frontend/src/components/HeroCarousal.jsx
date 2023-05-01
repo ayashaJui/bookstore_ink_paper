@@ -15,7 +15,7 @@ function HeroCarousal() {
     dots: true,
     infinite: true,
     fade: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     autoplay: true,
     slidesToScroll: 1,
@@ -30,8 +30,10 @@ function HeroCarousal() {
           backgroundImage: 'url("images/static/carousal/1.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "500px",
+          height: "80vh",
           color: "white",
+          borderRadius: 0,
+          boxShadow: "none",
         }}
       >
         <Box
@@ -43,35 +45,27 @@ function HeroCarousal() {
           zIndex={1}
           bgcolor="rgba(0, 0, 0, 0.6)"
         />
-        <CardContent>
-          <Typography
-            variant="h5"
-            position="absolute"
-            top="40%"
-            left="20%"
-            right="20%"
-            zIndex={2}
-          >
+        <CardContent
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+          }}
+        >
+          <Typography variant="h5">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
             dolor sit amet consectetur adipisicing elit. Libero, quo!
           </Typography>
-
-          <Box
-            position="absolute"
-            bottom="20%"
-            left="20%"
-            right="20%"
-            zIndex={2}
+          <Button
+            href="/shop"
+            variant="contained"
+            size="small"
+            sx={{ backgroundColor: "#272643", mt: 5 }}
           >
-            <Button
-              href="/shop"
-              variant="contained"
-              size="small"
-              sx={{ backgroundColor: "#272643" }}
-            >
-              Browse Our Store
-            </Button>
-          </Box>
+            Browse Our Store
+          </Button>
         </CardContent>
       </Card>
 
@@ -82,8 +76,10 @@ function HeroCarousal() {
           backgroundImage: 'url("images/static/carousal/2.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "500px",
+          height: "80vh",
           color: "white",
+          borderRadius: 0,
+          boxShadow: "none",
         }}
       >
         <Box
@@ -95,33 +91,27 @@ function HeroCarousal() {
           zIndex={1}
           bgcolor="rgba(0, 0, 0, 0.6)"
         />
-        <CardContent>
-          <Typography
-            variant="h5"
-            position="absolute"
-            top="40%"
-            left="20%"
-            right="20%"
-            zIndex={2}
-          >
-            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <CardContent
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+          }}
+        >
+          <Typography variant="h5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
+            dolor sit amet consectetur adipisicing elit. Libero, quo!
           </Typography>
-          <Box
-            position="absolute"
-            bottom="20%"
-            left="20%"
-            right="20%"
-            zIndex={2}
+          <Button
+            href="/blogs"
+            variant="contained"
+            size="small"
+            sx={{ backgroundColor: "#272643", mt: 5 }}
           >
-            <Button
-              href="/blogs"
-              variant="contained"
-              size="small"
-              sx={{ backgroundColor: "#272643" }}
-            >
-              Check Our Blog
-            </Button>
-          </Box>
+            Check our blog
+          </Button>
         </CardContent>
       </Card>
 
@@ -132,8 +122,10 @@ function HeroCarousal() {
           backgroundImage: 'url("images/static/carousal/3.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "500px",
+          height: "80vh",
           color: "white",
+          borderRadius: 0,
+          boxShadow: "none",
         }}
       >
         <Box
@@ -145,34 +137,27 @@ function HeroCarousal() {
           zIndex={1}
           bgcolor="rgba(0, 0, 0, 0.6)"
         />
-        <CardContent>
-          <Typography
-            variant="h5"
-            position="absolute"
-            top="40%"
-            left="20%"
-            right="20%"
-            zIndex={2}
-          >
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+        <CardContent
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 2,
+          }}
+        >
+          <Typography variant="h5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
+            dolor sit amet consectetur adipisicing elit. Libero, quo!
           </Typography>
-          <Box
-            position="absolute"
-            bottom="20%"
-            left="20%"
-            right="20%"
-            zIndex={2}
+          <Button
+            href="/signup"
+            variant="contained"
+            size="small"
+            sx={{ backgroundColor: "#272643", mt: 5 }}
           >
-            <Button
-              href="/shop"
-              variant="contained"
-              size="small"
-              sx={{ backgroundColor: "#272643" }}
-            >
-              Buy Now
-            </Button>
-          </Box>
+            join our communitee
+          </Button>
         </CardContent>
       </Card>
     </Slider>

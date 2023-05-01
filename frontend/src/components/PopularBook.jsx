@@ -42,14 +42,14 @@ const PopularBooks = () => {
     <Box component="div" sx={{ mx: 1 , my: 2}}>
       <Typography
         variant="h3"
-        sx={{ fontFamily: "Roboto", my: 3, mx: 4, color: "#272643", textAlign: 'left' }}
+        sx={{ fontFamily: "Nunito", my: 3, mx: 4, color: "#272643", textAlign: 'left' }}
       >
         Popular Books
       </Typography>
 
       <Box
-        component="div"
-        sx={{ boxShadow: "0px 9px 11px 0px rgba(0,0,0,0.43)" }}
+        component="div" 
+        // sx={{ py: 4, boxShadow: "0px 9px 11px 0px rgba(0,0,0,0.43)" }}
       >
         <Slider {...settings}>
           <BookCard mediaHeight="300" cardMargin="6px" />

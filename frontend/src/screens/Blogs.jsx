@@ -23,7 +23,7 @@ const Blogs = () => {
     <Box component="div">
       <HeroImage title="Blog" imgPath="/images/static/blog.jpg" />
 
-      <Box component="div" sx={{ mx: 5 }}>
+      <Box component="div" sx={{ mx: {md: 5, sm: 3, xs: 2}}}>
         <Grid container spacing={3}>
           <Grid item md={9} sm={12} xs={12}>
             <Card sx={{ my: 4, boxShadow: "none" }}>
