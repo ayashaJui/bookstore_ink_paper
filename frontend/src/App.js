@@ -20,7 +20,7 @@ import Favorite from "./screens/Favorite";
 function App() {
   return (
     <BrowserRouter basename="/">
-      <div className="App">
+      <div className="App" style={{ backgroundColor: '#F5F5F5'}}>
         <Navbar />
         <main>
           <Routes>

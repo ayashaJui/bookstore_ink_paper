@@ -16,44 +16,9 @@ const Contact = () => {
   const handleSubmit = () => {};
   return (
     <Box component="div" sx={{ mx: {md: 6, sm: 2, xs: 0} }}>
-      {/* <Card
-        sx={{
-          position: "relative",
-          marginBottom: "20px",
-          backgroundImage: 'url("images/static/contact.jpg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "300px",
-          color: "white",
-          borderRadius: 0,
-        }}
-      >
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          width="100%"
-          height="100%"
-          zIndex={1}
-          bgcolor="rgba(0, 0, 0, 0.6)"
-        />
-        <CardContent>
-          <Typography
-            variant="h2"
-            position="absolute"
-            top="40%"
-            left="20%"
-            right="20%"
-            zIndex={2}
-            fontFamily="Roboto"
-          >
-            Contact Us
-          </Typography>
-        </CardContent>
-      </Card> */}
       <HeroImage title="Contact Us" imgPath="/images/static/contact.jpg" />
 
-      <Box component="div" sx={{ my: 8 }}>
+      <Box component="div" sx={{ my: 8, mx: {md: 8, sm: 5, xs: 2} }}>
         <Typography variant="h4" fontFamily="Roboto" textAlign="left">
           Get in Touch
         </Typography>
@@ -114,13 +79,13 @@ const Contact = () => {
 
           <Grid item md={4} sm={12} xs={12}>
             <Paper elevation={2} sx={{ mt: 7, p: 2 }}>
-              <Grid container spacing={2} sx={{ my: 4 }}>
+              <Grid container spacing={2} sx={{ my: 4,  justifyContent:' center' }} >
                 <Grid item>
                   <HomeIcon
                     sx={{ fontSize: "40px", color: "#505350", ml: 2 }}
                   />
                 </Grid>
-                <Grid item justifyContent={"flex-start"} textAlign={"left"}>
+                <Grid item justifyContent={"flex-start"} >
                   <Typography variant="body2">
                     Greenville, California
                   </Typography>
@@ -130,13 +95,13 @@ const Contact = () => {
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2} sx={{ my: 4 }}>
+              <Grid container spacing={2} sx={{ my: 4,  justifyContent:' center' }}>
                 <Grid item>
                   <SmartphoneIcon
                     sx={{ fontSize: "40px", color: "#505350", ml: 2 }}
                   />
                 </Grid>
-                <Grid item justifyContent={"flex-start"} textAlign={"left"}>
+                <Grid item justifyContent={"flex-start"} >
                   <Typography variant="body2">+21545652565</Typography>
                   <Typography variant="caption" sx={{ color: "#505350" }}>
                     Sun - Mon: 9Am - 10Pm
@@ -144,13 +109,13 @@ const Contact = () => {
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2} sx={{ my: 4 }}>
-                <Grid item>
+              <Grid container spacing={2} sx={{ my: 4,  justifyContent:' center' }}>
+                <Grid item sx={{mx: { md: 0, sm: 0}}}>
                   <EmailIcon
                     sx={{ fontSize: "40px", color: "#505350", ml: 2 }}
                   />
                 </Grid>
-                <Grid item justifyContent={"flex-start"} textAlign={"left"}>
+                <Grid item justifyContent={"flex-start"} sx={{mx: { md: 0, sm: 0}} }>
                   <Typography variant="body2">inkpaper@gmail.com</Typography>
                   <Typography variant="caption" sx={{ color: "#505350" }}>
                     Send us your query

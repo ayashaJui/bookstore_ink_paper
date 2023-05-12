@@ -19,46 +19,9 @@ import HeroImage from "../components/HeroImage";
 const About = () => {
   return (
     <Box component="div" sx={{ mx: {md: 6, sm: 2, xs: 0} }}>
-      {/* <Card
-        sx={{
-          position: "relative",
-          marginBottom: "20px",
-          backgroundImage: 'url("images/static/about.jpg")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "300px",
-          color: "white",
-          borderRadius: 0,
-        }}
-      >
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          width="100%"
-          height="100%"
-          zIndex={1}
-          bgcolor="rgba(0, 0, 0, 0.6)"
-        />
-
-        <CardContent>
-          <Typography
-            variant="h2"
-            position="absolute"
-            top="40%"
-            left="20%"
-            right="20%"
-            zIndex={2}
-            fontFamily="Roboto"
-            letterSpacing={3}
-          >
-            About
-          </Typography>
-        </CardContent>
-      </Card> */}
       <HeroImage title="About Us" imgPath="/images/static/about.jpg" />
 
-      <Box component="div" sx={{ mx: 8, my: 5 }}>
+      <Box component="div" sx={{ mx: 12, my: 5 }}>
         <Typography
           variant="h3"
           sx={{ textAlign: "left", fontFamily: "Roboto" }}
@@ -99,7 +62,7 @@ const About = () => {
         </Typography>
       </Box>
 
-      <Box component="div" sx={{ mx: 10, mb: 8, mt: 15 }}>
+      <Box component="div" sx={{ mx: 12, mb: 8, mt: 15 }}>
         <Typography
           variant="h3"
           sx={{ textAlign: "left", fontFamily: "Roboto" }}
@@ -140,17 +103,18 @@ const About = () => {
         </Typography>
       </Box>
 
-      <Box component="div" sx={{ mx: 10, mb: 10, mt: 15 }}>
+      <Box component="div" sx={{ mx: 12, mb: 10, mt: 15 }}>
         <Typography
           variant="h3"
           sx={{ fontFamily: "Roboto", textAlign: "left", mb: 5 }}
         >
           About Our Team
         </Typography>
-        <Grid container spacing={10}>
+        <Grid container spacing={3} justifyContent={'space-evenly'}>
           <Grid item md={4} sm={6} xs={false}>
-            <Card
+            <Card 
               sx={{
+                minWidth: 200,
                 boxShadow: "0px 0px 0px 0px rgba(0,0,0,0.3)",
                 "&:hover": {
                   bgcolor: "#fff",
@@ -265,6 +229,7 @@ const About = () => {
             <Card
               sx={{
                 boxShadow: "0px 0px 0px 0px rgba(0,0,0,0.3)",
+                minWidth: 200,
                 "&:hover": {
                   bgcolor: "#fff",
                 },
@@ -376,6 +341,7 @@ const About = () => {
           <Grid item md={4} sm={6} xs={false}>
             <Card
               sx={{
+                minWidth: 200,
                 boxShadow: "0px 0px 0px 0px rgba(0,0,0,0.3)",
                 "&:hover": {
                   bgcolor: "#fff",
