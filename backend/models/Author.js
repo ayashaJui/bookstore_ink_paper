@@ -13,7 +13,6 @@ const AuthorSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
       unique: true,
     },
     description: {
@@ -24,6 +23,9 @@ const AuthorSchema = mongoose.Schema(
       type: String,
     },
     dob: {
+      type: Date,
+    },
+    dod: {
       type: Date,
     },
     image: {

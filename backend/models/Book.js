@@ -15,6 +15,13 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
+const seriesSchema = mongoose.Schema(
+  {
+    no: { type: Number, required: true },
+    name: { type: String , required: true},
+  },
+);
+
 const BookSchema = mongoose.Schema(
   {
     user: {
@@ -49,12 +56,14 @@ const BookSchema = mongoose.Schema(
       type: String,
       required: true,
     }],
-
-    price: {
-      type: String,
+    formate: [{
+      type: String
+    }],
+    price: [{
+      type: Number,
       required: true,
       default: 0,
-    },
+    }],
 
     publisher: {
       type: String,
@@ -68,6 +77,11 @@ const BookSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    pages: {
+      type: Number
+    },
+
+    series: [seriesSchema],
 
     isFeatured: {
       type: String,
