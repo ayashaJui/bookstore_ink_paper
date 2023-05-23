@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const reviewSchema = mongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     rating: { type: Number, required: true },
     comment: { type: String, required: true },
@@ -15,14 +15,17 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
-const seriesSchema = mongoose.Schema(
-  {
-    no: { type: Number, required: true },
-    name: { type: String , required: true},
-  },
-);
+const literaryReviewSchema = new mongoose.Schema({
+  literar: { type: String, required: true },
+  comment: { type: String, required: true },
+});
 
-const BookSchema = mongoose.Schema(
+const seriesSchema = new mongoose.Schema({
+  no: { type: Number, required: true },
+  name: { type: String, required: true },
+});
+
+const BookSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,11 +33,13 @@ const BookSchema = mongoose.Schema(
       ref: "User",
     },
 
-    author: [{
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Author",
-    }],
+    author: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Author",
+      },
+    ],
 
     isbn: {
       type: String,
@@ -52,18 +57,24 @@ const BookSchema = mongoose.Schema(
       required: true,
     },
 
-    genres: [{
-      type: String,
-      required: true,
-    }],
-    format: [{
-      type: String
-    }],
-    price: [{
-      type: Number,
-      required: true,
-      default: 0,
-    }],
+    genres: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    format: [
+      {
+        type: String,
+      },
+    ],
+    price: [
+      {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+    ],
 
     publisher: {
       type: String,
@@ -78,7 +89,7 @@ const BookSchema = mongoose.Schema(
       required: true,
     },
     pages: {
-      type: Number
+      type: Number,
     },
 
     series: [seriesSchema],
@@ -95,7 +106,18 @@ const BookSchema = mongoose.Schema(
       default: 0,
     },
 
+    isBestSeller: {
+      type: Boolean,
+      default: false,
+    },
+
+    numCopySold: {
+      type: String,
+    },
+
     reviews: [reviewSchema],
+
+    literaryReviews: [literaryReviewSchema],
 
     rating: {
       type: Number,

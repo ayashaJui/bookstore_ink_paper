@@ -5,12 +5,16 @@ import connectDB from "./config/db.js";
 
 import bookRoutes from "./routes/bookRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import corsMiddleware from "./middleware/corsMiddleware.js";
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+// cors middleware
+app.use(corsMiddleware);
 
 app.get("/", (req, res) => {
   res.send("running");

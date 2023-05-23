@@ -1,8 +1,9 @@
 import express from "express";
 const router = express();
+import asyncHandler from "express-async-handler";
 
 import Book from "../models/Book.js";
-import asyncHandler from "express-async-handler";
+import Author from "../models/Author.js";
 
 // @desc        get all books
 // @route       GET     /api/books/
@@ -10,7 +11,7 @@ import asyncHandler from "express-async-handler";
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const books = await Book.find({});
+    const books = await Book.find({}).populate("author");
 
     res.json(books);
   })
@@ -22,13 +23,17 @@ router.get(
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findById(req.params.id).populate([
+      "author",
+      "series",
+      "reviews",
+    ]);
 
     if (book) {
       res.json(book);
     } else {
       res.status(400);
-      throw new Error("Product not Found");
+      throw new Error("Book not Found");
     }
   })
 );
