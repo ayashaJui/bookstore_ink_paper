@@ -52,7 +52,18 @@ const BookDetails = () => {
   const dispatch = useDispatch();
 
   const { loading, book, error } = useSelector((state) => state.bookDetails);
-  const { _id, title, author, price, format, image, description } = book;
+  const {
+    _id,
+    title,
+    author,
+    price,
+    format,
+    image,
+    description,
+    isbestSeller,
+    numCOpySold,
+    literaryReviews,
+  } = book;
 
   useEffect(() => {
     dispatch(getBookById(id));
@@ -147,30 +158,40 @@ const BookDetails = () => {
                   </Typography>
 
                   <Box component="div" sx={{ my: 3 }}>
-                    <Typography variant="body2">
-                      * The multi-million copy bestseller *
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{ my: 1 }}>
-                      A Number One New York Times Bestseller
-                    </Typography>
+                    {numCOpySold && (
+                      <Typography variant="body2">
+                        * The {numCOpySold} copy bestseller *
+                      </Typography>
+                    )}
+
+                    {isbestSeller && (
+                      <Typography variant="subtitle2" sx={{ my: 1 }}>
+                        A Number One New York Times Bestseller
+                      </Typography>
+                    )}
                   </Box>
 
-                  <Box component="div" sx={{ my: 3, color: "#505350" }}>
-                    <Typography variant="body2">
-                      'Painfully beautiful' - New York Times
-                    </Typography>
-                    <Typography variant="body2">
-                      'Unforgettable . . . as engrossing as it is moving' -
-                      Daily Mail
-                    </Typography>
-                    <Typography variant="body2">
-                      'A rare achievement' - The Times
-                    </Typography>
-                    <Typography variant="body2">
-                      'I can't even express how much I love this book!' - Reese
-                      Witherspoon
-                    </Typography>
-                  </Box>
+                  {literaryReviews && (
+                    <Box component="div" sx={{ my: 3, color: "#505350" }}>
+                      {
+                        literaryReviews.map(({literar, }))
+                      }
+                      <Typography variant="body2">
+                        'Painfully beautiful' - New York Times
+                      </Typography>
+                      <Typography variant="body2">
+                        'Unforgettable . . . as engrossing as it is moving' -
+                        Daily Mail
+                      </Typography>
+                      <Typography variant="body2">
+                        'A rare achievement' - The Times
+                      </Typography>
+                      <Typography variant="body2">
+                        'I can't even express how much I love this book!' -
+                        Reese Witherspoon
+                      </Typography>
+                    </Box>
+                  )}
                 </Box>
               </Grid>
 
