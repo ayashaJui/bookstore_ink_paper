@@ -11,7 +11,7 @@ import Author from "../models/Author.js";
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const books = await Book.find({}).populate("author");
+    const books = await Book.find({}).populate("author").sort("createdAt");
 
     res.json(books);
   })

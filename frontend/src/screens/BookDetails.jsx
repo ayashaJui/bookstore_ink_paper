@@ -27,25 +27,6 @@ import { getBookById } from "../actions/bookActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 
-const bookFormat = [
-  {
-    id: 1,
-    name: "Hardcover",
-  },
-  {
-    id: 2,
-    name: "Paperback",
-  },
-  {
-    id: 3,
-    name: "Kindle Edition",
-  },
-  {
-    id: 4,
-    name: "Audible",
-  },
-];
-
 const BookDetails = () => {
   const { id } = useParams();
 
@@ -53,16 +34,17 @@ const BookDetails = () => {
 
   const { loading, book, error } = useSelector((state) => state.bookDetails);
   const {
-    _id,
+    // _id,
     title,
     author,
     price,
     format,
     image,
     description,
-    isbestSeller,
-    numCOpySold,
+    isBestSeller,
+    numCopySold,
     literaryReviews,
+    countInStock,
   } = book;
 
   useEffect(() => {
@@ -77,7 +59,11 @@ const BookDetails = () => {
   };
 
   const handleQuantityChnage = (event) => {
-    setQuantity(event.target.value);
+    const val = event.target.value;
+
+    if (val > 0 && val <= countInStock) {
+      setQuantity(event.target.value);
+    }
   };
 
   const handleDecrement = (event) => {
@@ -87,7 +73,9 @@ const BookDetails = () => {
   };
 
   const handleIncrement = (event) => {
-    setQuantity(+quantity + 1);
+    if (quantity < countInStock) {
+      setQuantity(+quantity + 1);
+    }
   };
 
   const handleCartSubmit = (event) => {
@@ -139,18 +127,27 @@ const BookDetails = () => {
                   </Typography>
                   <Typography variant="subtitle2" sx={{ my: 1 }}>
                     by{" "}
-                    {author.map((val) => (
-                      <Link
-                        key={val._id}
-                        href={`/author/${val._id}/details`}
-                        sx={{
-                          ml: 1,
-                          textDecoration: "none",
-                          color: "#9B908A",
-                        }}
-                      >
-                        {val.name}
-                      </Link>
+                    {author.map(({ _id, name }, index) => (
+                      <span key={_id}>
+                        <Link
+                          href={`/author/${_id}/details`}
+                          sx={{
+                            ml: 1,
+                            textDecoration: "none",
+                            color: "#9B908A",
+                          }}
+                        >
+                          {name}
+                        </Link>
+                        {index !== author.length - 1 && (
+                          <Typography
+                            component={"span"}
+                            sx={{ color: "#9B908A" }}
+                          >
+                            ,
+                          </Typography>
+                        )}
+                      </span>
                     ))}
                   </Typography>
                   <Typography component="p" variant="body2" sx={{ my: 3 }}>
@@ -158,13 +155,13 @@ const BookDetails = () => {
                   </Typography>
 
                   <Box component="div" sx={{ my: 3 }}>
-                    {numCOpySold && (
+                    {numCopySold && (
                       <Typography variant="body2">
-                        * The {numCOpySold} copy bestseller *
+                        * The {numCopySold} copy bestseller *
                       </Typography>
                     )}
 
-                    {isbestSeller && (
+                    {isBestSeller && (
                       <Typography variant="subtitle2" sx={{ my: 1 }}>
                         A Number One New York Times Bestseller
                       </Typography>
@@ -173,13 +170,13 @@ const BookDetails = () => {
 
                   {literaryReviews && (
                     <Box component="div" sx={{ my: 3, color: "#505350" }}>
-                      {
-                        literaryReviews.map(({literar, }))
-                      }
-                      <Typography variant="body2">
-                        'Painfully beautiful' - New York Times
-                      </Typography>
-                      <Typography variant="body2">
+                      {literaryReviews.map(({ _id, literar, comment }) => (
+                        <Typography variant="body2" key={_id}>
+                          '{comment}' - {literar}
+                        </Typography>
+                      ))}
+
+                      {/* <Typography variant="body2">
                         'Unforgettable . . . as engrossing as it is moving' -
                         Daily Mail
                       </Typography>
@@ -189,7 +186,7 @@ const BookDetails = () => {
                       <Typography variant="body2">
                         'I can't even express how much I love this book!' -
                         Reese Witherspoon
-                      </Typography>
+                      </Typography> */}
                     </Box>
                   )}
                 </Box>
@@ -201,7 +198,9 @@ const BookDetails = () => {
                   sx={{ textAlign: "left", ml: 3, borderRadius: 0 }}
                 >
                   <CardHeader
-                    title={"BDT 200 - BDT 500"}
+                    title={`BDT ${Math.min(...price)} - BDT ${Math.max(
+                      ...price
+                    )}`}
                     sx={{ bgcolor: "#e3f6f5", p: 3 }}
                   />
 
@@ -218,9 +217,9 @@ const BookDetails = () => {
                       onChange={handleFormatChange}
                       sx={{ mt: 3, borderRadius: 0 }}
                     >
-                      {bookFormat.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                          {option.name}
+                      {format.map((option, idx) => (
+                        <MenuItem key={idx} value={option}>
+                          {option} - {price[idx]}/-
                         </MenuItem>
                       ))}
                     </TextField>
@@ -230,7 +229,11 @@ const BookDetails = () => {
                       type="number"
                       sx={{ mt: 2 }}
                       fullWidth
-                      inputProps={{ min: 1, style: { textAlign: "center" } }}
+                      inputProps={{
+                        min: 1,
+                        max: parseInt(countInStock),
+                        style: { textAlign: "center" },
+                      }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -292,7 +295,7 @@ const BookDetails = () => {
             </Grid>
           </Box>
 
-          <BookTabs />
+          <BookTabs book={book} />
         </div>
       )}
     </div>

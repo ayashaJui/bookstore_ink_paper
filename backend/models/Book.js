@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema(
   {
     rating: { type: Number, required: true },
-    comment: { type: String, required: true },
+    comment: { type: String },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -131,11 +131,13 @@ const BookSchema = new mongoose.Schema(
       default: 0,
     },
 
-    countInStock: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    countInStock: [
+      {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+    ],
   },
   {
     timeStamps: true,

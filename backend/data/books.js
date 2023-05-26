@@ -15,7 +15,7 @@ const books = [
     pages: 384,
     rating: 0,
     numReviews: 0,
-    countInStock: 10,
+    countInStock: [8, 10],
   },
   {
     user: "646901b30aa1b958c782b930",
@@ -51,7 +51,7 @@ const books = [
     pages: 182,
     rating: 0,
     numReviews: 0,
-    countInStock: 5,
+    countInStock: [5],
   },
   {
     user: "646901b30aa1b958c782b930",
@@ -73,7 +73,7 @@ const books = [
     pages: 448,
     rating: 0,
     numReviews: 0,
-    countInStock: 15,
+    countInStock: [5, 15],
   },
   {
     user: "646901b30aa1b958c782b930",
@@ -95,7 +95,7 @@ const books = [
     pages: 652,
     rating: 0,
     numReviews: 0,
-    countInStock: 5,
+    countInStock: [5],
   },
   {
     user: "646901b30aa1b958c782b930",
@@ -117,7 +117,7 @@ const books = [
     pages: 537,
     rating: 0,
     numReviews: 0,
-    countInStock: 7,
+    countInStock: [2, 0],
   },
   {
     user: "646901b30aa1b958c782b930",
@@ -135,7 +135,7 @@ const books = [
     pages: 264,
     rating: 0,
     numReviews: 0,
-    countInStock: 25,
+    countInStock: [25],
   },
   {
     user: "646901b30aa1b958c782b930",
@@ -153,7 +153,7 @@ const books = [
     pages: 364,
     rating: 2,
     numReviews: 50,
-    countInStock: 25,
+    countInStock: [25, 2, 10],
     series: [
       {
         no: 2,

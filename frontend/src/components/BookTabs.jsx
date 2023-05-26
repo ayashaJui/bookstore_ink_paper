@@ -48,19 +48,6 @@ function createData(name, value, url) {
   return { name, value, url };
 }
 
-const rows = [
-  createData("ISBN", "BW-1003046"),
-  createData("GENRE", "Fiction", "/categories/1"),
-  createData("Author", "Jane Austen", "/author/1/profile"),
-  createData("Book Format", "Kindle, Hardcover, Paperback"),
-  createData("Publisher", "Sheba"),
-  createData("Published Year", 1992),
-  createData("Editions", 223),
-  createData("Pages", 500),
-  createData("Series", "Standalone"),
-
-];
-
 const progressValues = [
   {
     type: "5 stars",
@@ -94,9 +81,29 @@ const progressValues = [
   },
 ];
 
-const BookTabs = () => {
+const BookTabs = ({ book }) => {
+  const {
+    description,
+    genres,
+    format,
+    isbn,
+    series,
+    pages,
+    release,
+    publisher,
+    rating,
+    author,
+  } = book;
+
+  const rows = [
+    createData("ISBN", isbn),
+    createData("Publisher", publisher),
+    createData("Published Year", release.split("T")[0]),
+    createData("Pages", pages),
+  ];
+
   const [value, setValue] = useState(0);
-  const [rating, setRating] = useState(0);
+  const [ratingSubmit, setRatingSubmit] = useState(0);
   const [review, setReview] = useState("");
 
   const handleChange = (event, newValue) => {
@@ -105,8 +112,8 @@ const BookTabs = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(review, rating);
-    setRating(0);
+    console.log(review, ratingSubmit);
+    setRatingSubmit(0);
     setReview(" ");
   };
 
@@ -133,30 +140,10 @@ const BookTabs = () => {
           <Tab label="Reviews (3)" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      
+
       <TabPanel value={value} index={0}>
         <Typography sx={{ minWidth: 200, px: { xs: 1, sm: 10, md: 15 } }}>
-          We aim to show you accurate product information. Manufacturers,
-          suppliers and others provide what you see here, and we have not
-          verified it. See our disclaimer #1 New York Times Bestseller A Reese
-          Witherspoon x Hello Sunshine Book Club Pick “I can't even express how
-          much I love this book! I didn't want this story to end!” - Reese
-          Witherspoon “Painfully beautiful.” - The New York Times Book Review
-          “Perfect for fans of Barbara Kingsolver.” - Bustle For years, rumors
-          of the “Marsh Girl” have haunted Barkley Cove, a quiet town on the
-          North Carolina coast. So in late 1969, when handsome Chase Andrews is
-          found dead, the locals immediately suspect Kya Clark, the so-called
-          Marsh Girl. But Kya is not what they say. Sensitive and intelligent,
-          she has survived for years alone in the marsh that she calls home,
-          finding friends in the gulls and lessons in the sand. Then the time
-          comes when she yearns to be touched and loved. When two young men from
-          town become intrigued by her wild beauty, Kya opens herself to a new
-          life - until the unthinkable happens. Perfect for fans of Barbara
-          Kingsolver and Karen Russell, Where the Crawdads Sing is at once an
-          exquisite ode to the natural world, a heartbreaking coming-of-age
-          story, and a surprising tale of possible murder. Owens reminds us that
-          we are forever shaped by the children we once were, and that we are
-          all subject to the beautiful and violent secrets that nature keeps
+          {description}
         </Typography>
       </TabPanel>
 
@@ -177,16 +164,116 @@ const BookTabs = () => {
                     {row.name}
                   </TableCell>
                   <TableCell align="right" sx={{ borderBottom: "none" }}>
-                    {row.url ? (
-                      <Link href={`${row.url}`} sx={{ textDecoration: "none" }}>
-                        {row.value}
-                      </Link>
-                    ) : (
-                      row.value
-                    )}
+                    {row.value}
                   </TableCell>
+                  {/* {Array.isArray(row.value) ? (
+                    ""
+                  ) : (
+                    <TableCell align="right" sx={{ borderBottom: "none" }}>
+                      {row.url ? (
+                        <Link
+                          href={`${row.url}`}
+                          sx={{ textDecoration: "none" }}
+                        >
+                          {row.value}
+                        </Link>
+                      ) : (
+                        row.value
+                      )}
+                    </TableCell>
+                  )} */}
                 </TableRow>
               ))}
+
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ borderBottom: "none", fontWeight: "bold" }}
+                >
+                  Author(s)
+                </TableCell>
+                <TableCell align="right" sx={{ borderBottom: "none" }}>
+                  {Array.isArray(author)
+                    ? author.map(({ _id, name }, idx) => (
+                        <span key={idx}>
+                          <Link
+                            href={`/author/${_id}/profile`}
+                            sx={{ textDecoration: "none" }}
+                          >
+                            {name}
+                          </Link>
+                          {idx !== author.length - 1 && <span>, </span>}
+                        </span>
+                      ))
+                    : author}
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ borderBottom: "none", fontWeight: "bold" }}
+                >
+                  Book Format
+                </TableCell>
+                <TableCell align="right" sx={{ borderBottom: "none" }}>
+                  {Array.isArray(format)
+                    ? format.slice(0, -1).join(", ")
+                    : format}
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ borderBottom: "none", fontWeight: "bold" }}
+                >
+                  Genre(s)
+                </TableCell>
+                <TableCell align="right" sx={{ borderBottom: "none" }}>
+                  {Array.isArray(genres)
+                    ? genres.map((genre, idx) => (
+                        <span key={idx}>
+                          <Link
+                            href={`/genre/${genre.toLowerCase()}`}
+                            sx={{ textDecoration: "none" }}
+                          >
+                            {genre}
+                          </Link>
+                          {idx !== genres.length - 1 && <span>, </span>}
+                        </span>
+                      ))
+                    : genres}
+                </TableCell>
+              </TableRow>
+
+              <TableRow>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ borderBottom: "none", fontWeight: "bold" }}
+                >
+                  Series
+                </TableCell>
+                <TableCell align="right" sx={{ borderBottom: "none" }}>
+                  {series.length > 0
+                    ? series.map(({ _id, name, no }, idx) => (
+                        <span key={idx}>
+                          <Link
+                            href={`/series/${_id}`}
+                            sx={{ textDecoration: "none" }}
+                          >
+                            {name} #{no}
+                          </Link>
+                          {idx !== series.length - 1 && <span>, </span>}
+                        </span>
+                      ))
+                    : "Standalone"}
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
@@ -213,11 +300,11 @@ const BookTabs = () => {
                     px: 2,
                   }}
                 >
-                  3.0
+                  {rating}
                 </Typography>
                 <Rating
                   name="read-only"
-                  value={3.0}
+                  value={rating}
                   precision={0.5}
                   readOnly
                   sx={{ px: 1 }}
@@ -332,13 +419,12 @@ const BookTabs = () => {
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
             <Rating
               name="rating"
-              value={rating}
+              value={ratingSubmit}
               precision={0.5}
-              onChange={(event) => setRating(+event.target.value)}
+              onChange={(event) => setRatingSubmit(+event.target.value)}
             />
             <TextField
               margin="normal"
-              required
               fullWidth
               multiline
               rows={8}
