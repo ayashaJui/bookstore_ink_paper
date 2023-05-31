@@ -111,8 +111,8 @@ const Cart = () => {
                             component="img"
                             image={`/${item.image}`}
                             alt={`${item.title}`}
-                            height="80"
-                            width="20"
+                            height="100"
+                            sx={{ objectFit: "contain" }}
                           />
                         </CardActionArea>
                       </Card>

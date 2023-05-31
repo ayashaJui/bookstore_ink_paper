@@ -20,7 +20,11 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { genreFunction } from "../helper/shopHelper";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllGenres } from "../actions/bookActions";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function valuetext(value) {
   return `BDT ${value}`;
@@ -34,6 +38,13 @@ const ShopSidebar = () => {
   const [valuePrice, setValuePrice] = useState([400, 700]);
   const [review, setReview] = useState(null);
   const [selectedPublisherIndex, setSelectedPublisherIndex] = useState(null);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location.pathname)
+  const { genres } = useSelector((state) => state.genreList);
+  const genreItem = genreFunction(genres);
 
   // Accordion expand
   const handleChange = (panel) => (event, isExpanded) => {
@@ -50,8 +61,18 @@ const ShopSidebar = () => {
     } else {
       newChecked.splice(currentIndex, 1);
     }
+    let url = location.pathname + "/?";
 
     setChecked(newChecked);
+    // for (let i = 0; i < newChecked.length; i++) {
+    //   if (newChecked[i] === newChecked.length - 1) {
+    //     url += `genre=${newChecked[i]}`;
+    //   } else {
+    //     url += `genre=${newChecked[i]}&`;
+    //   }
+    // }
+    navigate(url);
+    console.log(value, currentIndex, newChecked);
   };
 
   // set current author
@@ -81,7 +102,9 @@ const ShopSidebar = () => {
     setSelectedPublisherIndex(index);
   };
 
-  // console.log(review);
+  useEffect(() => {
+    dispatch(getAllGenres());
+  }, [dispatch]);
 
   return (
     <div>
@@ -106,26 +129,29 @@ const ShopSidebar = () => {
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {["horror", "fantasy", "thriller", "classic"].map((value, idx) => {
-              const labelId = `checkbox-list-label-${idx}`;
+            {Object.entries(genreItem).map(([key, value], idx) => {
+              const labelId = `checkbox-list-label-${key}`;
 
               return (
                 <ListItem key={idx} disablePadding>
                   <ListItemButton
                     role={undefined}
-                    onClick={handleToggle(idx)}
+                    onClick={handleToggle(key)}
                     dense
                   >
                     <ListItemIcon>
                       <Checkbox
                         edge="start"
-                        checked={checked.indexOf(idx) !== -1}
+                        checked={checked.indexOf(key) !== -1}
                         tabIndex={-1}
                         disableRipple
                         inputProps={{ "aria-labelledby": labelId }}
                       />
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={`${value}    (10)`} />
+                    <ListItemText
+                      id={labelId}
+                      primary={`${key}    (${value})`}
+                    />
                   </ListItemButton>
                 </ListItem>
               );

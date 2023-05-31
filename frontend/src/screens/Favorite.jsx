@@ -6,7 +6,7 @@ import {
   CardActionArea,
   CardMedia,
   Divider,
-  Link,
+  Link as MuiLink,
   Table,
   TableBody,
   TableCell,
@@ -17,52 +17,54 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { addToFavorite } from "../actions/favoriteActions";
-import { useDispatch } from "react-redux";
+import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../layouts/Message";
+import { addToCart } from "../actions/cartActions";
 
-function createData(img, name, price, stock, url, id) {
-  return { img, name, price, stock, url, id };
-}
-
-const rows = [
-  createData(
-    "/images/new_arrivals/pride_and_prejudice.jpg",
-    "Pride & Prejudice",
-    "100 /-",
-    "In stock",
-    "/url",
-    1
-  ),
-  createData(
-    "/images/new_arrivals/pride_and_prejudice.jpg",
-    "Pride & Prejudice",
-    "100 /-",
-    "In stock",
-    "/url",
-    11
-  ),
-];
 const Favorite = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const quantity = location.search
+    ? Number(location.search.split("&")[0].split("=")[1])
+    : 1;
+  const formatChosen = location.search
+    ? Number(location.search.split("&")[1].split("=")[1])
+    : 0;
+
+  const favorite = useSelector((state) => state.favorite);
+  const { favoriteItems } = favorite;
+  console.log(favoriteItems);
   useEffect(() => {
-    dispatch(addToFavorite(id));
-  });
+    if (id) {
+      dispatch(addToFavorite(id));
+    }
+  }, [dispatch, id]);
 
   const handleItemRemove = (id) => {
-    console.log(id);
+    dispatch(removeFromFavorite(id));
   };
 
   return (
     <div>
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
+          <MuiLink underline="hover" color="inherit" href="/">
             Home
-          </Link>
+          </MuiLink>
+          <MuiLink
+            component={Link}
+            underline="hover"
+            color="inherit"
+            to="/shop"
+          >
+            Shop
+          </MuiLink>
           <Typography color="text.primary">Favorite List</Typography>
         </Breadcrumbs>
       </Box>
@@ -77,70 +79,92 @@ const Favorite = () => {
           Favorite List
         </Typography>
 
-        <TableContainer component="div">
-          <Table sx={{ minWidth: 200, mt: 6 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">Image</TableCell>
-                <TableCell align="center">Product</TableCell>
-                <TableCell align="center">Price&nbsp;(each) </TableCell>
-                <TableCell align="center">Stock Status</TableCell>
-                <TableCell align="center">Remove</TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    <Card component="a" href={`${row.url}`}>
-                      <CardActionArea>
-                        <CardMedia
-                          component="img"
-                          image={`${row.img}`}
-                          alt="featured image"
-                          height="150"
-                          sx={{ width: { md: "60%", sm: "100%" }, mx: "auto" }}
-                        />
-                      </CardActionArea>
-                    </Card>
-                  </TableCell>
-
-                  <TableCell align="center">
-                    <Link href={`${row.url}`} sx={{ textDecoration: "none" }}>
-                      {row.name}
-                    </Link>
-                  </TableCell>
-
-                  <TableCell align="center">{row.price}</TableCell>
-
-                  <TableCell align="center">
-                    <Typography fontWeight="bold">{row.stock}</Typography>
-                  </TableCell>
-
-                  <TableCell align="center">
-                    <Button onClick={() => handleItemRemove(row.id)}>
-                      <CloseIcon />
-                    </Button>
-                  </TableCell>
-
-                  <TableCell align="center">
-                    <Button
-                      onClick={() => handleItemRemove(row.id)}
-                      //   variant="outlined"
-                    >
-                      Add to cart
-                    </Button>
-                  </TableCell>
+        {favoriteItems.length === 0 ? (
+          <Message title="Empty ">
+            Your favorite list is empty. <Link to="/shop">Go to shop</Link>
+          </Message>
+        ) : (
+          <TableContainer component="div">
+            <Table sx={{ minWidth: 200, mt: 6 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Image</TableCell>
+                  <TableCell align="center">Product</TableCell>
+                  <TableCell align="center">Price&nbsp;(each) </TableCell>
+                  <TableCell align="center">Stock Status</TableCell>
+                  <TableCell align="center">Remove</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {favoriteItems.map((item) => (
+                  <TableRow key={item.book}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      <Card component={Link} to={`/book/${item.book}/details`}>
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            image={`/${item.image}`}
+                            alt={item.title}
+                            height="150"
+                            sx={{
+                              // width: { md: "60%", sm: "100%" },
+                              // mx: "auto",
+                              objectFit: "contain",
+                            }}
+                          />
+                        </CardActionArea>
+                      </Card>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <Link
+                        to={`/book/${item.book}/details`}
+                        sx={{ textDecoration: "none" }}
+                      >
+                        {item.title}
+                      </Link>
+                    </TableCell>
+
+                    <TableCell align="center">{item.price[0]}</TableCell>
+
+                    <TableCell align="center">
+                      <Typography fontWeight="bold">
+                        {item.countInStock[0] && item.countInStock[0] > 0
+                          ? "In Stock"
+                          : "Out of Stock"}
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <Button onClick={() => handleItemRemove(item.book)}>
+                        <CloseIcon />
+                      </Button>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <Button
+                        onClick={() => {
+                          dispatch(
+                            addToCart(item.book, quantity, formatChosen)
+                          );
+                          dispatch(removeFromFavorite(item.book));
+                          navigate("/cart");
+                        }}
+                      >
+                        Add to cart
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Box>
     </div>
   );

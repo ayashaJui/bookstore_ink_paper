@@ -35,6 +35,7 @@ const Shop = () => {
 
   useEffect(() => {
     dispatch(getAllBooks());
+    // dispatch(getAllGenres());
   }, [dispatch]);
 
   return (
@@ -82,7 +83,7 @@ const Shop = () => {
                           mt: 4,
                           boxShadow: "1px 1px 5px 0px rgba(0,0,0,0.59)",
                           height: "520px",
-                          maxWidth: 350,
+                          maxWidth: 320,
                           mx: "auto",
                         }}
                       >
@@ -92,6 +93,7 @@ const Shop = () => {
                             alt={title}
                             height="350"
                             image={`${image}`}
+                            sx={{ objectFit: "contain" }}
                           />
                           {offer > 0 && (
                             <Chip

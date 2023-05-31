@@ -111,12 +111,13 @@ const BookDetails = () => {
           <Box component="div" sx={{ mx: 10, my: 8 }}>
             <Grid container spacing={2}>
               <Grid item md={3} sm={4} xs={12}>
-                <Card sx={{ borderRadius: 0 }}>
+                <Card sx={{ borderRadius: 0, boxShadow: 0 }}>
                   <CardMedia
                     component="img"
                     src={`/${image}`}
                     alt={`${title}`}
                     height="400"
+                    sx={{ objectFit: "contain", backgroundColor: "#F5F5F5" }}
                   />
                 </Card>
               </Grid>
