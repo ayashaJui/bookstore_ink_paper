@@ -26,17 +26,22 @@ import { useEffect } from "react";
 import { getAllBooks } from "../actions/bookActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Shop = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParam = location.search.split("?")[1];
 
   const { loading, books, error } = useSelector((state) => state.bookList);
 
   useEffect(() => {
-    dispatch(getAllBooks());
-    // dispatch(getAllGenres());
-  }, [dispatch]);
+    if (queryParam) {
+      dispatch(getAllBooks(queryParam));
+    } else {
+      dispatch(getAllBooks());
+    }
+  }, [dispatch, queryParam]);
 
   return (
     <Box component="div">
@@ -66,7 +71,7 @@ const Shop = () => {
               </Message>
             ) : (
               <Grid container spacing={3}>
-                {books.map(
+                {books.books.map(
                   ({
                     _id,
                     title,
@@ -92,7 +97,7 @@ const Shop = () => {
                             component="img"
                             alt={title}
                             height="350"
-                            image={`${image}`}
+                            image={`/${image}`}
                             sx={{ objectFit: "contain" }}
                           />
                           {offer > 0 && (

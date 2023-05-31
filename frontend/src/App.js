@@ -20,13 +20,13 @@ import Favorite from "./screens/Favorite";
 function App() {
   return (
     <BrowserRouter basename="/">
-      <div className="App" style={{ backgroundColor: '#F5F5F5'}}>
+      <div className="App" style={{ backgroundColor: "#F5F5F5" }}>
         <Navbar />
         <main>
           <Routes>
             <Route exact path="/" Component={Home} />
 
-            <Route exact path="/shop" Component={Shop} />
+            <Route exact path="/shop/?" Component={Shop} />
             <Route exact path="/shop/new-arrivals" Component={Shop} />
             <Route exact path="/shop/popular" Component={Shop} />
             <Route exact path="/shop/sale" Component={Shop} />
@@ -48,7 +48,7 @@ function App() {
             <Route exact path="/cart/:id?" Component={Cart} />
             <Route exact path="/favorite/:id?" Component={Favorite} />
             <Route exact path="/checkout" Component={Checkout} />
-            
+
             <Route exact path="/about" Component={About} />
             <Route exact path="/contact" Component={Contact} />
           </Routes>

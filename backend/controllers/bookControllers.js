@@ -7,9 +7,19 @@ import Author from "../models/Author.js";
 // @route       GET     /api/books/
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
-  const books = await Book.find({}).populate("author").sort("createdAt");
+  const { genre } = req.query;
+  const queryParams = {};
 
-  res.json(books);
+  if (genre) {
+    const genreRegex = genre.split(",").map((g) => new RegExp(g, "i"));
+    queryParams.genres = { $in: genreRegex };
+  }
+
+  const books = await Book.find(queryParams)
+    .populate("author")
+    .sort("createdAt");
+
+  res.json({ count: books.length, books });
 });
 
 // @desc        get a book by id
@@ -34,7 +44,8 @@ export const getBookById = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/genres/
 // @access      Public
 export const getAllGenres = asyncHandler(async (req, res) => {
-    const genres = await Book.find({}).select('genres');
-  
-    res.json(genres);
-  });
+  const genres = await Book.find({}).select("genres");
+
+  res.json({ count: genres.length, genres });
+  // res.json(genres);
+});

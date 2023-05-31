@@ -10,6 +10,7 @@ import {
 // genres
 router.get("/genres", getAllGenres);
 
+router.get("/search", getAllBooks);
 router.get("/", getAllBooks);
 router.get("/:id", getBookById);
 

@@ -39,7 +39,7 @@ const Favorite = () => {
 
   const favorite = useSelector((state) => state.favorite);
   const { favoriteItems } = favorite;
-  console.log(favoriteItems);
+
   useEffect(() => {
     if (id) {
       dispatch(addToFavorite(id));

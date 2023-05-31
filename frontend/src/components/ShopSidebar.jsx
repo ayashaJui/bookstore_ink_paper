@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { genreFunction } from "../helper/shopHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllGenres } from "../actions/bookActions";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function valuetext(value) {
   return `BDT ${value}`;
@@ -41,10 +41,9 @@ const ShopSidebar = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  // console.log(location.pathname)
-  const { genres } = useSelector((state) => state.genreList);
-  const genreItem = genreFunction(genres);
+
+  const { genres: bookGenre } = useSelector((state) => state.genreList);
+  const genreItem = genreFunction(bookGenre.genres);
 
   // Accordion expand
   const handleChange = (panel) => (event, isExpanded) => {
@@ -61,18 +60,14 @@ const ShopSidebar = () => {
     } else {
       newChecked.splice(currentIndex, 1);
     }
-    let url = location.pathname + "/?";
 
     setChecked(newChecked);
-    // for (let i = 0; i < newChecked.length; i++) {
-    //   if (newChecked[i] === newChecked.length - 1) {
-    //     url += `genre=${newChecked[i]}`;
-    //   } else {
-    //     url += `genre=${newChecked[i]}&`;
-    //   }
-    // }
-    navigate(url);
-    console.log(value, currentIndex, newChecked);
+
+    if (newChecked.length > 0) {
+      navigate(`/shop/?genre=${newChecked}`);
+    } else {
+      navigate(`/shop`);
+    }
   };
 
   // set current author
@@ -105,6 +100,10 @@ const ShopSidebar = () => {
   useEffect(() => {
     dispatch(getAllGenres());
   }, [dispatch]);
+
+  window.addEventListener("load", (event) => {
+    navigate("/shop");
+  });
 
   return (
     <div>

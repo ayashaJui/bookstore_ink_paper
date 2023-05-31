@@ -12,28 +12,38 @@ import {
   BOOK_LIST_SUCCESS,
 } from "../constants/book";
 
-export const getAllBooks = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: BOOK_LIST_REQUEST,
-    });
+export const getAllBooks =
+  (queryParams = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: BOOK_LIST_REQUEST,
+      });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books`);
+      let url = "";
 
-    dispatch({
-      type: BOOK_LIST_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: BOOK_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      if (queryParams !== "") {
+        url = `http://localhost:5000/api/books/search/?${queryParams}`;
+      } else {
+        url = `http://localhost:5000/api/books/`;
+      }
+
+      const { data } = await axios.get(url);
+
+      dispatch({
+        type: BOOK_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: BOOK_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const getBookById = (id) => async (dispatch) => {
   try {
@@ -65,10 +75,10 @@ export const getAllGenres = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(`http://localhost:5000/api/books/genres`);
-    
+
     dispatch({
       type: BOOK_GENRE_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
