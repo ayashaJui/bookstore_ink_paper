@@ -17,6 +17,10 @@ import {
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { addToFavorite } from "../actions/favoriteActions";
+import { useDispatch } from "react-redux";
 
 function createData(img, name, price, stock, url, id) {
   return { img, name, price, stock, url, id };
@@ -41,6 +45,13 @@ const rows = [
   ),
 ];
 const Favorite = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(addToFavorite(id));
+  });
+
   const handleItemRemove = (id) => {
     console.log(id);
   };
@@ -93,7 +104,7 @@ const Favorite = () => {
                           image={`${row.img}`}
                           alt="featured image"
                           height="150"
-                          sx={{ width: {md: "60%", sm: "100%"}, mx: "auto" }}
+                          sx={{ width: { md: "60%", sm: "100%" }, mx: "auto" }}
                         />
                       </CardActionArea>
                     </Card>
@@ -120,7 +131,7 @@ const Favorite = () => {
                   <TableCell align="center">
                     <Button
                       onClick={() => handleItemRemove(row.id)}
-                    //   variant="outlined"
+                      //   variant="outlined"
                     >
                       Add to cart
                     </Button>

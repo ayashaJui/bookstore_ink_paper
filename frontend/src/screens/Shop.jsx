@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import { getAllBooks } from "../actions/bookActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -164,8 +165,9 @@ const Shop = () => {
                             </Box>
                             <Box component="div">
                               <Button
+                                component={Link}
                                 size="medium"
-                                href={`/book/${_id}/add_cart`}
+                                to={`/cart/${_id}`}
                                 sx={{ color: "#e3f6f5" }}
                               >
                                 <ShoppingCartIcon
@@ -177,8 +179,9 @@ const Shop = () => {
                                 />
                               </Button>
                               <Button
+                                component={Link}
                                 size="medium"
-                                href={`/book/${_id}/add_favorite`}
+                                to={`/favorite/${_id}`}
                                 sx={{ color: "#e3f6f5" }}
                               >
                                 <FavoriteBorderIcon
@@ -190,9 +193,10 @@ const Shop = () => {
                                 />
                               </Button>
                               <Button
+                                component={Link}
                                 size="medium"
-                                href={`/book/${_id}/details`}
                                 sx={{ color: "#e3f6f5" }}
+                                to={`/book/${_id}/details`}
                               >
                                 <ReadMoreIcon
                                   sx={{

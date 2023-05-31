@@ -19,7 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import BookTabs from "../components/BookTabs";
@@ -29,12 +29,12 @@ import Message from "../layouts/Message";
 
 const BookDetails = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { loading, book, error } = useSelector((state) => state.bookDetails);
   const {
-    // _id,
+    _id,
     title,
     author,
     price,
@@ -61,7 +61,7 @@ const BookDetails = () => {
   const handleQuantityChnage = (event) => {
     const val = event.target.value;
 
-    if (val > 0 && val <= countInStock) {
+    if (val >= 0 && val <= countInStock[formatType]) {
       setQuantity(event.target.value);
     }
   };
@@ -73,7 +73,7 @@ const BookDetails = () => {
   };
 
   const handleIncrement = (event) => {
-    if (quantity < countInStock) {
+    if (quantity < countInStock[formatType]) {
       setQuantity(+quantity + 1);
     }
   };
@@ -81,6 +81,7 @@ const BookDetails = () => {
   const handleCartSubmit = (event) => {
     event.preventDefault();
     console.log(formatType, quantity);
+    navigate(`/cart/${_id}?quantity=${quantity}&format=${formatType}`);
   };
 
   return (
@@ -218,7 +219,7 @@ const BookDetails = () => {
                       sx={{ mt: 3, borderRadius: 0 }}
                     >
                       {format.map((option, idx) => (
-                        <MenuItem key={idx} value={option}>
+                        <MenuItem key={idx} value={idx}>
                           {option} - {price[idx]}/-
                         </MenuItem>
                       ))}
@@ -230,8 +231,6 @@ const BookDetails = () => {
                       sx={{ mt: 2 }}
                       fullWidth
                       inputProps={{
-                        min: 1,
-                        max: parseInt(countInStock),
                         style: { textAlign: "center" },
                       }}
                       InputProps={{
@@ -261,19 +260,36 @@ const BookDetails = () => {
                       value={quantity}
                     />
 
-                    <Button
-                      size="large"
-                      onClick={handleCartSubmit}
-                      variant="contained"
-                      sx={{
-                        bgcolor: "#272643",
-                        mt: 2,
-                        borderRadius: 0,
-                        width: "100%",
-                      }}
-                    >
-                      Add to Cart
-                    </Button>
+                    {countInStock[formatType] > 0 ? (
+                      <Button
+                        size="large"
+                        onClick={handleCartSubmit}
+                        variant="contained"
+                        sx={{
+                          bgcolor: "#272643",
+                          mt: 2,
+                          borderRadius: 0,
+                          width: "100%",
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled
+                        size="large"
+                        onClick={handleCartSubmit}
+                        variant="contained"
+                        sx={{
+                          bgcolor: "#272643",
+                          mt: 2,
+                          borderRadius: 0,
+                          width: "100%",
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                    )}
 
                     <Button
                       color="error"
