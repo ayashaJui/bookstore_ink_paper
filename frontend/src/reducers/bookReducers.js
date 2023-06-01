@@ -1,7 +1,13 @@
 import {
+  BOOK_AUTHOR_FAIL,
+  BOOK_AUTHOR_REQUEST,
+  BOOK_AUTHOR_SUCCESS,
   BOOK_DETAILS_FAIL,
   BOOK_DETAILS_REQUEST,
   BOOK_DETAILS_SUCCESS,
+  BOOK_FORMAT_FAIL,
+  BOOK_FORMAT_REQUEST,
+  BOOK_FORMAT_SUCCESS,
   BOOK_GENRE_FAIL,
   BOOK_GENRE_REQUEST,
   BOOK_GENRE_SUCCESS,
@@ -22,6 +28,8 @@ const initialState = {
     series: [],
   },
   genres: [],
+  bookAuthors: [],
+  formats: [],
   loading: true,
   error: [],
 };
@@ -89,6 +97,54 @@ export const genreListReducer = (state = initialState, action) => {
         genres: payload,
       };
     case BOOK_GENRE_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const bookAuthorListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_AUTHOR_REQUEST:
+      return {
+        loading: true,
+        bookAuthors: [],
+      };
+    case BOOK_AUTHOR_SUCCESS:
+      return {
+        loading: false,
+        bookAuthors: payload,
+      };
+    case BOOK_AUTHOR_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const formatListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_FORMAT_REQUEST:
+      return {
+        loading: true,
+        formats: [],
+      };
+    case BOOK_FORMAT_SUCCESS:
+      return {
+        loading: false,
+        formats: payload,
+      };
+    case BOOK_FORMAT_FAIL:
       return {
         loading: false,
         error: payload,

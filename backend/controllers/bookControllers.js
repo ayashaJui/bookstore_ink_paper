@@ -8,12 +8,19 @@ import Author from "../models/Author.js";
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
   const { genre } = req.query;
+  const { author } = req.query;
   const queryParams = {};
 
   if (genre) {
     const genreRegex = genre.split(",").map((g) => new RegExp(g, "i"));
     queryParams.genres = { $in: genreRegex };
   }
+
+  if (author) {
+    queryParams.author = { $in: author };
+  }
+
+  // console.log(queryParams);
 
   const books = await Book.find(queryParams)
     .populate("author")
@@ -47,5 +54,42 @@ export const getAllGenres = asyncHandler(async (req, res) => {
   const genres = await Book.find({}).select("genres");
 
   res.json({ count: genres.length, genres });
+  // res.json(genres);
+});
+
+// @desc        get all genres
+// @route       GET     /api/books/authors/
+// @access      Public
+export const getAllAuthorsBooks = asyncHandler(async (req, res) => {
+  const pipeline = [
+    {
+      $lookup: {
+        from: "books",
+        localField: "_id",
+        foreignField: "author",
+        as: "books",
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        totalBooks: { $size: "$books" },
+      },
+    },
+  ];
+
+  const authors = await Author.aggregate(pipeline);
+
+  res.json({ count: authors.length, authors });
+});
+
+// @desc        get all formats
+// @route       GET     /api/books/formats/
+// @access      Public
+export const getAllFormats = asyncHandler(async (req, res) => {
+  const formats = await Book.find({}).select("format");
+
+  res.json({ count: formats.length, formats });
   // res.json(genres);
 });

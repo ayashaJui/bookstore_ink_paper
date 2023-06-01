@@ -3,19 +3,25 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import {
+  bookAuthorListReducer,
   bookDetailsReducer,
   bookListReducer,
+  formatListReducer,
   genreListReducer,
 } from "./reducers/bookReducers.js";
 import { cartReducers } from "./reducers/cartReducers.js";
 import { favoriteReducers } from "./reducers/favoriteReducers.js";
+import { authorListReducer } from "./reducers/authorReducers.js";
 
 const reducers = combineReducers({
   bookList: bookListReducer,
   bookDetails: bookDetailsReducer,
   cart: cartReducers,
   favorite: favoriteReducers,
-  genreList: genreListReducer
+  genreList: genreListReducer,
+  bookAuthorList: bookAuthorListReducer,
+  formatList: formatListReducer,
+  authorList: authorListReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

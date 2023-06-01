@@ -31,21 +31,21 @@ const AuthorSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    numBooks: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    rating: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    numReviews: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    // numBooks: {
+    //   type: Number,
+    //   required: true,
+    //   default: 0,
+    // },
+    // rating: {
+    //   type: Number,
+    //   required: true,
+    //   default: 0,
+    // },
+    // numReviews: {
+    //   type: Number,
+    //   required: true,
+    //   default: 0,
+    // },
     social: {
       youtube: {
         type: String,

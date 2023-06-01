@@ -21,10 +21,14 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useEffect, useState } from "react";
-import { genreFunction } from "../helper/shopHelper";
+import { formatFunction, genreFunction, makeUrl } from "../helper/shopHelper";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllGenres } from "../actions/bookActions";
-import { useNavigate } from "react-router-dom";
+import {
+  getAllBookAuthors,
+  getAllFormats,
+  getAllGenres,
+} from "../actions/bookActions";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function valuetext(value) {
   return `BDT ${value}`;
@@ -41,9 +45,14 @@ const ShopSidebar = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { genres: bookGenre } = useSelector((state) => state.genreList);
   const genreItem = genreFunction(bookGenre.genres);
+  const { bookAuthors } = useSelector((state) => state.bookAuthorList);
+  const { authors } = bookAuthors;
+  const { formats: bookFormat } = useSelector((state) => state.formatList);
+  const formatItem = formatFunction(bookFormat.formats);
 
   // Accordion expand
   const handleChange = (panel) => (event, isExpanded) => {
@@ -63,21 +72,76 @@ const ShopSidebar = () => {
 
     setChecked(newChecked);
 
-    if (newChecked.length > 0) {
-      navigate(`/shop/?genre=${newChecked}`);
-    } else {
-      navigate(`/shop`);
+    const params = new URLSearchParams(location.search);
+    const genres = newChecked.join(",");
+    console.log(genres);
+    params.set("genre", genres);
+
+    if (newChecked.length !== 0) {
+      navigate({
+        pathname: location.pathname,
+        search: `?${params.toString()}`,
+      });
     }
+
+    // if (newChecked.length > 0) {
+    //   if (location.search) {
+    //     if (!location.search.includes("genre")) {
+    //       navigate(`/shop/${location.search}&genre=${newChecked}`);
+    //     } else {
+    //       navigate(
+    //         `/shop/${location.search.split("genre")[0]}genre=${newChecked}`
+    //       );
+    //     }
+    //   } else {
+    //     navigate(`/shop/?genre=${newChecked}`);
+    //   }
+    // } else {
+    //   navigate(`/shop/${location.search.replace(/(\?|&)genre=[^&]+/, "")}`);
+    // }
   };
 
   // set current author
-  const handleAuthorClick = (event, index) => {
+  const handleAuthorClick = (event, index, id) => {
     setSelectedAuthorIndex(index);
+    const params = new URLSearchParams(location.search);
+    params.set("author", id);
+    navigate({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
+    // searchParams.append('author', id)
+    // if (location.search) {
+    //   if (location.search.includes("author")) {
+    //     navigate(`/shop/${location.search.split("author")[0]}author=${id}`);
+    //   } else {
+    //     navigate(`/shop/${location.search}&author=${id}`);
+    //   }
+    // } else {
+    //   navigate(`/shop/?author=${id}`);
+    // }
   };
 
   // set current format
-  const handleFormatClick = (event, index) => {
+  const handleFormatClick = (event, index, formatType) => {
     setSelectedFormatIndex(index);
+    const params = new URLSearchParams(location.search);
+    params.set("format", formatType);
+    navigate({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
+    // if (location.search) {
+    //   if (location.search.includes("format")) {
+    //     navigate(
+    //       `/shop/${location.search.split("format")[0]}format=${formatType}`
+    //     );
+    //   } else {
+    //     navigate(`/shop/${location.search}&format=${formatType}`);
+    //   }
+    // } else {
+    //   navigate(`/shop/?format=${formatType}`);
+    // }
   };
 
   const handlePriceChange = (event, newValue) => {
@@ -99,6 +163,8 @@ const ShopSidebar = () => {
 
   useEffect(() => {
     dispatch(getAllGenres());
+    dispatch(getAllBookAuthors());
+    dispatch(getAllFormats());
   }, [dispatch]);
 
   window.addEventListener("load", (event) => {
@@ -182,23 +248,19 @@ const ShopSidebar = () => {
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {[
-              "Jane Austen",
-              "J.K. Rowling",
-              "James Rollings",
-              "Stephen King",
-            ].map((value, idx) => {
-              return (
-                <ListItem key={idx} disablePadding>
-                  <ListItemButton
-                    selected={selectedAuthorIndex === idx}
-                    onClick={(event) => handleAuthorClick(event, idx)}
-                  >
-                    <ListItemText primary={`${value}    (10)`} />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
+            {authors &&
+              authors.map(({ _id, name, totalBooks }, idx) => {
+                return (
+                  <ListItem key={idx} disablePadding>
+                    <ListItemButton
+                      selected={selectedAuthorIndex === idx}
+                      onClick={(event) => handleAuthorClick(event, idx, _id)}
+                    >
+                      <ListItemText primary={`${name}    (${totalBooks})`} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
           </List>
         </AccordionDetails>
       </Accordion>
@@ -226,23 +288,19 @@ const ShopSidebar = () => {
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {[
-              "Paperback",
-              "Hardcover",
-              "Kindle Edition",
-              "Audible Audiobook",
-            ].map((value, idx) => {
-              return (
-                <ListItem key={idx} disablePadding>
-                  <ListItemButton
-                    selected={selectedFormatIndex === idx}
-                    onClick={(event) => handleFormatClick(event, idx)}
-                  >
-                    <ListItemText primary={`${value}    (10)`} />
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
+            {formatItem &&
+              Object.entries(formatItem).map(([key, value], idx) => {
+                return (
+                  <ListItem key={idx} disablePadding>
+                    <ListItemButton
+                      selected={selectedFormatIndex === idx}
+                      onClick={(event) => handleFormatClick(event, idx, key)}
+                    >
+                      <ListItemText primary={`${key}    (${value})`} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
           </List>
         </AccordionDetails>
       </Accordion>

@@ -112,8 +112,6 @@ const Favorite = () => {
                             alt={item.title}
                             height="150"
                             sx={{
-                              // width: { md: "60%", sm: "100%" },
-                              // mx: "auto",
                               objectFit: "contain",
                             }}
                           />
@@ -122,12 +120,13 @@ const Favorite = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                      <Link
+                      <MuiLink
+                        component={Link}
                         to={`/book/${item.book}/details`}
                         sx={{ textDecoration: "none" }}
                       >
                         {item.title}
-                      </Link>
+                      </MuiLink>
                     </TableCell>
 
                     <TableCell align="center">{item.price[0]}</TableCell>

@@ -14,9 +14,11 @@ import {
 } from "@mui/material";
 import HeroImage from "../components/HeroImage";
 import ShopSidebar from "../components/ShopSidebar";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Button from "@mui/material/Button";
@@ -24,6 +26,7 @@ import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllBooks } from "../actions/bookActions";
+import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { Link, useLocation } from "react-router-dom";
@@ -34,6 +37,8 @@ const Shop = () => {
   const queryParam = location.search.split("?")[1];
 
   const { loading, books, error } = useSelector((state) => state.bookList);
+  const { cartItems } = useSelector((state) => state.cart);
+  const { favoriteItems } = useSelector((state) => state.favorite);
 
   useEffect(() => {
     if (queryParam) {
@@ -177,28 +182,63 @@ const Shop = () => {
                                 to={`/cart/${_id}`}
                                 sx={{ color: "#e3f6f5" }}
                               >
-                                <ShoppingCartIcon
-                                  sx={{
-                                    color: "#2c698d",
-                                    fontSize: "30px",
-                                    "&:hover": { color: "#1565C0" },
-                                  }}
-                                />
+                                {cartItems.find((item) => item.book === _id) ? (
+                                  <ShoppingCartIcon
+                                    key={_id}
+                                    sx={{
+                                      color: "#2c698d",
+                                      fontSize: "30px",
+                                      "&:hover": { color: "#1565C0" },
+                                    }}
+                                  />
+                                ) : (
+                                  <ShoppingCartOutlinedIcon
+                                    key={_id}
+                                    sx={{
+                                      color: "#2c698d",
+                                      fontSize: "30px",
+                                      "&:hover": { color: "#1565C0" },
+                                    }}
+                                  />
+                                )}
                               </Button>
-                              <Button
-                                component={Link}
-                                size="medium"
-                                to={`/favorite/${_id}`}
-                                sx={{ color: "#e3f6f5" }}
-                              >
-                                <FavoriteBorderIcon
-                                  sx={{
-                                    color: "#2c698d",
-                                    fontSize: "30px",
-                                    "&:hover": { color: "#1565C0" },
-                                  }}
-                                />
-                              </Button>
+                              {favoriteItems.find(
+                                (item) => item.book === _id
+                              ) ? (
+                                <Button
+                                  component={Link}
+                                  size="medium"
+                                  // to={`/favorite/${_id}`}
+                                  onClick={() =>
+                                    dispatch(removeFromFavorite(_id))
+                                  }
+                                  sx={{ color: "#e3f6f5" }}
+                                >
+                                  <FavoriteIcon
+                                    sx={{
+                                      color: "#2c698d",
+                                      fontSize: "30px",
+                                      "&:hover": { color: "#1565C0" },
+                                    }}
+                                  />
+                                </Button>
+                              ) : (
+                                <Button
+                                  component={Link}
+                                  size="medium"
+                                  // to={`/favorite/${_id}`}
+                                  onClick={() => dispatch(addToFavorite(_id))}
+                                  sx={{ color: "#e3f6f5" }}
+                                >
+                                  <FavoriteBorderIcon
+                                    sx={{
+                                      color: "#2c698d",
+                                      fontSize: "30px",
+                                      "&:hover": { color: "#1565C0" },
+                                    }}
+                                  />
+                                </Button>
+                              )}
                               <Button
                                 component={Link}
                                 size="medium"
