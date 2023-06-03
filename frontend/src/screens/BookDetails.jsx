@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Chip,
   Divider,
   Grid,
   IconButton,
@@ -18,6 +19,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +28,7 @@ import BookTabs from "../components/BookTabs";
 import { getBookById } from "../actions/bookActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
+import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -40,12 +43,14 @@ const BookDetails = () => {
     price,
     format,
     image,
+    offer,
     description,
     isBestSeller,
     numCopySold,
     literaryReviews,
     countInStock,
   } = book;
+  const { favoriteItems } = useSelector((state) => state.favorite);
 
   useEffect(() => {
     dispatch(getBookById(id));
@@ -123,9 +128,14 @@ const BookDetails = () => {
               </Grid>
 
               <Grid item md={5} sm={8} xs={12}>
-                <Box component="div" sx={{ textAlign: "justify", ml: 3 }}>
+                <Box component="div" sx={{ textAlign: "justify", ml: 2 }}>
                   <Typography variant="h4" sx={{ fontFamily: "Roboto" }}>
-                    {title}
+                    {title}{" "}
+                    {offer ? (
+                      <Chip color="primary" label={`${offer}% off`} />
+                    ) : (
+                      ""
+                    )}
                   </Typography>
                   <Typography variant="subtitle2" sx={{ my: 1 }}>
                     by{" "}
@@ -200,11 +210,15 @@ const BookDetails = () => {
                   sx={{ textAlign: "left", ml: 3, borderRadius: 0 }}
                 >
                   <CardHeader
-                    title={`BDT ${Math.min(...price)} - BDT ${Math.max(
-                      ...price
-                    )}`}
+                    title={
+                      price.length > 1
+                        ? `BDT ${Math.min(...price)} - BDT ${Math.max(
+                            ...price
+                          )}`
+                        : `BDT ${price[0]}`
+                    }
                     sx={{ bgcolor: "#e3f6f5", p: 3 }}
-                  />
+                  ></CardHeader>
 
                   <CardContent sx={{ mt: 2 }}>
                     <Typography variant="body2">Book Format</Typography>
@@ -292,20 +306,39 @@ const BookDetails = () => {
                       </Button>
                     )}
 
-                    <Button
-                      color="error"
-                      variant="outlined"
-                      sx={{
-                        mt: 2,
-                        px: 2,
-                        py: 1.5,
-                        border: "none",
-                        "&:hover": { color: "#000", border: "none" },
-                      }}
-                      fullWidth
-                    >
-                      <FavoriteBorderIcon sx={{ mr: 1 }} /> Add to Favorite
-                    </Button>
+                    {favoriteItems.find((item) => item.book === _id) ? (
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        onClick={() => dispatch(removeFromFavorite(_id))}
+                        sx={{
+                          mt: 2,
+                          px: 2,
+                          py: 1.5,
+                          border: "none",
+                          "&:hover": { color: "#000", border: "none" },
+                        }}
+                        fullWidth
+                      >
+                        <FavoriteIcon sx={{ mr: 1 }} /> Remove from Favorite
+                      </Button>
+                    ) : (
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        onClick={() => dispatch(addToFavorite(_id))}
+                        sx={{
+                          mt: 2,
+                          px: 2,
+                          py: 1.5,
+                          border: "none",
+                          "&:hover": { color: "#000", border: "none" },
+                        }}
+                        fullWidth
+                      >
+                        <FavoriteBorderIcon sx={{ mr: 1 }} /> Add to Favorite
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>

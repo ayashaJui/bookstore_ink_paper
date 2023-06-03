@@ -36,11 +36,7 @@ function App() {
             <Route exact path="/blogs/:id/details" Component={BlogDetails} />
 
             <Route exact path="/authors" Component={Authors} />
-            <Route
-              exact
-              path="/authors/:id/profile"
-              Component={AuthorProfile}
-            />
+            <Route exact path="/author/:id/profile" Component={AuthorProfile} />
 
             <Route exact path="/signin" Component={Signin} />
             <Route exact path="/signup" Component={Signup} />

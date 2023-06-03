@@ -11,41 +11,59 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 
-const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
+const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
+  const dispatch = useDispatch();
+
+  const { _id, image, format, title, author, rating, numReviews, price } = book;
+
+  const { cartItems } = useSelector((state) => state.cart);
+  const { favoriteItems } = useSelector((state) => state.favorite);
+
   return (
     <Grid item sm={4} xs={12} md={3}>
       <Card
         sx={{
           bgcolor: `${cardColor}`,
-          mx: `${cardMargin}`, my:2
+          mx: `${cardMargin}`,
+          my: 2,
+          height: "480px",
+          maxWidth: 320,
           // boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.43)",
         }}
       >
-        <CardActionArea>
+        <CardActionArea sx={{ height: "480px", maxWidth: 320 }}>
           <CardMedia
             component="img"
             height={mediaHeight}
-            image="/images/new_arrivals/pride_and_prejudice.jpg"
-            alt="pride_prejudice"
+            image={`/${image}`}
+            alt={`${title}`}
+            sx={{ objectFit: "contain" }}
           />
           <CardContent sx={{ textAlign: "left" }}>
             <Typography variant="caption" component="div" color="error">
-              Hardcover
+              {format.slice(0, -1).join(", ") +
+                (format.length > 1 ? ", " : "") +
+                format[format.length - 1]}
             </Typography>
             <Typography variant="h6" sx={{ my: 0.5 }}>
-              Pride & Prejudice
+              {title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              by Jane Austen
+              by {author.map((val) => val.name).join(", ")}
             </Typography>
             <Grid container spacing={2} sx={{}}>
               <Grid item md={8} sx={{ mt: 0.5 }}>
                 <Rating
                   name="half-rating-read"
-                  defaultValue={2.5}
+                  value={rating}
                   precision={0.5}
                   readOnly
                 />
@@ -53,11 +71,11 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
                   variant="subtitle2"
                   sx={{ color: "#FF9529", fontSize: 10 }}
                 >
-                  (1500 Reviews)
+                  ({numReviews} Reviews)
                 </Typography>
               </Grid>
               <Grid item md={4}>
-                <Typography variant="subtitle1">BDT 5.58</Typography>
+                <Typography variant="subtitle1">{price[0]}/-</Typography>
               </Grid>
             </Grid>
           </CardContent>
@@ -82,8 +100,9 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
             }}
           >
             <Button
+              component={Link}
               size="large"
-              href="/books/1/details"
+              to={`/book/${_id}/details`}
               sx={{ color: "#e3f6f5", my: 2 }}
             >
               <Avatar
@@ -93,27 +112,50 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin }) => {
               </Avatar>
             </Button>
             <Button
+              component={Link}
               size="large"
-              href="/books/1/add_cart"
+              to={`/cart/${_id}`}
               sx={{ color: "#e3f6f5", my: 2 }}
             >
               <Avatar
                 sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
               >
-                <ShoppingCartIcon />
+                {cartItems.find((item) => item.book === _id) ? (
+                  <ShoppingCartIcon />
+                ) : (
+                  <ShoppingCartOutlinedIcon />
+                )}
               </Avatar>
             </Button>
-            <Button
-              size="large"
-              href="/books/1/add_favorite"
-              sx={{ color: "#e3f6f5", my: 2 }}
-            >
-              <Avatar
-                sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
+            {favoriteItems.find((item) => item.book === _id) ? (
+              <Button
+                component={Link}
+                size="large"
+                // to={`/favorite/${_id}`}
+                onClick={() => dispatch(removeFromFavorite(_id))}
+                sx={{ color: "#e3f6f5", my: 2 }}
               >
-                <FavoriteBorderIcon />
-              </Avatar>
-            </Button>
+                <Avatar
+                  sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
+                >
+                  <FavoriteIcon />
+                </Avatar>
+              </Button>
+            ) : (
+              <Button
+                component={Link}
+                size="large"
+                // to={`/favorite/${_id}`}
+                onClick={() => dispatch(addToFavorite(_id))}
+                sx={{ color: "#e3f6f5", my: 2 }}
+              >
+                <Avatar
+                  sx={{ bgcolor: "#2c698d", "&:hover": { bgcolor: "#1565C0" } }}
+                >
+                  <FavoriteBorderIcon />
+                </Avatar>
+              </Button>
+            )}
           </Box>
         </CardActionArea>
       </Card>

@@ -15,6 +15,7 @@ export const addToFavorite = (id) => async (dispatch, getState) => {
       image: data.image,
       price: data.price,
       countInStock: data.countInStock,
+      offer: data.offer,
     },
   });
 

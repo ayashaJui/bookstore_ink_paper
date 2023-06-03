@@ -7,8 +7,7 @@ import Author from "../models/Author.js";
 // @route       GET     /api/books/
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
-  const { genre } = req.query;
-  const { author } = req.query;
+  const { genre, author, format, price, rating, sort } = req.query;
   const queryParams = {};
 
   if (genre) {
@@ -20,11 +19,42 @@ export const getAllBooks = asyncHandler(async (req, res) => {
     queryParams.author = { $in: author };
   }
 
-  // console.log(queryParams);
+  if (format) {
+    queryParams.format = { $regex: format, $options: "i" };
+  }
 
-  const books = await Book.find(queryParams)
-    .populate("author")
-    .sort("createdAt");
+  if (price) {
+    const [minPrice, maxPrice] = price.split(",");
+
+    queryParams.price = {
+      $elemMatch: {
+        $gte: Number(minPrice),
+        $lte: Number(maxPrice),
+      },
+    };
+  }
+
+  if (rating) {
+    queryParams.rating = {
+      $gte: Number(rating),
+    };
+  }
+
+  let books;
+
+  if (sort) {
+    if (sort === "release") {
+      books = await Book.find(queryParams)
+        .sort({ release: -1 })
+        .populate("author");
+    } else if (sort === "popular") {
+      books = await Book.find(queryParams)
+        .sort({ rating: -1 })
+        .populate("author");
+    }
+  } else {
+    books = await Book.find(queryParams).populate("author");
+  }
 
   res.json({ count: books.length, books });
 });
@@ -92,4 +122,58 @@ export const getAllFormats = asyncHandler(async (req, res) => {
 
   res.json({ count: formats.length, formats });
   // res.json(genres);
+});
+
+// @desc        get all publishers
+// @route       GET     /api/books/publishers/
+// @access      Public
+export const getAllPublishers = asyncHandler(async (req, res) => {
+  const publishers = await Book.aggregate([
+    {
+      $group: {
+        _id: "$publisher",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        publisher: "$_id",
+        count: 1,
+      },
+    },
+  ]);
+
+  res.json({ publishers });
+});
+
+// @desc        get latest releasr
+// @route       GET     /api/books/latestRelease/
+// @access      Public
+export const getLatestRelease = asyncHandler(async (req, res) => {
+  const latestReleases = await Book.find({})
+    .sort({ release: -1 })
+    .populate("author")
+    .limit(8);
+  res.json({ count: latestReleases.length, latestReleases });
+});
+
+// @desc        get popular books
+// @route       GET     /api/books/popular/
+// @access      Public
+export const getPopularBooks = asyncHandler(async (req, res) => {
+  const popular = await Book.find({})
+    .sort({ rating: -1 })
+    .populate("author")
+    .limit(7);
+  res.json({ count: popular.length, popular });
+});
+
+// @desc        get featured books
+// @route       GET     /api/books/featured/
+// @access      Public
+export const getFeaturedBooks = asyncHandler(async (req, res) => {
+  const featured = await Book.find({ isFeatured: true }).populate("author");
+
+  res.json({ count: featured.length, featured });
 });

@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 import Message from "../layouts/Message";
+import { makeOfferPrice } from "../helper/shopHelper";
 
 const Cart = () => {
   const { id } = useParams();
@@ -89,9 +90,11 @@ const Cart = () => {
                   <TableCell align="center">Image</TableCell>
                   <TableCell align="center">Product</TableCell>
                   <TableCell align="center">Book Format</TableCell>
-                  <TableCell align="center">Price&nbsp;(each) </TableCell>
+                  <TableCell align="center">
+                    Price&nbsp;(each in BDT){" "}
+                  </TableCell>
                   <TableCell align="center">Quantity</TableCell>
-                  <TableCell align="center">Total</TableCell>
+                  <TableCell align="center">Total (BDT) </TableCell>
                   <TableCell align="center">Remove</TableCell>
                 </TableRow>
               </TableHead>
@@ -154,7 +157,31 @@ const Cart = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                      {item.price[item.formatType]}/-
+                      {item.offer ? (
+                        <>
+                          <Typography
+                            sx={{
+                              textDecoration: "line-through",
+                              color: "#9B908A",
+                              fontSize: "0.875rem",
+                            }}
+                          >
+                            {item.price[item.formatType]}
+                          </Typography>
+
+                          <Typography sx={{ fontSize: "0.875rem" }}>
+                            {/* {item.price[item.formatType] -
+                              item.price[item.formatType] *
+                                (Number(item.offer) / 100)} */}
+                            {makeOfferPrice(
+                              item.offer,
+                              item.price[item.formatType]
+                            )}
+                          </Typography>
+                        </>
+                      ) : (
+                        item.price[item.formatType]
+                      )}
                     </TableCell>
 
                     <TableCell align="center">
@@ -185,7 +212,9 @@ const Cart = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                      {item.price[item.formatType] * item.quantity}/-
+                      {/* {item.price[item.formatType] * item.quantity}/- */}
+                      {makeOfferPrice(item.offer, item.price[item.formatType]) *
+                        item.quantity}
                     </TableCell>
 
                     <TableCell align="center">
@@ -205,7 +234,12 @@ const Cart = () => {
                     {cartItems
                       .reduce(
                         (acc, item) =>
-                          acc + item.quantity * item.price[item.formatType],
+                          acc +
+                          item.quantity *
+                            makeOfferPrice(
+                              item.offer,
+                              item.price[item.formatType]
+                            ),
                         0
                       )
                       .toFixed(2)}

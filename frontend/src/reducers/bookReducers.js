@@ -5,15 +5,27 @@ import {
   BOOK_DETAILS_FAIL,
   BOOK_DETAILS_REQUEST,
   BOOK_DETAILS_SUCCESS,
+  BOOK_FEATURED_FAIL,
+  BOOK_FEATURED_REQUEST,
+  BOOK_FEATURED_SUCCESS,
   BOOK_FORMAT_FAIL,
   BOOK_FORMAT_REQUEST,
   BOOK_FORMAT_SUCCESS,
   BOOK_GENRE_FAIL,
   BOOK_GENRE_REQUEST,
   BOOK_GENRE_SUCCESS,
+  BOOK_LATEST_RELEASE_FAIL,
+  BOOK_LATEST_RELEASE_REQUEST,
+  BOOK_LATEST_RELEASE_SUCCESS,
   BOOK_LIST_FAIL,
   BOOK_LIST_REQUEST,
   BOOK_LIST_SUCCESS,
+  BOOK_POPULAR_FAIL,
+  BOOK_POPULAR_REQUEST,
+  BOOK_POPULAR_SUCCESS,
+  BOOK_PUBLISHER_FAIL,
+  BOOK_PUBLISHER_REQUEST,
+  BOOK_PUBLISHER_SUCCESS,
 } from "../constants/book";
 
 const initialState = {
@@ -30,6 +42,10 @@ const initialState = {
   genres: [],
   bookAuthors: [],
   formats: [],
+  publishers: [],
+  latestReleases: [],
+  popularBooks: [],
+  featuredBooks: [],
   loading: true,
   error: [],
 };
@@ -145,6 +161,102 @@ export const formatListReducer = (state = initialState, action) => {
         formats: payload,
       };
     case BOOK_FORMAT_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const publisherListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_PUBLISHER_REQUEST:
+      return {
+        loading: true,
+        publishers: [],
+      };
+    case BOOK_PUBLISHER_SUCCESS:
+      return {
+        loading: false,
+        publishers: payload,
+      };
+    case BOOK_PUBLISHER_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const latestReleaseListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+  // console.log(payload);
+  switch (type) {
+    case BOOK_LATEST_RELEASE_REQUEST:
+      return {
+        loading: true,
+        latestReleases: [],
+      };
+    case BOOK_LATEST_RELEASE_SUCCESS:
+      return {
+        loading: false,
+        latestReleases: payload,
+      };
+    case BOOK_LATEST_RELEASE_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const popularBookListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_POPULAR_REQUEST:
+      return {
+        loading: true,
+        popularBooks: [],
+      };
+    case BOOK_POPULAR_SUCCESS:
+      return {
+        loading: false,
+        popularBooks: payload,
+      };
+    case BOOK_POPULAR_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const featuredBookListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_FEATURED_REQUEST:
+      return {
+        loading: true,
+        featuredBooks: [],
+      };
+    case BOOK_FEATURED_SUCCESS:
+      return {
+        loading: false,
+        featuredBooks: payload,
+      };
+    case BOOK_FEATURED_FAIL:
       return {
         loading: false,
         error: payload,

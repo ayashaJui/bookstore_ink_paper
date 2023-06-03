@@ -6,12 +6,19 @@ import {
   bookAuthorListReducer,
   bookDetailsReducer,
   bookListReducer,
+  featuredBookListReducer,
   formatListReducer,
   genreListReducer,
+  latestReleaseListReducer,
+  popularBookListReducer,
+  publisherListReducer,
 } from "./reducers/bookReducers.js";
 import { cartReducers } from "./reducers/cartReducers.js";
 import { favoriteReducers } from "./reducers/favoriteReducers.js";
-import { authorListReducer } from "./reducers/authorReducers.js";
+import {
+  authorListReducer,
+  favoriteAuthorListReducer,
+} from "./reducers/authorReducers.js";
 
 const reducers = combineReducers({
   bookList: bookListReducer,
@@ -21,7 +28,12 @@ const reducers = combineReducers({
   genreList: genreListReducer,
   bookAuthorList: bookAuthorListReducer,
   formatList: formatListReducer,
+  publisherList: publisherListReducer,
+  latestReleaseList: latestReleaseListReducer,
+  popularBookList: popularBookListReducer,
+  featuredBookList: featuredBookListReducer,
   authorList: authorListReducer,
+  favoriteAuthorList: favoriteAuthorListReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

@@ -23,6 +23,7 @@ import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../layouts/Message";
 import { addToCart } from "../actions/cartActions";
+import { makeOfferPrice } from "../helper/shopHelper";
 
 const Favorite = () => {
   const { id } = useParams();
@@ -129,7 +130,29 @@ const Favorite = () => {
                       </MuiLink>
                     </TableCell>
 
-                    <TableCell align="center">{item.price[0]}</TableCell>
+                    <TableCell align="center">
+                      {item.offer ? (
+                        <>
+                          <Typography
+                            sx={{
+                              textDecoration: "line-through",
+                              color: "#9B908A",
+                              fontSize: "0.875rem",
+                            }}
+                          >
+                            {item.price[0]}
+                          </Typography>
+
+                          <Typography sx={{ fontSize: "0.875rem" }}>
+                            {/* {item.price[0] -
+                              item.price[0] * (Number(item.offer) / 100)} */}
+                            {makeOfferPrice(item.offer, item.price[0])}
+                          </Typography>
+                        </>
+                      ) : (
+                        item.price[0]
+                      )}
+                    </TableCell>
 
                     <TableCell align="center">
                       <Typography fontWeight="bold">

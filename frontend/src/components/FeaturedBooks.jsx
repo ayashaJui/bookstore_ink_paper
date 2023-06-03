@@ -2,8 +2,21 @@ import { Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Slider from "react-slick";
 import FeatureCard from "./FeatureCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getFeaturedBooks } from "../actions/bookActions";
 
 const FeaturedBooks = () => {
+  const dispatch = useDispatch();
+
+  const { featuredBooks } = useSelector((state) => state.featuredBookList);
+  const { featured } = featuredBooks;
+  // console.log(featured);
+
+  useEffect(() => {
+    dispatch(getFeaturedBooks());
+  }, [dispatch]);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -11,7 +24,7 @@ const FeaturedBooks = () => {
     lazyLoad: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    initialSlide: 2,
+    // initialSlide: 2,
   };
 
   return (
@@ -29,10 +42,11 @@ const FeaturedBooks = () => {
       </Typography>
       <Paper elevation={3}>
         <Slider {...settings}>
+          {featured &&
+            featured.map((book) => <FeatureCard book={book} key={book._id} />)}
+          {/* <FeatureCard />
           <FeatureCard />
-          <FeatureCard />
-          <FeatureCard />
-          <FeatureCard />
+          <FeatureCard /> */}
         </Slider>
       </Paper>
     </Box>

@@ -21,12 +21,13 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useEffect, useState } from "react";
-import { formatFunction, genreFunction, makeUrl } from "../helper/shopHelper";
+import { formatFunction, genreFunction } from "../helper/shopHelper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllBookAuthors,
   getAllFormats,
   getAllGenres,
+  getAllPublishers,
 } from "../actions/bookActions";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -53,6 +54,11 @@ const ShopSidebar = () => {
   const { authors } = bookAuthors;
   const { formats: bookFormat } = useSelector((state) => state.formatList);
   const formatItem = formatFunction(bookFormat.formats);
+  const { publishers: bookPublishers } = useSelector(
+    (state) => state.publisherList
+  );
+  const { publishers } = bookPublishers;
+  // console.log(publishers);
 
   // Accordion expand
   const handleChange = (panel) => (event, isExpanded) => {
@@ -73,32 +79,17 @@ const ShopSidebar = () => {
     setChecked(newChecked);
 
     const params = new URLSearchParams(location.search);
-    const genres = newChecked.join(",");
-    console.log(genres);
-    params.set("genre", genres);
 
-    if (newChecked.length !== 0) {
-      navigate({
-        pathname: location.pathname,
-        search: `?${params.toString()}`,
-      });
+    if (newChecked.length === 0) {
+      params.delete("genre");
+    } else {
+      params.set("genre", newChecked);
     }
 
-    // if (newChecked.length > 0) {
-    //   if (location.search) {
-    //     if (!location.search.includes("genre")) {
-    //       navigate(`/shop/${location.search}&genre=${newChecked}`);
-    //     } else {
-    //       navigate(
-    //         `/shop/${location.search.split("genre")[0]}genre=${newChecked}`
-    //       );
-    //     }
-    //   } else {
-    //     navigate(`/shop/?genre=${newChecked}`);
-    //   }
-    // } else {
-    //   navigate(`/shop/${location.search.replace(/(\?|&)genre=[^&]+/, "")}`);
-    // }
+    navigate({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
   };
 
   // set current author
@@ -110,16 +101,6 @@ const ShopSidebar = () => {
       pathname: location.pathname,
       search: `?${params.toString()}`,
     });
-    // searchParams.append('author', id)
-    // if (location.search) {
-    //   if (location.search.includes("author")) {
-    //     navigate(`/shop/${location.search.split("author")[0]}author=${id}`);
-    //   } else {
-    //     navigate(`/shop/${location.search}&author=${id}`);
-    //   }
-    // } else {
-    //   navigate(`/shop/?author=${id}`);
-    // }
   };
 
   // set current format
@@ -131,17 +112,6 @@ const ShopSidebar = () => {
       pathname: location.pathname,
       search: `?${params.toString()}`,
     });
-    // if (location.search) {
-    //   if (location.search.includes("format")) {
-    //     navigate(
-    //       `/shop/${location.search.split("format")[0]}format=${formatType}`
-    //     );
-    //   } else {
-    //     navigate(`/shop/${location.search}&format=${formatType}`);
-    //   }
-    // } else {
-    //   navigate(`/shop/?format=${formatType}`);
-    // }
   };
 
   const handlePriceChange = (event, newValue) => {
@@ -149,22 +119,36 @@ const ShopSidebar = () => {
   };
 
   const handlePriceFilter = () => {
-    console.log(valuePrice);
+    const params = new URLSearchParams(location.search);
+    params.set("price", valuePrice);
+    navigate({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
   };
 
   const handleReview = (event) => {
     setReview(event.target.value);
+    console.log(event.target.value);
+    const params = new URLSearchParams(location.search);
+    params.set("rating", event.target.value);
+    navigate({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
   };
 
   // set current publisher
-  const handlePublisherClick = (event, index) => {
+  const handlePublisherClick = (event, index, name) => {
     setSelectedPublisherIndex(index);
+    console.log(index, name );
   };
 
   useEffect(() => {
     dispatch(getAllGenres());
     dispatch(getAllBookAuthors());
     dispatch(getAllFormats());
+    dispatch(getAllPublishers());
   }, [dispatch]);
 
   window.addEventListener("load", (event) => {
@@ -362,7 +346,7 @@ const ShopSidebar = () => {
             variant="h6"
             sx={{ width: "50%", flexShrink: 0, textAlign: "left" }}
           >
-            By Review
+            By Rating
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -388,7 +372,7 @@ const ShopSidebar = () => {
                     sx={{ fontSize: "20px" }}
                   />
                   <Typography component="span" sx={{ fontSize: "15px", ml: 1 }}>
-                    4.5 & up (100){" "}
+                    4.5 & up{" "}
                   </Typography>
                 </Box>
               }
@@ -409,7 +393,7 @@ const ShopSidebar = () => {
                     sx={{ fontSize: "20px" }}
                   />
                   <Typography component="span" sx={{ fontSize: "15px", ml: 1 }}>
-                    4.0 & up (100){" "}
+                    4.0 & up{" "}
                   </Typography>
                 </Box>
               }
@@ -430,7 +414,7 @@ const ShopSidebar = () => {
                     sx={{ fontSize: "20px" }}
                   />
                   <Typography component="span" sx={{ fontSize: "15px", ml: 1 }}>
-                    3.5 & up (100){" "}
+                    3.5 & up{" "}
                   </Typography>
                 </Box>
               }
@@ -451,7 +435,7 @@ const ShopSidebar = () => {
                     sx={{ fontSize: "20px" }}
                   />
                   <Typography component="span" sx={{ fontSize: "15px", ml: 1 }}>
-                    3.0 & up (100){" "}
+                    3.0 & up{" "}
                   </Typography>
                 </Box>
               }
@@ -472,7 +456,7 @@ const ShopSidebar = () => {
                     sx={{ fontSize: "20px" }}
                   />
                   <Typography component="span" sx={{ fontSize: "15px", ml: 1 }}>
-                    2.0 & up (100){" "}
+                    2.0 & up{" "}
                   </Typography>
                 </Box>
               }
@@ -504,20 +488,21 @@ const ShopSidebar = () => {
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {["Batighar", "Sheba", "Bloomsberry", "Chirkut"].map(
-              (value, idx) => {
+            {publishers &&
+              publishers.map(({ publisher, count }, idx) => {
                 return (
                   <ListItem key={idx} disablePadding>
                     <ListItemButton
                       selected={selectedPublisherIndex === idx}
-                      onClick={(event) => handlePublisherClick(event, idx)}
+                      onClick={(event) =>
+                        handlePublisherClick(event, idx, publisher)
+                      }
                     >
-                      <ListItemText primary={`${value}    (10)`} />
+                      <ListItemText primary={`${publisher}    (${count})`} />
                     </ListItemButton>
                   </ListItem>
                 );
-              }
-            )}
+              })}
           </List>
         </AccordionDetails>
       </Accordion>

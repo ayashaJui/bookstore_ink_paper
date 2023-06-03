@@ -12,17 +12,20 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Box } from "@mui/system";
+import { Link } from "react-router-dom";
 
-const FeatureCard = () => {
+const FeatureCard = ({ book }) => {
+  const { _id, title, image, author, rating, numReviews, price } = book;
   return (
-    <Card sx={{ bgcolor: "#272643" }}>
+    <Card sx={{ bgcolor: "#272643", height: "400px" }}>
       <Grid container>
         <Grid item xs={12} sm={4}>
           <CardMedia
             component="img"
-            image="/images/new_arrivals/pride_and_prejudice.jpg"
-            alt="featured image"
+            image={`/${image}`}
+            alt={title}
             height="100%"
+            sx={{ objectFit: "contain" }}
           />
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -33,25 +36,25 @@ const FeatureCard = () => {
               component="div"
               sx={{ color: "#fff", textAlign: "left" }}
             >
-              Pride and Prejudice
+              {title}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: "#fff", textAlign: "left", my: 1 }}
             >
-              by Jane Austen
+              by {author.map((val) => val.name).join(", ")}
             </Typography>
             <Typography
               variant="body2"
               sx={{ color: "#fff", textAlign: "left", mt: 5, fontSize: "25px" }}
             >
-              BDT 5.58
+              BDT {price[0]}
             </Typography>
             <Box component="div" sx={{ textAlign: "left", my: 3 }}>
               <Rating
                 readOnly
                 name="customized"
-                defaultValue={2.5}
+                value={rating}
                 precision={0.5}
                 icon={<StarIcon fontSize="inherit" sx={{ color: "#fff" }} />}
                 emptyIcon={
@@ -62,14 +65,15 @@ const FeatureCard = () => {
                 variant="subtitle2"
                 sx={{ fontSize: 10, color: "#fff" }}
               >
-                (1500 Reviews)
+                ({numReviews} Reviews)
               </Typography>
             </Box>
           </CardContent>
           <CardActions sx={{ ml: 3, mb: 2 }}>
             <Button
+              component={Link}
               size="small"
-              href="/books/1/details"
+              to={`/book/${_id}/details`}
               variant="outlined"
               sx={{ color: "#fff", borderColor: "#fff" }}
             >

@@ -14,6 +14,7 @@ export const addToCart =
         price: data.price,
         format: data.format,
         countInStock: data.countInStock,
+        offer: data.offer,
         formatType,
         quantity,
       },

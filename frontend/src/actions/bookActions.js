@@ -7,15 +7,27 @@ import {
   BOOK_DETAILS_FAIL,
   BOOK_DETAILS_REQUEST,
   BOOK_DETAILS_SUCCESS,
+  BOOK_FEATURED_FAIL,
+  BOOK_FEATURED_REQUEST,
+  BOOK_FEATURED_SUCCESS,
   BOOK_FORMAT_FAIL,
   BOOK_FORMAT_REQUEST,
   BOOK_FORMAT_SUCCESS,
   BOOK_GENRE_FAIL,
   BOOK_GENRE_REQUEST,
   BOOK_GENRE_SUCCESS,
+  BOOK_LATEST_RELEASE_FAIL,
+  BOOK_LATEST_RELEASE_REQUEST,
+  BOOK_LATEST_RELEASE_SUCCESS,
   BOOK_LIST_FAIL,
   BOOK_LIST_REQUEST,
   BOOK_LIST_SUCCESS,
+  BOOK_POPULAR_FAIL,
+  BOOK_POPULAR_REQUEST,
+  BOOK_POPULAR_SUCCESS,
+  BOOK_PUBLISHER_FAIL,
+  BOOK_PUBLISHER_REQUEST,
+  BOOK_PUBLISHER_SUCCESS,
 } from "../constants/book";
 
 export const getAllBooks =
@@ -135,6 +147,104 @@ export const getAllFormats = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: BOOK_FORMAT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getAllPublishers = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: BOOK_PUBLISHER_REQUEST,
+    });
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/books/publishers`
+    );
+
+    dispatch({
+      type: BOOK_PUBLISHER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOK_PUBLISHER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getLatestRelease = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: BOOK_LATEST_RELEASE_REQUEST,
+    });
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/books/latestRelease`
+    );
+
+    dispatch({
+      type: BOOK_LATEST_RELEASE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOK_LATEST_RELEASE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getPopularBooks = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: BOOK_POPULAR_REQUEST,
+    });
+
+    const { data } = await axios.get(`http://localhost:5000/api/books/popular`);
+
+    dispatch({
+      type: BOOK_POPULAR_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOK_POPULAR_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getFeaturedBooks = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: BOOK_FEATURED_REQUEST,
+    });
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/books/featured`
+    );
+
+    dispatch({
+      type: BOOK_FEATURED_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOK_FEATURED_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
