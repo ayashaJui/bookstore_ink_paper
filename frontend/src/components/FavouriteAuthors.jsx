@@ -51,7 +51,7 @@ const FavouriteAuthors = () => {
   const { favoriteAuthors } = useSelector((state) => state.favoriteAuthorList);
   const { popularAuthors } = favoriteAuthors;
 
-  console.log(popularAuthors);
+  // console.log(popularAuthors);
 
   useEffect(() => {
     dispatch(getFavoriteAuthors());

@@ -3,6 +3,26 @@ import asyncHandler from "express-async-handler";
 import Book from "../models/Book.js";
 import Author from "../models/Author.js";
 
+const pipeline = [
+  {
+    $lookup: {
+      from: "books",
+      localField: "_id",
+      foreignField: "author",
+      as: "books",
+    },
+  },
+  {
+    $project: {
+      _id: 1,
+      authorInfo: "$$ROOT",
+      totalBooks: { $size: "$books" },
+      avgRating: { $avg: "$books.rating" },
+    },
+  },
+  
+];
+
 // @desc        get all authors
 // @route       GET     /api/authors/
 // @access      Public
@@ -16,32 +36,14 @@ export const getAllAuthors = asyncHandler(async (req, res) => {
 // @route       GET     /api/authors/popular
 // @access      Public
 export const getAuthorsByPopularity = asyncHandler(async (req, res) => {
-  const pipeline = [
-    {
-      $lookup: {
-        from: "books",
-        localField: "_id",
-        foreignField: "author",
-        as: "books",
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        authorInfo: "$$ROOT",
-        totalBooks: { $size: "$books" },
-        avgRating: { $avg: "$books.rating" },
-      },
-    },
-    {
-      $sort: {
-        avgRating: -1,
-      },
-    },
-    {
-      $limit: 8,
-    },
-  ];
+ const added = [{
+  $sort: {
+    avgRating: -1,
+  },
+},
+{
+  $limit: 8,
+},]
 
   const popularAuthors = await Author.aggregate(pipeline);
 
