@@ -1,4 +1,7 @@
 import {
+  AUTHOR_DETAILS_FAIL,
+  AUTHOR_DETAILS_REQUEST,
+  AUTHOR_DETAILS_SUCCESS,
   AUTHOR_LIST_FAIL,
   AUTHOR_LIST_REQUEST,
   AUTHOR_LIST_SUCCESS,
@@ -10,6 +13,7 @@ import {
 const initialState = {
   authors: [],
   favoriteAuthors: [],
+  author: {},
   loading: true,
   error: [],
 };
@@ -53,6 +57,30 @@ export const favoriteAuthorListReducer = (state = initialState, action) => {
         favoriteAuthors: payload,
       };
     case AUTHOR_POPULAR_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const authorDetailsReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case AUTHOR_DETAILS_REQUEST:
+      return {
+        loading: true,
+        author: [],
+      };
+    case AUTHOR_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        author: payload,
+      };
+    case AUTHOR_DETAILS_FAIL:
       return {
         loading: false,
         error: payload,

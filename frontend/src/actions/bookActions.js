@@ -28,6 +28,9 @@ import {
   BOOK_PUBLISHER_FAIL,
   BOOK_PUBLISHER_REQUEST,
   BOOK_PUBLISHER_SUCCESS,
+  BOOK_SALE_FAIL,
+  BOOK_SALE_REQUEST,
+  BOOK_SALE_SUCCESS,
 } from "../constants/book";
 
 export const getAllBooks =
@@ -245,6 +248,29 @@ export const getFeaturedBooks = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: BOOK_FEATURED_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getSaleBooks = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: BOOK_SALE_REQUEST,
+    });
+
+    const { data } = await axios.get(`http://localhost:5000/api/books/sale`);
+
+    dispatch({
+      type: BOOK_SALE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: BOOK_SALE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

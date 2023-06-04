@@ -6,7 +6,7 @@ import {
   CardMedia,
   Divider,
   Grid,
-  Link,
+  Link as MuiLink,
   Rating,
   Typography,
   Tabs,
@@ -16,10 +16,13 @@ import {
   Pagination,
   PaginationItem,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { getAllAuthors } from "../actions/authorActions";
 
 const items = [
   "all",
@@ -53,6 +56,15 @@ const items = [
 const Authors = () => {
   const [value, setValue] = useState(0);
 
+  const dispatch = useDispatch();
+
+  const { authors: allAuthors } = useSelector((state) => state.authorList);
+  const { authors } = allAuthors;
+
+  useEffect(() => {
+    dispatch(getAllAuthors());
+  }, [dispatch]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -66,9 +78,9 @@ const Authors = () => {
     <div>
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
+          <MuiLink component={Link} underline="hover" color="inherit" to="/">
             Home
-          </Link>
+          </MuiLink>
           <Typography color="text.primary">Authors List</Typography>
         </Breadcrumbs>
       </Box>
@@ -97,9 +109,12 @@ const Authors = () => {
               fontWeight={"bold"}
               sx={{ fontSize: "16px", p: 1 }}
             >
-              <Link href="/authors/1/details" sx={{ textDecoration: "none" }}>
+              <MuiLink
+                href="/authors/1/details"
+                sx={{ textDecoration: "none" }}
+              >
                 John Doe
-              </Link>
+              </MuiLink>
             </Typography>
             <Typography variant="subtitle2" sx={{ p: 1 }}>
               12 published work
@@ -233,51 +248,55 @@ const Authors = () => {
         }}
       >
         <Grid container spacing={3} justifyContent="center">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((val, idx) => {
-            return (
-              <Grid item key={idx}>
-                <Link
-                  href="/authors/1/profile"
-                  sx={{ textDecoration: "none", color: "#000" }}
-                >
-                  <Avatar
-                    alt="author"
-                    src="/images/authors/14.jpg"
-                    sx={{ width: 180, height: 180, mb: 3, mx: "auto" }}
-                  />
-                  <Typography
-                    variant="h6"
-                    sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
+          {authors &&
+            authors.map(({ _id, authorInfo, totalBooks }, idx) => {
+              return (
+                <Grid item key={idx}>
+                  <MuiLink
+                    component={Link}
+                    to={`/author/${_id}/profile`}
+                    sx={{ textDecoration: "none", color: "#000" }}
                   >
-                    John Doe
-                  </Typography>
-                  <Typography
-                    variant="subtitle"
-                    sx={{ color: "#9B908A", fontSize: "17px" }}
-                  >
-                    12 Published Books
-                  </Typography>
-                </Link>
-              </Grid>
-            );
-          })}
+                    <Avatar
+                      alt={`${authorInfo.name}`}
+                      src={`/${authorInfo.image}`}
+                      sx={{ width: 180, height: 180, mb: 3, mx: "auto" }}
+                    />
+                    <Typography
+                      variant="h6"
+                      sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
+                    >
+                      {authorInfo.name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle"
+                      sx={{ color: "#9B908A", fontSize: "17px" }}
+                    >
+                      {totalBooks} Published Books
+                    </Typography>
+                  </MuiLink>
+                </Grid>
+              );
+            })}
         </Grid>
       </Box>
 
-      <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
-        <Pagination
-          count={10}
-          renderItem={(item) => (
-            <PaginationItem
-              slots={{
-                previous: ArrowBackIcon,
-                next: ArrowForwardIcon,
-              }}
-              {...item}
-            />
-          )}
-        />
-      </Stack>
+      {authors && (
+        <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
+          <Pagination
+            count={10}
+            renderItem={(item) => (
+              <PaginationItem
+                slots={{
+                  previous: ArrowBackIcon,
+                  next: ArrowForwardIcon,
+                }}
+                {...item}
+              />
+            )}
+          />
+        </Stack>
+      )}
     </div>
   );
 };

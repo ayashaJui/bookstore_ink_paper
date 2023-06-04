@@ -7,7 +7,7 @@ import Author from "../models/Author.js";
 // @route       GET     /api/books/
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
-  const { genre, author, format, price, rating, sort } = req.query;
+  const { genre, author, format, price, rating, sort, offer } = req.query;
   const queryParams = {};
 
   if (genre) {
@@ -37,6 +37,12 @@ export const getAllBooks = asyncHandler(async (req, res) => {
   if (rating) {
     queryParams.rating = {
       $gte: Number(rating),
+    };
+  }
+
+  if (offer) {
+    queryParams.offer = {
+      $gt: 0,
     };
   }
 
@@ -176,4 +182,15 @@ export const getFeaturedBooks = asyncHandler(async (req, res) => {
   const featured = await Book.find({ isFeatured: true }).populate("author");
 
   res.json({ count: featured.length, featured });
+});
+
+// @desc        get featured books
+// @route       GET     /api/books/sale/
+// @access      Public
+export const getSaleBooks = asyncHandler(async (req, res) => {
+  const sales = await Book.find({ offer: { $gt: 0 } })
+    .populate("author")
+    .limit(4);
+
+  res.json({ count: sales.length, sales });
 });

@@ -63,7 +63,7 @@ const BlogSchema = mongoose.Schema(
     ],
   },
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 

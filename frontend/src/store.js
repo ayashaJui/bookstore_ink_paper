@@ -12,10 +12,12 @@ import {
   latestReleaseListReducer,
   popularBookListReducer,
   publisherListReducer,
+  saleBookListReducer,
 } from "./reducers/bookReducers.js";
 import { cartReducers } from "./reducers/cartReducers.js";
 import { favoriteReducers } from "./reducers/favoriteReducers.js";
 import {
+  authorDetailsReducer,
   authorListReducer,
   favoriteAuthorListReducer,
 } from "./reducers/authorReducers.js";
@@ -32,8 +34,10 @@ const reducers = combineReducers({
   latestReleaseList: latestReleaseListReducer,
   popularBookList: popularBookListReducer,
   featuredBookList: featuredBookListReducer,
+  saleBookList: saleBookListReducer,
   authorList: authorListReducer,
   favoriteAuthorList: favoriteAuthorListReducer,
+  authorDetails: authorDetailsReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

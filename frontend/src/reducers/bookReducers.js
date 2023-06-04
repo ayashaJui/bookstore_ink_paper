@@ -26,6 +26,9 @@ import {
   BOOK_PUBLISHER_FAIL,
   BOOK_PUBLISHER_REQUEST,
   BOOK_PUBLISHER_SUCCESS,
+  BOOK_SALE_FAIL,
+  BOOK_SALE_REQUEST,
+  BOOK_SALE_SUCCESS,
 } from "../constants/book";
 
 const initialState = {
@@ -46,6 +49,7 @@ const initialState = {
   latestReleases: [],
   popularBooks: [],
   featuredBooks: [],
+  saleBooks: [],
   loading: true,
   error: [],
 };
@@ -257,6 +261,30 @@ export const featuredBookListReducer = (state = initialState, action) => {
         featuredBooks: payload,
       };
     case BOOK_FEATURED_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const saleBookListReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_SALE_REQUEST:
+      return {
+        loading: true,
+        saleBooks: [],
+      };
+    case BOOK_SALE_SUCCESS:
+      return {
+        loading: false,
+        saleBooks: payload,
+      };
+    case BOOK_SALE_FAIL:
       return {
         loading: false,
         error: payload,

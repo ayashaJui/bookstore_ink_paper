@@ -142,7 +142,7 @@ const BookDetails = () => {
                     {author.map(({ _id, name }, index) => (
                       <span key={_id}>
                         <Link
-                          href={`/author/${_id}/details`}
+                          href={`/author/${_id}/profile`}
                           sx={{
                             ml: 1,
                             textDecoration: "none",
