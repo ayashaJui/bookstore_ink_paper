@@ -23,9 +23,13 @@ const BlogDetails = () => {
     <Box component="div">
       <HeroImage title="Lizard" imgPath="/images/static/blog.jpg" />
 
-      <Box component="div" sx={{ mx: 5 }}>
-        <Grid container spacing={2}>
-          <Grid item md={9} sm={12} xs={12}>
+      <Box
+        component="div"
+        maxWidth={"1150px"}
+        sx={{ mx: { md: "auto", sm: 3, xs: 2 } }}
+      >
+        <Grid container spacing={2} sx={{ mx: "auto" }}>
+          <Grid item md={8} sm={12} xs={12}>
             <Box component="div" sx={{ mr: 5, mt: 8 }}>
               <Box
                 component="div"

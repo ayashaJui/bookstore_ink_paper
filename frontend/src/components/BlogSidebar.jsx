@@ -80,7 +80,7 @@ const BlogSidebar = () => {
 
       <Box component="form" onSubmit={handleSubmit}>
         <Grid container>
-          <Grid item md={10} xs={9}>
+          <Grid item md={9} xs={7}>
             <TextField
               margin="normal"
               required
@@ -91,7 +91,7 @@ const BlogSidebar = () => {
               size="small"
             />
           </Grid>
-          <Grid item md={2} xs={3}>
+          <Grid item md={2} xs={2}>
             <Button type="submit" sx={{ mt: 2 }}>
               <SearchIcon />
             </Button>

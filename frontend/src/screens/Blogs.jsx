@@ -20,12 +20,12 @@ import HeroImage from "../components/HeroImage";
 
 const Blogs = () => {
   return (
-    <Box component="div">
+    <Box component="div" >
       <HeroImage title="Blog" imgPath="/images/static/blog.jpg" />
 
-      <Box component="div" sx={{ mx: {md: 5, sm: 3, xs: 2}}}>
+      <Box component="div" maxWidth={"1150px"} sx={{ mx: {md: 'auto', sm: 3, xs: 2}}}>
         <Grid container spacing={3}>
-          <Grid item md={9} sm={12} xs={12}>
+          <Grid item md={8} sm={12} xs={12} sx={{mx: 'auto'}}>
             <Card sx={{ my: 4, boxShadow: "none" }}>
               <Grid container>
                 <Grid item xs={12} sm={4} md={5}>
@@ -240,7 +240,7 @@ const Blogs = () => {
             </Stack>
           </Grid>
 
-          <Grid item md={3} sm={9} xs={12}>
+          <Grid item md={3} sm={9} xs={12} sx={{mx: 'auto'}}>
             <BlogSidebar />
           </Grid>
         </Grid>

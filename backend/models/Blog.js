@@ -49,12 +49,9 @@ const BlogSchema = mongoose.Schema(
     ],
 
     tags: [{ type: String }],
+    
     comments: [CommentSchema],
-    numComments: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,

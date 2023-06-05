@@ -8,7 +8,9 @@ import User from "./models/User.js";
 import Book from "./models/Book.js";
 import Author from "./models/Author.js";
 import Order from "./models/Order.js";
+import Blog from "./models/Blog.js";
 import connectDB from "./config/db.js";
+import blogs from "./data/blogs.js";
 
 dotenv.config();
 
@@ -54,12 +56,27 @@ const importBookData = async () => {
   }
 };
 
+const importBlogData = async () => {
+  try {
+    await Blog.deleteMany();
+
+    await Blog.insertMany(blogs);
+
+    console.log("Blogs Data Imported!".green.inverse);
+    process.exit();
+  } catch (error) {
+    console.error(`${error}`.red.inverse);
+    process.exit(1);
+  }
+};
+
 const destroyData = async () => {
   try {
     await Order.deleteMany();
     await Book.deleteMany();
     await Author.deleteMany();
     await User.deleteMany();
+    await Blog.deleteMany();
 
     console.log("All Data Destroyed!".red.inverse);
     process.exit();
@@ -71,8 +88,10 @@ const destroyData = async () => {
 
 if (process.argv[2] === "-d") {
   destroyData();
-} else if (process.argv[2] === "-b") {
+} else if (process.argv[2] === "-book") {
   importBookData();
+} else if (process.argv[2] === "-blog") {
+  importBlogData();
 } else {
   importData();
 }
