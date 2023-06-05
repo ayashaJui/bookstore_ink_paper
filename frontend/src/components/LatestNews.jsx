@@ -33,6 +33,7 @@ const LatestNews = () => {
             sx={{
               // boxShadow: "0px 0px 18px 0px rgba(0,0,0,0.3)",
               boxShadow: "1px 1px 5px 0px rgba(0,0,0,0.59)",
+              // maxWidth: 420,
             }}
           >
             <CardMedia

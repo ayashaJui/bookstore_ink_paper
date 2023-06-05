@@ -8,6 +8,38 @@ import { getPopularBooks } from "../actions/bookActions";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "#2c698d",
+        borderRadius: "50%",
+      }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "#2c698d",
+        borderRadius: "50%",
+      }}
+      onClick={onClick}
+    />
+  );
+}
+
 const PopularBooks = () => {
   const dispatch = useDispatch();
 
@@ -24,6 +56,8 @@ const PopularBooks = () => {
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     speed: 500,
     responsive: [
       {

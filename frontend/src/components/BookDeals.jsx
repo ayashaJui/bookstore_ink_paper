@@ -71,7 +71,7 @@ const BookDeals = () => {
                   sx={{
                     bgcolor: "#e3f6f5",
                     boxShadow: "0px 3px 4px 0px rgba(0,0,0,0.48)",
-                    height: "480px",
+                    height: "480px",  maxWidth: 320,
                   }}
                 >
                   <CardActionArea sx={{ height: "480px" }}>
@@ -105,7 +105,7 @@ const BookDeals = () => {
                             sx={{
                               textDecoration: "line-through",
                               color: "#9B908A",
-                              fontSize: "18px",
+                              fontSize: "15px",
                             }}
                           >
                             BDT {price[0]}
@@ -114,7 +114,7 @@ const BookDeals = () => {
                         <Grid item md={6} sx={{ mt: 2 }}>
                           <Typography
                             variant="subtitle1"
-                            sx={{ fontSize: "18px" }}
+                            sx={{ fontSize: "16px" }}
                           >
                             BDT {makeOfferPrice(offer, price[0])}
                           </Typography>

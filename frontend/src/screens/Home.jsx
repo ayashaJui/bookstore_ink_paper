@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import BookDeals from "../components/BookDeals";
 import FavouriteAuthors from "../components/FavouriteAuthors";
 import FeaturedBooks from "../components/FeaturedBooks";
@@ -11,13 +12,15 @@ const Home = () => {
   return (
     <div>
       <HeroCarousal />
-      <SearchBar />
-      <NewArrivals />
-      <PopularBooks />
-      <FeaturedBooks />
-      <FavouriteAuthors />
-      <BookDeals />
-      <LatestNews />
+      <Box component={"div"} maxWidth={"1550px"} sx={{ mx: "auto" }}>
+        <SearchBar />
+        <NewArrivals />
+        <PopularBooks />
+        <FeaturedBooks />
+        <FavouriteAuthors />
+        <BookDeals />
+        <LatestNews />
+      </Box>
     </div>
   );
 };

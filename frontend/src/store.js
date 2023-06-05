@@ -22,6 +22,8 @@ import {
   favoriteAuthorListReducer,
 } from "./reducers/authorReducers.js";
 
+import { blogListReducer } from "./reducers/blogReducers.js";
+
 const reducers = combineReducers({
   bookList: bookListReducer,
   bookDetails: bookDetailsReducer,
@@ -38,6 +40,7 @@ const reducers = combineReducers({
   authorList: authorListReducer,
   favoriteAuthorList: favoriteAuthorListReducer,
   authorDetails: authorDetailsReducer,
+  blogList: blogListReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

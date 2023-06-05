@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 
 import bookRoutes from "./routes/bookRoutes.js";
 import authorRoutes from "./routes/authorRoutes.js";
+import blogRoutes from "./routes/blogRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/books", bookRoutes);
 app.use("/api/authors", authorRoutes);
+app.use("/api/blogs", blogRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
