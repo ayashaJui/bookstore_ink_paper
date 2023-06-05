@@ -48,7 +48,11 @@ const Blogs = () => {
             {blogs &&
               blogs.map(
                 ({ _id, title, user, description, image, createdAt }, idx) => (
-                  <Card sx={{ my: 4, boxShadow: "none" }} key={idx}>
+                  <Card
+                    sx={{ my: 4, boxShadow: "none", mx: "auto" }}
+                    key={idx}
+                    height="300px"
+                  >
                     <Grid container>
                       <Grid item xs={12} sm={4} md={5}>
                         <CardMedia
@@ -56,6 +60,7 @@ const Blogs = () => {
                           image={`/${image}`}
                           alt={title}
                           height="300px"
+                          sx={{ objectFit: "cover" }}
                         />
                       </Grid>
                       <Grid item xs={12} sm={8} md={7}>
@@ -92,7 +97,8 @@ const Blogs = () => {
                               fontSize: "15px",
                             }}
                           >
-                            {description.split(".").slice(0, 4).join(".")}
+                            {description.split(" ").slice(0, 30).join(" ")}
+                            ......
                           </Typography>
                         </CardContent>
                         <CardActions sx={{ ml: 1, mb: 2 }}>

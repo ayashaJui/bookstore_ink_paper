@@ -33,7 +33,7 @@ function App() {
             <Route exact path="/book/:id/details" Component={BookDetails} />
 
             <Route exact path="/blogs" Component={Blogs} />
-            <Route exact path="/blogs/:id/details" Component={BlogDetails} />
+            <Route exact path="/blog/:id/details" Component={BlogDetails} />
 
             <Route exact path="/authors" Component={Authors} />
             <Route exact path="/author/:id/profile" Component={AuthorProfile} />
