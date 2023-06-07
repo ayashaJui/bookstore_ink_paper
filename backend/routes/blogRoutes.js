@@ -1,7 +1,15 @@
 import express from "express";
 const router = express();
 
-import { getAllBlogs, getBlogById } from "../controllers/blogControllers.js";
+import {
+  getAllBlogCategories,
+  getAllBlogTags,
+  getAllBlogs,
+  getBlogById,
+} from "../controllers/blogControllers.js";
+
+router.get("/categories", getAllBlogCategories);
+router.get("/tags", getAllBlogTags);
 
 router.get("/", getAllBlogs);
 router.get("/:id", getBlogById);

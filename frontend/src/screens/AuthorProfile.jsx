@@ -32,7 +32,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuthorDetails } from "../actions/authorActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
-import { formattedDate } from "../helper/authorHelper";
+import { formattedDate } from "../helper/helperFunction";
 
 const AuthorProfile = () => {
   const { id } = useParams();

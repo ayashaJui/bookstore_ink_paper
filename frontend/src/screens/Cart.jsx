@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 import Message from "../layouts/Message";
-import { makeOfferPrice } from "../helper/shopHelper";
+import { makeOfferPrice } from "../helper/helperFunction";
 
 const Cart = () => {
   const { id } = useParams();
