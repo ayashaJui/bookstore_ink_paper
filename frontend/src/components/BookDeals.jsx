@@ -24,7 +24,7 @@ import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
-import { makeOfferPrice } from "../helper/shopHelper";
+import { makeOfferPrice } from "../helper/helperFunction";
 
 const BookDeals = () => {
   const dispatch = useDispatch();
@@ -71,7 +71,8 @@ const BookDeals = () => {
                   sx={{
                     bgcolor: "#e3f6f5",
                     boxShadow: "0px 3px 4px 0px rgba(0,0,0,0.48)",
-                    height: "480px",  maxWidth: 320,
+                    height: "480px",
+                    maxWidth: 320,
                   }}
                 >
                   <CardActionArea sx={{ height: "480px" }}>

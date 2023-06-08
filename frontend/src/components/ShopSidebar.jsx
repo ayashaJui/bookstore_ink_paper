@@ -21,7 +21,12 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useEffect, useState } from "react";
-import { formatFunction, genreFunction } from "../helper/shopHelper";
+import {
+  countOccurances,
+  makeFormatArray,
+  makeGenreArray,
+  sortObject,
+} from "../helper/helperFunction";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllBookAuthors,
@@ -49,11 +54,15 @@ const ShopSidebar = () => {
   const location = useLocation();
 
   const { genres: bookGenre } = useSelector((state) => state.genreList);
-  const genreItem = genreFunction(bookGenre.genres);
+  const genreItem = sortObject(
+    countOccurances(makeGenreArray(bookGenre.genres))
+  );
+
   const { bookAuthors } = useSelector((state) => state.bookAuthorList);
   const { authors } = bookAuthors;
   const { formats: bookFormat } = useSelector((state) => state.formatList);
-  const formatItem = formatFunction(bookFormat.formats);
+  const formatItem = countOccurances(makeFormatArray(bookFormat.formats));
+
   const { publishers: bookPublishers } = useSelector(
     (state) => state.publisherList
   );
@@ -141,7 +150,7 @@ const ShopSidebar = () => {
   // set current publisher
   const handlePublisherClick = (event, index, name) => {
     setSelectedPublisherIndex(index);
-    console.log(index, name );
+    console.log(index, name);
   };
 
   useEffect(() => {

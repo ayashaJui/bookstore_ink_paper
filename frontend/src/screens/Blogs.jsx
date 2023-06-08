@@ -21,18 +21,24 @@ import HeroImage from "../components/HeroImage";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllBlogs } from "../actions/blogActions";
-import { formattedDate } from "../helper/authorHelper";
-import { Link } from "react-router-dom";
+import { formattedDate } from "../helper/helperFunction";
+import { Link, useLocation } from "react-router-dom";
 
 const Blogs = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParam = location.search.split("?")[1];
 
   const { blogs: allBlogs } = useSelector((state) => state.blogList);
   const { blogs } = allBlogs;
 
   useEffect(() => {
-    dispatch(getAllBlogs());
-  }, [dispatch]);
+    if (queryParam) {
+      dispatch(getAllBlogs(queryParam));
+    } else {
+      dispatch(getAllBlogs());
+    }
+  }, [dispatch, queryParam]);
 
   return (
     <Box component="div">

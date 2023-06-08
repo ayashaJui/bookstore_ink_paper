@@ -6,7 +6,7 @@ import {
   CardMedia,
   Chip,
   Grid,
-  Link,
+  Link as MuiLink,
   ListItem,
   ListItemButton,
   ListItemText,
@@ -16,56 +16,94 @@ import {
 import { Virtuoso } from "react-virtuoso";
 import SearchIcon from "@mui/icons-material/Search";
 
-const items = [
-  {
-    title: "trash",
-    count: 100,
-  },
-  {
-    title: "travel",
-    count: 150,
-  },
-  {
-    title: "Fashion",
-    count: 50,
-  },
-  {
-    title: "Lifestyle",
-    count: 10,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
 
-const times = [
-  {
-    title: "March 2015",
-    count: 10,
-  },
-  {
-    title: "March 2015",
-    count: 10,
-  },
-  {
-    title: "March 2015",
-    count: 10,
-  },
-];
+import { useEffect, useState } from "react";
+import {
+  getAllBlogCategories,
+  getAllBlogTags,
+  getLatestBlogs,
+} from "../actions/blogActions";
+import {
+  countOccurances,
+  formattedDate,
+  makeCategoryArray,
+  makeTagArray,
+  makeObjectArray,
+  sortObject,
+} from "../helper/helperFunction";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const CustomList = ({ index, data }) => {
-  //   const item = data[index];
-  // console.log(data);
-  return (
-    <ListItem disablePadding>
-      <ListItemButton href="#">
-        <ListItemText primary={data.title} sx={{}} />
-        <Typography variant="subttle2" sx={{ fontSize: "12px" }}>
-          ({data.count})
-        </Typography>
-      </ListItemButton>
-    </ListItem>
-  );
-};
+// const times = [
+//   {
+//     title: "March 2015",
+//     count: 10,
+//   },
+//   {
+//     title: "March 2015",
+//     count: 10,
+//   },
+//   {
+//     title: "March 2015",
+//     count: 10,
+//   },
+// ];
+
 const BlogSidebar = () => {
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
+  const [selectedTagIndex, setSelectedTagIndex] = useState(null);
+
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { categories } = useSelector((state) => state.blogCategoryList);
+  const uniqueCategories = makeObjectArray(
+    sortObject(countOccurances(makeCategoryArray(categories.categories)))
+  );
+
+  const { latest } = useSelector((state) => state.blogLatest);
+  const { blogs } = latest;
+
+  const { tags } = useSelector((state) => state.blogTagList);
+  const uniqueTags = makeObjectArray(
+    sortObject(countOccurances(makeTagArray(tags.tags)))
+  );
+  // console.log(uniqueTags);
+
+  useEffect(() => {
+    dispatch(getAllBlogCategories());
+    dispatch(getLatestBlogs());
+    dispatch(getAllBlogTags());
+  }, [dispatch]);
+
   const handleSubmit = () => {};
+
+  const handleCategorySelect = (event, idx, category) => {
+    setSelectedCategoryIndex(idx);
+    const params = new URLSearchParams(location.search);
+    params.set("category", category);
+    navigate({
+      // pathname: location.pathname,
+      pathname: "/blogs",
+      search: `?${params.toString()}`,
+    });
+  };
+
+  const handleTagSelect = (event, idx, tag) => {
+    setSelectedTagIndex(idx);
+    const params = new URLSearchParams(location.search);
+    params.set("tag", tag);
+    navigate({
+      // pathname: location.pathname,
+      pathname: "/blogs",
+      search: `?${params.toString()}`,
+    });
+  };
+
+  window.addEventListener("load", (event) => {
+    navigate("/blogs");
+  });
 
   return (
     <Box component="div">
@@ -108,66 +146,88 @@ const BlogSidebar = () => {
         CATEGORIES
       </Typography>
 
-      <Virtuoso
-        style={{ height: "250px" }}
-        totalCount={50}
-        data={items}
-        itemContent={(index, data) => <CustomList index={index} data={data} />}
-      />
+      {uniqueCategories && (
+        <Virtuoso
+          style={{ height: "250px" }}
+          totalCount={Object.keys(uniqueCategories).length}
+          data={uniqueCategories}
+          itemContent={(index, data) => (
+            // <CustomList index={index} data={data} />
+            <ListItem disablePadding key={index}>
+              <ListItemButton
+                selected={selectedCategoryIndex === index}
+                onClick={(event) =>
+                  handleCategorySelect(event, index, data.key)
+                }
+                role={undefined}
+              >
+                <ListItemText primary={data.key} sx={{}} />
+                <Typography variant="subttle2" sx={{ fontSize: "12px" }}>
+                  ({data.value})
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          )}
+        />
+      )}
 
       <Typography
         variant="h6"
         borderBottom={"2px solid black"}
         textAlign="left"
-        sx={{ mt: 2, pb: 1, fontSize: "15px", fontWeight: "bold" }}
+        sx={{ mt: 5, pb: 1, fontSize: "15px", fontWeight: "bold" }}
       >
         RECENT POSTS
       </Typography>
 
       <Box component="div" sx={{ mb: 7 }}>
-        <Card sx={{ my: 2, boxShadow: "none", ml: 1 }}>
-          <Grid container spacing={0}>
-            <Grid item>
-              <CardMedia
-                component="img"
-                image="/images/static/carousal/1.jpg"
-                alt="featured image"
-                height="60px"
-                width="60px"
-              />
-            </Grid>
-            <Grid item>
-              <CardContent sx={{ pt: 0 }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    textAlign: "left",
-                    fontWeight: "bold",
-                    fontFamily: "Roboto",
-                  }}
-                >
-                  <a
-                    href="/#"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    Lizard
-                  </a>
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    textAlign: "left",
-                    fontSize: "10px",
-                  }}
-                >
-                  March 18, 2023
-                </Typography>
-              </CardContent>
-            </Grid>
-          </Grid>
-        </Card>
+        {blogs &&
+          blogs.map(({ _id, title, image, createdAt }, idx) => (
+            <Card sx={{ my: 2, boxShadow: "none", ml: 1 }} key={idx}>
+              <Grid container spacing={0}>
+                <Grid item>
+                  <CardMedia
+                    component="img"
+                    image={`/${image}`}
+                    alt={title}
+                    height="60px"
+                    width="60px"
+                  />
+                </Grid>
+                <Grid item>
+                  <CardContent sx={{ pt: 0 }}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        textAlign: "left",
+                        fontWeight: "bold",
+                        fontFamily: "Roboto",
+                      }}
+                    >
+                      <MuiLink
+                        component={Link}
+                        to={`/blog/${_id}/details`}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {title}
+                      </MuiLink>
+                    </Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        textAlign: "left",
+                        fontSize: "10px",
+                      }}
+                    >
+                      {formattedDate(createdAt)}
+                    </Typography>
+                  </CardContent>
+                </Grid>
+              </Grid>
+            </Card>
+          ))}
 
-        <Card sx={{ my: 2, boxShadow: "none", ml: 1 }}>
+        {/* <Card sx={{ my: 2, boxShadow: "none", ml: 1 }}>
           <Grid container spacing={2}>
             <Grid item>
               <CardMedia
@@ -270,7 +330,7 @@ const BlogSidebar = () => {
               </Typography>
             </Grid>
           </Grid>
-        </Card>
+        </Card> */}
       </Box>
 
       <Typography
@@ -282,32 +342,28 @@ const BlogSidebar = () => {
         Tags
       </Typography>
 
-      <Box component="div" sx={{ mx: 1, my: 2 }}>
+      <Box component="div" sx={{ mx: 1, mt: 3, mb: 8 }}>
         <Grid container spacing={1}>
-          <Grid item>
-            <Link sx={{ textDecoration: "none" }} href="/#">
-              <Chip label="Chip Filled" />
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link sx={{ textDecoration: "none" }}>
-              <Chip label="Chip Filled" />
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link sx={{ textDecoration: "none" }}>
-              <Chip label="Chip Filled" />
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link sx={{ textDecoration: "none" }}>
-              <Chip label="Chip Filled" />
-            </Link>
-          </Grid>
+          {uniqueTags &&
+            uniqueTags.map((tag, idx) => (
+              <Grid item key={idx}>
+                <Button
+                  onClick={(event) => handleTagSelect(event, idx, tag.key)}
+                  sx={{ textDecoration: "none", textTransform: "capitalize" }}
+                >
+                  <Chip
+                    label={`${tag.key}`}
+                    variant={`${
+                      selectedTagIndex === idx ? "outlined" : "default"
+                    }`}
+                  />
+                </Button>
+              </Grid>
+            ))}
         </Grid>
       </Box>
 
-      <Typography
+      {/* <Typography
         variant="h6"
         borderBottom={"2px solid black"}
         textAlign="left"
@@ -320,8 +376,22 @@ const BlogSidebar = () => {
         style={{ height: "250px" }}
         totalCount={50}
         data={times}
-        itemContent={(index, data) => <CustomList index={index} data={data} />}
-      />
+        itemContent={(index, data) => (
+          // <CustomList index={index} data={data} />
+          <ListItem disablePadding key={index}>
+            <ListItemButton
+              selected={selectedCategoryIndex === index}
+              onClick={(event) => handleCategorySelect(event, index, data.key)}
+              role={undefined}
+            >
+              <ListItemText primary={data.title} sx={{}} />
+              <Typography variant="subttle2" sx={{ fontSize: "12px" }}>
+                ({data.count})
+              </Typography>
+            </ListItemButton>
+          </ListItem>
+        )}
+      /> */}
     </Box>
   );
 };

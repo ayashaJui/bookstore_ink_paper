@@ -20,7 +20,7 @@ import { getBlogById } from "../actions/blogActions";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
-import { formattedDate } from "../helper/authorHelper";
+import { formattedDate } from "../helper/helperFunction";
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -123,36 +123,6 @@ const BlogDetails = () => {
                         </MuiLink>
                       </Grid>
                     ))}
-
-                    {/* <Grid item>
-                      <Link sx={{ textDecoration: "none" }}>
-                        <Chip
-                          label="Chip Filled"
-                          variant="outlined"
-                          color="primary"
-                        />
-                      </Link>
-                    </Grid>
-
-                    <Grid item>
-                      <Link sx={{ textDecoration: "none" }}>
-                        <Chip
-                          label="Chip Filled"
-                          variant="outlined"
-                          color="primary"
-                        />
-                      </Link>
-                    </Grid>
-
-                    <Grid item>
-                      <Link sx={{ textDecoration: "none" }}>
-                        <Chip
-                          label="Chip Filled"
-                          variant="outlined"
-                          color="primary"
-                        />
-                      </Link>
-                    </Grid> */}
                   </Grid>
                 </Box>
 
@@ -193,109 +163,65 @@ const BlogDetails = () => {
                           key={idx}
                         >
                           <CardContent>
-                            {/* <Grid container spacing={2}>
-                              <Grid item>
-                                <Avatar
-                                  src={comment.user.avatar}
-                                  alt={comment.user.name}
-                                  // sx={{ mr: 2 }}
-                                />
+                            <Grid container direction={"row"} spacing={2}>
+                              <Grid item md={11}>
+                                <Grid container spacing={2}>
+                                  <Grid item>
+                                    <Avatar
+                                      src={comment.user.avatar}
+                                      alt={comment.user.name}
+                                      // sx={{ mr: 2 }}
+                                    />
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography
+                                      variant="subtitle1"
+                                      // textAlign="left"
+                                      sx={{ mt: 1 }}
+                                    >
+                                      {comment.user.name}
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
                               </Grid>
-                              <Grid item>
+                              <Grid item md={11}>
                                 <Typography
-                                  variant="subtitle1"
-                                  // textAlign="left"
+                                  variant="body1"
+                                  sx={{ mt: 1, textAlign: "left" }}
                                 >
-                                  {comment.user.name}
-                                </Typography>
-                                <Typography variant="body1" sx={{ mt: 1 }}>
                                   {comment.details}
                                 </Typography>
-                                <Typography variant="body2" sx={{}}>
-                                  {formattedDate(comment.createdAt)}
-                                  <Typography
-                                    variant="body2"
-                                    component="span"
-                                    sx={{ ml: 5 }}
-                                  >
-                                    <Button
-                                      sx={{
-                                        textTransform: "capitalize",
-                                        color: "#000",
-                                      }}
-                                    >
-                                      Like
-                                    </Button>
-                                    ({comment.likes.length})
-                                  </Typography>
-                                </Typography>
                               </Grid>
-                            </Grid> */}
+                              <Grid item md={11}>
+                                <Grid container spacing={2}>
+                                  <Grid item>
+                                    <Typography variant="body2" sx={{ mt: 1 }}>
+                                      {formattedDate(comment.createdAt)}{" "}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography
+                                      variant="body2"
+                                      component="span"
+                                      // sx={{ ml: 5 }}
+                                    >
+                                      <Button
+                                        sx={{
+                                          textTransform: "capitalize",
+                                          color: "#000",
+                                        }}
+                                      >
+                                        Like
+                                      </Button>
+                                      ({comment.likes.length})
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
+                            </Grid>
                           </CardContent>
                         </Card>
                       ))}
-
-                  {/* <Card sx={{ my: 3, ml: 3, boxShadow: "none" }}>
-                    <CardContent>
-                      <Grid container spacing={2}>
-                        <Grid item md={2}>
-                          <Avatar
-                            alt="Remy Sharp"
-                            src="/images/authors/14.jpg"
-                            sx={{ height: 100, width: 100 }}
-                          />
-                          <Typography
-                            variant="subtitle2"
-                            fontWeight="bold"
-                            sx={{ p: 2, textAlign: "left" }}
-                          >
-                            John Doe
-                          </Typography>
-                        </Grid>
-                        <Grid item md={10}>
-                          <Typography variant="body2" textAlign="left">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Est impedit, laudantium distinctio id culpa
-                            quis sequi iste suscipit quae cum sed velit nihil
-                            deserunt quos. Aliquid tempora corporis magni
-                            magnam, dolor, ipsa, blanditiis tenetur velit cum
-                            laborum quis in! Ab itaque sapiente veritatis totam
-                            corporis laudantium tempora, animi excepturi
-                            perferendis minima hic vitae sint eaque voluptatem
-                            dicta, aliquid nam, fugit quibusdam aliquam? Amet id
-                            tempore aliquid, perferendis blanditiis provident ut
-                            magnam delectus nostrum, modi fugit debitis itaque,
-                            expedita vitae velit ducimus neque praesentium esse
-                            nulla quos eveniet! Veritatis sint corporis,
-                            exercitationem accusamus inventore debitis doloribus
-                            obcaecati sed ea ipsum vel.
-                          </Typography>
-                          <Box
-                            component="div"
-                            sx={{ mt: 2, textAlign: "left" }}
-                          >
-                            <Typography variant="body2" fontWeight="bold">
-                              March 23, 2023
-                              <Typography
-                                variant="body2"
-                                component="span"
-                                sx={{ ml: 5 }}
-                              >
-                                <Button
-                                  sx={{
-                                    textTransform: "capitalize",
-                                    color: "#000",
-                                  }}
-                                >
-                                  Like
-                                </Button>
-                              </Typography>
-                            </Typography>
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </Card> */}
                 </Box>
 
                 <Divider />

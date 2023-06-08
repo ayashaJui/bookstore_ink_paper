@@ -23,7 +23,7 @@ import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../layouts/Message";
 import { addToCart } from "../actions/cartActions";
-import { makeOfferPrice } from "../helper/shopHelper";
+import { makeOfferPrice } from "../helper/helperFunction";
 
 const Favorite = () => {
   const { id } = useParams();

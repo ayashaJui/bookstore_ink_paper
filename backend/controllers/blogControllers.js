@@ -8,7 +8,28 @@ import Blog from "../models/Blog.js";
 // @route       GET     /api/blogs/
 // @access      Public
 export const getAllBlogs = asyncHandler(async (req, res) => {
-  const blogs = await Blog.find({}).populate("user");
+  const { sort, category, tag } = req.query;
+
+  let blogs;
+
+  const queryParams = {};
+
+  if (category) {
+    queryParams.categories = { $regex: category, $options: "i" };
+  }
+
+  if (tag) {
+    queryParams.tags = { $regex: tag, $options: "i" };
+  }
+
+  if (sort === "latest") {
+    blogs = await Blog.find(queryParams)
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .limit(3);
+  } else {
+    blogs = await Blog.find(queryParams).populate("user");
+  }
 
   res.json({ count: blogs.length, blogs });
 });
@@ -24,4 +45,21 @@ export const getBlogById = asyncHandler(async (req, res) => {
     .populate("comments.user");
 
   res.json(blog);
+});
+
+// @desc        get all categories
+// @route       GET     /api/blogs/categories
+// @access      Public
+export const getAllBlogCategories = asyncHandler(async (req, res) => {
+  const categories = await Blog.find({}).select("categories");
+
+  res.json({ count: categories.length, categories });
+  // res.json(genres);
+});
+
+export const getAllBlogTags = asyncHandler(async (req, res) => {
+  const tags = await Blog.find({}).select("tags");
+
+  res.json({ count: tags.length, tags });
+  // res.json(genres);
 });
