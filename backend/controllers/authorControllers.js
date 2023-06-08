@@ -13,15 +13,6 @@ const lookup = [
       as: "books",
     },
   },
-  // {
-  //   $project: {
-  //     _id: 1,
-  //     authorInfo: "$$ROOT",
-  //     totalBooks: { $size: "$books" },
-  //     avgRating: { $avg: "$books.rating" },
-  //     totalNumReviews: { $sum: "$books.numReviews" },
-  //   },
-  // },
 ];
 
 // @desc        get all authors

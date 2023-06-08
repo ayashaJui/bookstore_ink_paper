@@ -49,15 +49,21 @@ const BlogSchema = mongoose.Schema(
     ],
 
     tags: [{ type: String }],
-    
+
     comments: [CommentSchema],
-    
+
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
+
+    isHidden: {
+      type: String,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

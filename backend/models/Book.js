@@ -138,6 +138,12 @@ const BookSchema = new mongoose.Schema(
         default: 0,
       },
     ],
+
+    isHidden: {
+      type: String,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,
