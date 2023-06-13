@@ -29,6 +29,11 @@ import {
   blogListReducer,
   blogTagListReducer,
 } from "./reducers/blogReducers.js";
+import {
+  userLoginReducer,
+  userLogoutReducer,
+  userProfileReducer,
+} from "./reducers/userReducers.js";
 
 const reducers = combineReducers({
   bookList: bookListReducer,
@@ -51,6 +56,9 @@ const reducers = combineReducers({
   blogLatest: blogLatestReducer,
   blogCategoryList: blogCategoyListReducer,
   blogTagList: blogTagListReducer,
+  userLogin: userLoginReducer,
+  userLogout: userLogoutReducer,
+  userProfile: userProfileReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

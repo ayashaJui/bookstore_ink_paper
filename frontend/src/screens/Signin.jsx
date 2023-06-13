@@ -10,15 +10,37 @@ import {
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getUserProfile, loginUser } from "../actions/userActions";
 
 const Signin = () => {
-  const handleSubmit = (event) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, userInfo, redirect]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const email = data.get("email");
+    const password = data.get("password");
+    // console.log(email, password);
+    dispatch(loginUser(email, password));
+
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    dispatch(getUserProfile());
   };
   return (
     <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>

@@ -17,6 +17,10 @@ import Cart from "./screens/Cart";
 import Checkout from "./screens/Checkout";
 import Favorite from "./screens/Favorite";
 
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 function App() {
   return (
     <BrowserRouter basename="/">
