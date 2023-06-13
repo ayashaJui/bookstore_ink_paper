@@ -6,8 +6,10 @@ import connectDB from "./config/db.js";
 import bookRoutes from "./routes/bookRoutes.js";
 import authorRoutes from "./routes/authorRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import corsMiddleware from "./middleware/corsMiddleware.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -15,8 +17,13 @@ connectDB();
 
 const app = express();
 
+app.use(express.json());
+
 // cors middleware
 app.use(corsMiddleware);
+
+// cookie parser
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("running");
@@ -25,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/books", bookRoutes);
 app.use("/api/authors", authorRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/users", userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
