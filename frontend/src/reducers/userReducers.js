@@ -10,14 +10,12 @@ import {
   USER_PROFILE_REQUEST,
   USER_PROFILE_RESET,
   USER_PROFILE_SUCCESS,
+  USER_REGISTER_FAIL,
+  USER_REGISTER_REQUEST,
+  USER_REGISTER_SUCCESS,
 } from "../constants/user";
 
-const initialState = {
-  loading: true,
-  error: [],
-};
-
-export const userLoginReducer = (state = initialState, action) => {
+export const userLoginReducer = (state = {}, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -42,7 +40,7 @@ export const userLoginReducer = (state = initialState, action) => {
   }
 };
 
-export const userLogoutReducer = (state = initialState, action) => {
+export const userLogoutReducer = (state = {}, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -62,7 +60,7 @@ export const userLogoutReducer = (state = initialState, action) => {
   }
 };
 
-export const userProfileReducer = (state = initialState, action) => {
+export const userProfileReducer = (state = {}, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -82,6 +80,31 @@ export const userProfileReducer = (state = initialState, action) => {
       };
     case USER_PROFILE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const userRegisterReducer = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_REGISTER_REQUEST:
+      return {
+        loading: true,
+      };
+    case USER_REGISTER_SUCCESS:
+      return {
+        loading: false,
+        userInfo: payload,
+      };
+    case USER_REGISTER_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    // case USER_LOGIN_RESET:
+    //   return {};
     default:
       return state;
   }

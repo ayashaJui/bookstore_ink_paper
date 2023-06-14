@@ -8,15 +8,50 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { getUserProfile, registerUser } from "../actions/userActions";
+import Loader from "../layouts/Loader";
+import Message from "../layouts/Message";
 
 const Signup = () => {
-  const handleSubmit = (event) => {
+  const [passwordError, setPasswordError] = useState();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
+
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, userInfo, redirect]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const name = data.get("name");
+    const email = data.get("email");
+    const password = data.get("password");
+    const confirmPassword = data.get("confirm_password");
+
+    console.log();
+
+    if (password !== confirmPassword) {
+      setPasswordError("Password doesnot match!!");
+    } else {
+      dispatch(registerUser(name, email, password));
+
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      dispatch(getUserProfile());
+    }
   };
   return (
     <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>
@@ -32,6 +67,12 @@ const Signup = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        {loading && <Loader />}
+        {error && (
+          <Message severity="error" title="Error!">
+            {error}
+          </Message>
+        )}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
           <TextField
             margin="normal"
@@ -43,7 +84,7 @@ const Signup = () => {
             autoComplete="name"
             autoFocus
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -51,7 +92,7 @@ const Signup = () => {
             label="Username"
             name="username"
             autoComplete="username"
-          />
+          /> */}
           <TextField
             margin="normal"
             required
@@ -79,6 +120,8 @@ const Signup = () => {
             label="Confirm Password"
             type="password"
             id="confirm_password"
+            error={!!passwordError}
+            helperText={passwordError}
             autoComplete="current-password"
           />
           <Button

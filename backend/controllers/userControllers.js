@@ -52,6 +52,9 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    res.cookie("token", generateToken(user._id), {
+      httpOnly: true,
+    });
     res.json({
       _id: user._id,
       email: user.email,

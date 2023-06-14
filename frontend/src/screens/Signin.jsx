@@ -14,13 +14,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserProfile, loginUser } from "../actions/userActions";
+import Loader from "../layouts/Loader";
+import Message from "../layouts/Message";
 
 const Signin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = useSelector((state) => state.userLogin);
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -59,6 +61,12 @@ const Signin = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {loading && <Loader />}
+        {error && (
+          <Message severity="error" title="Error!">
+            {error}
+          </Message>
+        )}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
           <TextField
             margin="normal"
