@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getUserProfile, loginUser } from "../actions/userActions";
+import { loginUser } from "../actions/userActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 
@@ -32,17 +32,13 @@ const Signin = () => {
     }
   }, [navigate, userInfo, redirect]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
     // console.log(email, password);
     dispatch(loginUser(email, password));
-
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
-    dispatch(getUserProfile());
   };
   return (
     <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>

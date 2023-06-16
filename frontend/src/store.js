@@ -26,14 +26,15 @@ import {
   blogCategoyListReducer,
   blogDeatilsReducer,
   blogLatestReducer,
+  blogListMyReducer,
   blogListReducer,
   blogTagListReducer,
 } from "./reducers/blogReducers.js";
 import {
+  userDetailsReducer,
   userLoginReducer,
-  userLogoutReducer,
-  userProfileReducer,
   userRegisterReducer,
+  userUpdateProfileReducer,
 } from "./reducers/userReducers.js";
 
 const reducers = combineReducers({
@@ -58,9 +59,10 @@ const reducers = combineReducers({
   blogCategoryList: blogCategoyListReducer,
   blogTagList: blogTagListReducer,
   userLogin: userLoginReducer,
-  userLogout: userLogoutReducer,
-  userProfile: userProfileReducer,
+  userDetails: userDetailsReducer,
   userRegister: userRegisterReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userBlogList: blogListMyReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")
@@ -71,12 +73,19 @@ const favoriteFromStorage = localStorage.getItem("favoriteItems")
   ? JSON.parse(localStorage.getItem("favoriteItems"))
   : [];
 
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
 const initialStates = {
   cart: {
     cartItems: cartFromStorage,
   },
   favorite: {
     favoriteItems: favoriteFromStorage,
+  },
+  userLogin: {
+    userInfo: userInfoFromStorage,
   },
 };
 

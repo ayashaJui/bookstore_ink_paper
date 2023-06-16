@@ -18,6 +18,7 @@ import Checkout from "./screens/Checkout";
 import Favorite from "./screens/Favorite";
 
 import axios from "axios";
+import UserProfile from "./screens/UserProfile";
 
 axios.defaults.withCredentials = true;
 
@@ -48,6 +49,8 @@ function App() {
             <Route exact path="/cart/:id?" Component={Cart} />
             <Route exact path="/favorite/:id?" Component={Favorite} />
             <Route exact path="/checkout" Component={Checkout} />
+
+            <Route exact path="/profile" Component={UserProfile} />
 
             <Route exact path="/about" Component={About} />
             <Route exact path="/contact" Component={Contact} />

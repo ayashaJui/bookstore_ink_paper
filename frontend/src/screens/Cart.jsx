@@ -170,9 +170,6 @@ const Cart = () => {
                           </Typography>
 
                           <Typography sx={{ fontSize: "0.875rem" }}>
-                            {/* {item.price[item.formatType] -
-                              item.price[item.formatType] *
-                                (Number(item.offer) / 100)} */}
                             {makeOfferPrice(
                               item.offer,
                               item.price[item.formatType]

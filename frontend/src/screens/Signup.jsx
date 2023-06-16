@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getUserProfile, registerUser } from "../actions/userActions";
+import { registerUser } from "../actions/userActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 
@@ -33,7 +33,7 @@ const Signup = () => {
     }
   }, [navigate, userInfo, redirect]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const name = data.get("name");
@@ -41,16 +41,10 @@ const Signup = () => {
     const password = data.get("password");
     const confirmPassword = data.get("confirm_password");
 
-    console.log();
-
     if (password !== confirmPassword) {
       setPasswordError("Password doesnot match!!");
     } else {
       dispatch(registerUser(name, email, password));
-
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      dispatch(getUserProfile());
     }
   };
   return (

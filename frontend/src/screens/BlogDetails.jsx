@@ -6,7 +6,7 @@ import {
   Chip,
   Divider,
   Grid,
-  Link as MuiLink,
+  Avatar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -17,7 +17,7 @@ import HeroImage from "../components/HeroImage";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getBlogById } from "../actions/blogActions";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { formattedDate } from "../helper/helperFunction";
@@ -110,17 +110,17 @@ const BlogDetails = () => {
                   <Grid container spacing={1}>
                     {blog.tags.map((tag, idx) => (
                       <Grid item key={idx}>
-                        <MuiLink
-                          component={Link}
+                        <Typography
+                          component="div"
                           sx={{ textDecoration: "none" }}
-                          to={`/`}
+                          // to={`/`}
                         >
                           <Chip
                             label={`${tag}`}
                             variant="outlined"
                             color="primary"
                           />
-                        </MuiLink>
+                        </Typography>
                       </Grid>
                     ))}
                   </Grid>

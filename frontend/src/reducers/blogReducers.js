@@ -9,6 +9,10 @@ import {
   BLOG_LATEST_REQUEST,
   BLOG_LATEST_SUCCESS,
   BLOG_LIST_FAIL,
+  BLOG_LIST_MY_FAIL,
+  BLOG_LIST_MY_REQUEST,
+  BLOG_LIST_MY_RESET,
+  BLOG_LIST_MY_SUCCESS,
   BLOG_LIST_REQUEST,
   BLOG_LIST_SUCCESS,
   BLOG_TAGS_FAIL,
@@ -22,6 +26,7 @@ const initialState = {
   latest: [],
   categories: [],
   tags: [],
+  myBlogs: [],
   loading: true,
   error: [],
 };
@@ -140,6 +145,34 @@ export const blogTagListReducer = (state = initialState, action) => {
       return {
         loading: false,
         error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const blogListMyReducer = (state = initialState, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BLOG_LIST_MY_REQUEST:
+      return {
+        loading: true,
+        myBlogs: [],
+      };
+    case BLOG_LIST_MY_SUCCESS:
+      return {
+        loading: false,
+        myBlogs: payload,
+      };
+    case BLOG_LIST_MY_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case BLOG_LIST_MY_RESET:
+      return {
+        myBlogs: [],
       };
     default:
       return state;

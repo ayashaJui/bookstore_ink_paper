@@ -57,9 +57,21 @@ export const getAllBlogCategories = asyncHandler(async (req, res) => {
   // res.json(genres);
 });
 
+// @desc        get all tags
+// @route       GET     /api/blogs/tags
+// @access      Public
 export const getAllBlogTags = asyncHandler(async (req, res) => {
   const tags = await Blog.find({}).select("tags");
 
   res.json({ count: tags.length, tags });
   // res.json(genres);
+});
+
+// @desc        Get logged in user blogs
+// @route       GET     /api/blogs/myblogs
+// @access      Private
+export const getMyBlogs = asyncHandler(async (req, res) => {
+  const blogs = await Blog.find({ user: req.user._id });
+
+  res.json({ count: blogs.length, blogs });
 });

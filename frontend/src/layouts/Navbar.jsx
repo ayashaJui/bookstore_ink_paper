@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,31 +15,21 @@ import MenuItem from "@mui/material/MenuItem";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile, logoutUser } from "../actions/userActions";
+import { logout } from "../actions/userActions";
 
 const pages = ["Home", "Shop", "Blog", "About", "Contact Us"];
 const pagesLink = ["/", "/shop", "/blogs", "/about", "/contact"];
 const settings = ["Profile", "Dashboard", "Orders"];
-const settingsLink = ["/profile", "/dashboard", "/orders", "/logout"];
+const settingsLink = ["/profile", "/dashboard", "/orders"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(null);
 
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector((state) => state.userProfile);
-
-  const getLoggedIn = useCallback(async () => {
-    dispatch(getUserProfile());
-    setLoggedIn(true);
-  }, [dispatch]);
-
-  useEffect(() => {
-    getLoggedIn();
-  }, [getLoggedIn]);
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -58,7 +48,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    dispatch(logout());
   };
 
   return (
@@ -166,7 +156,7 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {loggedIn && userInfo ? (
+            {userInfo ? (
               <>
                 <Tooltip title={userInfo.name}>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -212,7 +202,7 @@ const Navbar = () => {
                   <MenuItem
                     // to="/logout"
                     onClick={() => {
-                      // handleCloseUserMenu();
+                      handleCloseUserMenu();
                       handleLogout();
                     }}
                   >

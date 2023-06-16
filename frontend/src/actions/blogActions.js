@@ -11,12 +11,16 @@ import {
   BLOG_LATEST_REQUEST,
   BLOG_LATEST_SUCCESS,
   BLOG_LIST_FAIL,
+  BLOG_LIST_MY_FAIL,
+  BLOG_LIST_MY_REQUEST,
+  BLOG_LIST_MY_SUCCESS,
   BLOG_LIST_REQUEST,
   BLOG_LIST_SUCCESS,
   BLOG_TAGS_FAIL,
   BLOG_TAGS_REQUEST,
   BLOG_TAGS_SUCCESS,
 } from "../constants/blog";
+import { logout } from "./userActions";
 
 export const getAllBlogs =
   (queryParams = "") =>
@@ -137,6 +141,47 @@ export const getAllBlogTags = () => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const getMyBlogList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BLOG_LIST_MY_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/blogs/myblogs`,
+      config
+    );
+
+    dispatch({
+      type: BLOG_LIST_MY_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BLOG_LIST_MY_FAIL,
+      payload: message,
     });
   }
 };
