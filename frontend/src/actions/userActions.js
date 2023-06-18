@@ -18,6 +18,7 @@ import {
   USER_UPDATE_PROFILE_RESET,
 } from "../constants/user";
 import { BLOG_LIST_MY_RESET } from "../constants/blog";
+import { ORDER_LIST_MY_RESET } from "../constants/order";
 
 export const loginUser = (email, password) => async (dispatch) => {
   try {
@@ -56,10 +57,12 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
   localStorage.removeItem("userInfo");
+  // localStorage.removeItem("cartItems");
 
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: BLOG_LIST_MY_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
 
   // document.location.href = '/login'
 };

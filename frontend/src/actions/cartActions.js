@@ -1,5 +1,10 @@
 import axios from "axios";
-import { ADD_ITEM_TO_CART, REMOVE_ITEM_FROM_CART } from "../constants/cart";
+import {
+  ADD_ITEM_TO_CART,
+  CART_SAVE_PAYMENT_METHOD,
+  CART_SAVE_SHIPPING_ADDRESS,
+  REMOVE_ITEM_FROM_CART,
+} from "../constants/cart";
 
 export const addToCart =
   (id, quantity, formatType) => async (dispatch, getState) => {
@@ -33,4 +38,22 @@ export const removeFromCart = (id) => async (dispatch, getState) => {
   });
 
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+export const saveShippingAddress = (data) => async (dispatch) => {
+  dispatch({
+    type: CART_SAVE_SHIPPING_ADDRESS,
+    payload: data,
+  });
+
+  localStorage.setItem("shippingAddress", JSON.stringify(data));
+};
+
+export const savePaymentMethod = (data) => async (dispatch) => {
+  dispatch({
+    type: CART_SAVE_PAYMENT_METHOD,
+    payload: data,
+  });
+
+  localStorage.setItem("paymentMethod", JSON.stringify(data));
 };

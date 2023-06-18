@@ -47,7 +47,7 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
-    navigate("/login?redirect=checkout");
+    navigate("/signin?redirect=checkout");
   };
 
   useEffect(() => {

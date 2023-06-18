@@ -19,6 +19,10 @@ import Favorite from "./screens/Favorite";
 
 import axios from "axios";
 import UserProfile from "./screens/UserProfile";
+import Payment from "./screens/Payment";
+import PlaceOrder from "./screens/PlaceOrder";
+import OrderDetails from "./screens/OrderDetails";
+import Orders from "./screens/Orders";
 
 axios.defaults.withCredentials = true;
 
@@ -27,7 +31,7 @@ function App() {
     <BrowserRouter basename="/">
       <div className="App" style={{ backgroundColor: "#F5F5F5" }}>
         <Navbar />
-        <main>
+        <main style={{ minHeight: "75vh" }}>
           <Routes>
             <Route exact path="/" Component={Home} />
 
@@ -46,9 +50,14 @@ function App() {
             <Route exact path="/signin" Component={Signin} />
             <Route exact path="/signup" Component={Signup} />
 
-            <Route exact path="/cart/:id?" Component={Cart} />
             <Route exact path="/favorite/:id?" Component={Favorite} />
+            <Route exact path="/cart/:id?" Component={Cart} />
             <Route exact path="/checkout" Component={Checkout} />
+            <Route exact path="/payment" Component={Payment} />
+            <Route exact path="/place_order" Component={PlaceOrder} />
+
+            <Route exact path="/myorders" Component={Orders} />
+            <Route exact path="/order/:id" Component={OrderDetails} />
 
             <Route exact path="/profile" Component={UserProfile} />
 

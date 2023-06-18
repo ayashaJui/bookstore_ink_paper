@@ -2,55 +2,72 @@ import {
   Box,
   Breadcrumbs,
   Button,
-  Card,
-  CardContent,
   Divider,
   Grid,
-  Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Link as MuiLink,
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
-function createData(name, total) {
-  return { name, total };
-}
-
-const rows = [
-  createData("pride & prejudice", "100"),
-  createData("cart Subtotal", "400"),
-  createData("shipping", "100"),
-];
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { saveShippingAddress } from "../actions/cartActions";
+import OrderCard from "../components/OrderCard";
 
 const Checkout = () => {
-  const handleSubmit = () => {};
+  const { cartItems, shippingAddress } = useSelector((state) => state.cart);
+
+  const [name, setName] = useState(shippingAddress?.name || "");
+  const [phone, setPhone] = useState(shippingAddress?.phone || "");
+  const [country, setCountry] = useState(shippingAddress?.country || "");
+  const [street, setStreet] = useState(shippingAddress?.street || "");
+  const [city, setCity] = useState(shippingAddress?.city || "");
+  const [code, setCode] = useState(shippingAddress?.code || "");
+  const [formError, setFormError] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!name || !country || !street || !city || !code) {
+      setFormError(true);
+      return;
+    }
+
+    setFormError(false);
+    // console.log({ name, phone, country, street, city, code });
+    dispatch(saveShippingAddress({ name, phone, country, street, city, code }));
+    navigate("/payment");
+  };
   return (
     <div>
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/cart">
+          <MuiLink
+            underline="hover"
+            color="inherit"
+            to="/cart"
+            component={Link}
+          >
             Cart
-          </Link>
+          </MuiLink>
           <Typography color="text.primary">Shipping Details</Typography>
-          {/* <Link underline="hover" color="inherit" href="/shipping">
-            Shipping
-          </Link> */}
+
           <Typography color="text.secondary">Payment</Typography>
+          <Typography color="text.secondary">Place Order</Typography>
         </Breadcrumbs>
       </Box>
 
       <Divider />
 
-      <Box sx={{ maxWidth: 1000, mx: {md: "auto", sm: 4, xs: 2}, my: 6 }}>
+      <Box sx={{ maxWidth: 1000, mx: { md: "auto", sm: 4, xs: 2 }, my: 6 }}>
         <Grid container spacing={2}>
           <Grid item md={7} sm={12} xs={12}>
             <Typography variant="h4" align="left">
-              Billing Details
+              Shipping Details
             </Typography>
             <Box
               component="form"
@@ -67,19 +84,22 @@ const Checkout = () => {
                 id="name"
                 label="Full Name"
                 name="name"
-                autoComplete="name"
-                autoFocus
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                error={formError && !name}
+                helperText={formError && !name ? "Full Name is required" : ""}
               />
 
               <TextField
                 variant="standard"
                 margin="normal"
                 size="small"
-                required
                 fullWidth
                 id="phone"
                 label="Phone"
                 name="phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
               <TextField
                 variant="standard"
@@ -90,6 +110,10 @@ const Checkout = () => {
                 id="country"
                 label="Country"
                 name="country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                error={formError && !country}
+                helperText={formError && !country ? "Country is required" : ""}
               />
               <TextField
                 variant="standard"
@@ -100,6 +124,10 @@ const Checkout = () => {
                 id="street"
                 label="Street Address"
                 name="street"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                error={formError && !street}
+                helperText={formError && !street ? "Street is required" : ""}
               />
               <TextField
                 variant="standard"
@@ -110,6 +138,10 @@ const Checkout = () => {
                 id="city"
                 label="City"
                 name="city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                error={formError && !city}
+                helperText={formError && !city ? "City is required" : ""}
               />
               <TextField
                 variant="standard"
@@ -120,6 +152,10 @@ const Checkout = () => {
                 id="postal"
                 label="Postal Code"
                 name="postal"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                error={formError && !code}
+                helperText={formError && !code ? "postal Code is required" : ""}
               />
 
               <Button
@@ -134,50 +170,7 @@ const Checkout = () => {
           </Grid>
 
           <Grid item md={5} sm={12} xs={12}>
-            <Card sx={{ my: 6, ml: 3 }}>
-              <CardContent>
-                <Typography variant="h6" sx={{ my: 2 }}>
-                  Your Order
-                </Typography>
-
-                <TableContainer component="div">
-                  <Table sx={{ minWidth: 200, p: 2 }} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="left" sx={{ borderBottom: 0 }}>
-                          Product
-                        </TableCell>
-                        <TableCell align="right" sx={{ borderBottom: 0 }}>
-                          Total
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rows.map((row) => (
-                        <TableRow key={row.name}>
-                          <TableCell align="left" sx={{ borderBottom: 0 }}>
-                            {row.name}
-                          </TableCell>
-
-                          <TableCell align="right" sx={{ borderBottom: 0 }}>
-                            {row.total} /-
-                          </TableCell>
-                        </TableRow>
-                      ))}
-
-                      <TableRow>
-                        <TableCell align="left" sx={{ borderBottom: 0 }}>
-                          <Typography fontWeight="bold">Order Total</Typography>
-                        </TableCell>
-                        <TableCell align="right" sx={{ borderBottom: 0 }}>
-                          600 /-
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>
-            </Card>
+            <OrderCard cartItems={cartItems} />
           </Grid>
         </Grid>
       </Box>

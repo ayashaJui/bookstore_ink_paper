@@ -7,6 +7,7 @@ import bookRoutes from "./routes/bookRoutes.js";
 import authorRoutes from "./routes/authorRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 import cookieParser from "cookie-parser";
@@ -33,6 +34,7 @@ app.use("/api/books", bookRoutes);
 app.use("/api/authors", authorRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

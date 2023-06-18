@@ -10,10 +10,11 @@ const orderSchema = new mongoose.Schema(
 
     orderItems: [
       {
-        name: { type: String, required: true },
+        title: { type: String, required: true },
         qty: { type: Number, required: true },
         image: { type: String, required: true },
         price: { type: Number, required: true },
+        format: { type: String, required: true },
         book: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
@@ -23,9 +24,9 @@ const orderSchema = new mongoose.Schema(
     ],
 
     shippingAddress: {
-      address: { type: String, required: true },
+      street: { type: String, required: true },
       city: { type: String, required: true },
-      postalCode: { type: String, required: true },
+      code: { type: String, required: true },
       country: { type: String, required: true },
     },
 

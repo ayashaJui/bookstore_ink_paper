@@ -20,7 +20,7 @@ import { logout } from "../actions/userActions";
 const pages = ["Home", "Shop", "Blog", "About", "Contact Us"];
 const pagesLink = ["/", "/shop", "/blogs", "/about", "/contact"];
 const settings = ["Profile", "Dashboard", "Orders"];
-const settingsLink = ["/profile", "/dashboard", "/orders"];
+const settingsLink = ["/profile", "/dashboard", "/myorders"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
