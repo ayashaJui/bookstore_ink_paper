@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../layouts/Message";
 import { addToCart } from "../actions/cartActions";
 import { makeOfferPrice } from "../helper/helperFunction";
+import Navbar from "../layouts/Navbar";
 
 const Favorite = () => {
   const { id } = useParams();
@@ -53,6 +54,7 @@ const Favorite = () => {
 
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink underline="hover" color="inherit" href="/">

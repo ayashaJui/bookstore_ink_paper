@@ -1,0 +1,96 @@
+import * as React from "react";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+// import ListSubheader from "@mui/material/ListSubheader";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PeopleIcon from "@mui/icons-material/People";
+import BarChartIcon from "@mui/icons-material/BarChart";
+// import LayersIcon from "@mui/icons-material/Layers";
+// import AssignmentIcon from "@mui/icons-material/Assignment";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import ArticleIcon from "@mui/icons-material/Article";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
+import { Link } from "react-router-dom";
+
+export const mainListItems = (
+  <React.Fragment>
+    <ListItemButton>
+      <ListItemIcon>
+        <DashboardIcon />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <ShoppingCartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Orders" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/admin/customers`}>
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Customers" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <RateReviewIcon />
+      </ListItemIcon>
+      <ListItemText primary="Reviews" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <LibraryBooksIcon />
+      </ListItemIcon>
+      <ListItemText primary="Books" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <LocalLibraryIcon />
+      </ListItemIcon>
+      <ListItemText primary="Authors" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <ArticleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Blogs" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <BarChartIcon />
+      </ListItemIcon>
+      <ListItemText primary="Reports" />
+    </ListItemButton>
+  </React.Fragment>
+);
+
+export const secondaryListItems = (
+  <React.Fragment>
+    {/* <ListSubheader component="div" inset>
+      Saved reports
+    </ListSubheader> */}
+    <ListItemButton>
+      <ListItemIcon>
+        <AddCircleOutlineOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Add Book" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <AddCircleOutlineOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Add Author" />
+    </ListItemButton>
+    {/* <ListItemButton>
+      <ListItemIcon>
+        <AssignmentIcon />
+      </ListItemIcon>
+      <ListItemText primary="Year-end sale" />
+    </ListItemButton> */}
+  </React.Fragment>
+);

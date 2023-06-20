@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { saveShippingAddress } from "../actions/cartActions";
 import OrderCard from "../components/OrderCard";
+import Navbar from "../layouts/Navbar";
 
 const Checkout = () => {
   const { cartItems, shippingAddress } = useSelector((state) => state.cart);
@@ -44,6 +45,7 @@ const Checkout = () => {
   };
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink

@@ -156,7 +156,20 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {userInfo ? (
+            {userInfo && userInfo.isAdmin ? (
+              <Button
+                component={Link}
+                key="admin"
+                to="/admin/dashboard"
+                sx={{
+                  my: 2,
+                  color: location.pathname === "/admin" ? "#2c698d" : "white",
+                  display: "inline",
+                }}
+              >
+                Admin
+              </Button>
+            ) : userInfo && userInfo.isAdmin ? (
               <>
                 <Tooltip title={userInfo.name}>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

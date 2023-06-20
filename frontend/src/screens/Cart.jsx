@@ -25,6 +25,7 @@ import { useEffect } from "react";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 import Message from "../layouts/Message";
 import { makeOfferPrice } from "../helper/helperFunction";
+import Navbar from "../layouts/Navbar";
 
 const Cart = () => {
   const { id } = useParams();
@@ -58,6 +59,7 @@ const Cart = () => {
 
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink component={Link} underline="hover" color="inherit" to="/">

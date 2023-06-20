@@ -1,7 +1,6 @@
 import "./App.css";
 import Home from "./screens/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./layouts/Navbar";
 import Footer from "./layouts/Footer";
 import Blogs from "./screens/Blogs";
 import About from "./screens/About";
@@ -23,6 +22,8 @@ import Payment from "./screens/Payment";
 import PlaceOrder from "./screens/PlaceOrder";
 import OrderDetails from "./screens/OrderDetails";
 import Orders from "./screens/Orders";
+import Dashboard from "./screens/admin/Dashboard";
+import Customers from "./screens/admin/Customers";
 
 axios.defaults.withCredentials = true;
 
@@ -30,7 +31,6 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <div className="App" style={{ backgroundColor: "#F5F5F5" }}>
-        <Navbar />
         <main style={{ minHeight: "75vh" }}>
           <Routes>
             <Route exact path="/" Component={Home} />
@@ -63,6 +63,9 @@ function App() {
 
             <Route exact path="/about" Component={About} />
             <Route exact path="/contact" Component={Contact} />
+
+            <Route exact path="/admin/dashboard" Component={Dashboard} />
+            <Route exact path="/admin/customers" Component={Customers} />
           </Routes>
         </main>
         <Footer />

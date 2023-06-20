@@ -26,6 +26,7 @@ import Message from "../layouts/Message";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/user";
 import { getMyBlogList } from "../actions/blogActions";
 import { formattedDate } from "../helper/helperFunction";
+import Navbar from "../layouts/Navbar";
 
 const UserProfile = () => {
   const [name, setName] = useState("");
@@ -84,6 +85,7 @@ const UserProfile = () => {
   };
   return (
     <>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink underline="hover" color="inherit" component={Link} to="/">

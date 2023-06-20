@@ -64,7 +64,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: BLOG_LIST_MY_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
 
-  // document.location.href = '/login'
+  document.location.href = "/signin";
 };
 
 export const getUserDetails = (id) => async (dispatch, getState) => {

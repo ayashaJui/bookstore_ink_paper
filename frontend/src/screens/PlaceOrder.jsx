@@ -25,6 +25,7 @@ import { createOrder } from "../actions/orderActions";
 import { useEffect } from "react";
 
 import Message from "../layouts/Message";
+import Navbar from "../layouts/Navbar";
 
 const PlaceOrder = () => {
   const dispatch = useDispatch();
@@ -89,6 +90,7 @@ const PlaceOrder = () => {
 
   return (
     <>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink

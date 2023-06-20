@@ -11,7 +11,7 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  Link,
+  Link as MuiLink,
   MenuItem,
   TextField,
   Typography,
@@ -21,7 +21,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import BookTabs from "../components/BookTabs";
@@ -29,6 +29,7 @@ import { getBookById } from "../actions/bookActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
+import Navbar from "../layouts/Navbar";
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -91,14 +92,20 @@ const BookDetails = () => {
 
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
+          <MuiLink underline="hover" component={Link} color="inherit" to="/">
             Home
-          </Link>
-          <Link underline="hover" color="inherit" href="/shop">
+          </MuiLink>
+          <MuiLink
+            underline="hover"
+            component={Link}
+            color="inherit"
+            to="/shop"
+          >
             Shop
-          </Link>
+          </MuiLink>
           <Typography color="text.primary">{title}</Typography>
         </Breadcrumbs>
       </Box>

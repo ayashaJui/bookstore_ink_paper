@@ -14,6 +14,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { registerUser } from "../actions/userActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
+import Navbar from "../layouts/Navbar";
 
 const Signup = () => {
   const [passwordError, setPasswordError] = useState();
@@ -48,37 +49,44 @@ const Signup = () => {
     }
   };
   return (
-    <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>
-      <CssBaseline />
-      <Box
-        sx={{
-          my: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        {loading && <Loader />}
-        {error && (
-          <Message severity="error" title="Error!">
-            {error}
-          </Message>
-        )}
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Full Name"
-            name="name"
-            autoComplete="name"
-            autoFocus
-          />
-          {/* <TextField
+    <>
+      <Navbar />
+      <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>
+        <CssBaseline />
+        <Box
+          sx={{
+            my: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          {loading && <Loader />}
+          {error && (
+            <Message severity="error" title="Error!">
+              {error}
+            </Message>
+          )}
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 3 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="Full Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
+            {/* <TextField
             margin="normal"
             required
             fullWidth
@@ -87,60 +95,61 @@ const Signup = () => {
             name="username"
             autoComplete="username"
           /> */}
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="confirm_password"
-            label="Confirm Password"
-            type="password"
-            id="confirm_password"
-            error={!!passwordError}
-            helperText={passwordError}
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, my: 6 }}
-          >
-            Sign Up
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="/forgetpassword" variant="body2" sx={{}}>
-                Forgot password?
-              </Link>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirm_password"
+              label="Confirm Password"
+              type="password"
+              id="confirm_password"
+              error={!!passwordError}
+              helperText={passwordError}
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, my: 6 }}
+            >
+              Sign Up
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/forgetpassword" variant="body2" sx={{}}>
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/signin" variant="body2">
+                  {"Already have an account? Sign in"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="/signin" variant="body2">
-                {"Already have an account? Sign in"}
-              </Link>
-            </Grid>
-          </Grid>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 };
 

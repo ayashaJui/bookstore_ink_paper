@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { savePaymentMethod } from "../actions/cartActions";
 import OrderCard from "../components/OrderCard";
+import Navbar from "../layouts/Navbar";
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const Payment = () => {
   };
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink

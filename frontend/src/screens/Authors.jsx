@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { getAllAuthors } from "../actions/authorActions";
+import Navbar from "../layouts/Navbar";
 
 const items = [
   "all",
@@ -76,6 +77,7 @@ const Authors = () => {
 
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink component={Link} underline="hover" color="inherit" to="/">

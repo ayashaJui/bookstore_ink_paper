@@ -33,6 +33,7 @@ import { getAuthorDetails } from "../actions/authorActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { formattedDate } from "../helper/helperFunction";
+import Navbar from "../layouts/Navbar";
 
 const AuthorProfile = () => {
   const { id } = useParams();
@@ -58,6 +59,7 @@ const AuthorProfile = () => {
 
   return (
     <div>
+      <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink component={Link} underline="hover" color="inherit" to="/">
