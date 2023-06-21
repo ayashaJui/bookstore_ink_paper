@@ -24,6 +24,7 @@ import OrderDetails from "./screens/OrderDetails";
 import Orders from "./screens/Orders";
 import Dashboard from "./screens/admin/Dashboard";
 import Customers from "./screens/admin/Customers";
+import Users from "./screens/admin/Users";
 
 axios.defaults.withCredentials = true;
 
@@ -65,7 +66,8 @@ function App() {
             <Route exact path="/contact" Component={Contact} />
 
             <Route exact path="/admin/dashboard" Component={Dashboard} />
-            <Route exact path="/admin/customers" Component={Customers} />
+            <Route exact path="/admin/users" Component={Users} />
+            {/* <Route exact path="/admin/customers" Component={Customers} /> */}
           </Routes>
         </main>
         <Footer />

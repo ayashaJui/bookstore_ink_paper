@@ -31,6 +31,11 @@ import Navbar from "../layouts/Navbar";
 const UserProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [code, setCode] = useState("");
+  const [phone, setPhone] = useState("");
   const [passwordError, setPasswordError] = useState();
 
   const navigate = useNavigate();
@@ -39,6 +44,7 @@ const UserProfile = () => {
   const { loading, user, error } = useSelector((state) => state.userDetails);
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success } = useSelector((state) => state.userUpdateProfile);
+
   const {
     loading: loadingBlogs,
     error: errorBlogs,
@@ -54,8 +60,13 @@ const UserProfile = () => {
         dispatch(getUserDetails("profile"));
         dispatch(getMyBlogList());
       } else {
-        setName(user.name);
-        setEmail(user.email);
+        setName(user.name || "");
+        setEmail(user.email || "");
+        setStreet(user.address?.street || "");
+        setCity(user.address?.city || "");
+        setCountry(user.address?.country || "");
+        setCode(user.address?.code || "");
+        setPhone(user.phone || "");
 
         if (success) {
           const timer = setTimeout(() => {
@@ -75,11 +86,27 @@ const UserProfile = () => {
     const email = data.get("email");
     const password = data.get("password");
     const confirmPassword = data.get("confirm_password");
+    const address = {
+      street: data.get("street"),
+      city: data.get("city"),
+      country: data.get("country"),
+      code: data.get("code"),
+    };
+    const phone = data.get("phone");
 
     if (password !== confirmPassword) {
       setPasswordError("Password doesnot match!!");
     } else {
-      dispatch(updateUserProfile({ id: user._id, name, email, password }));
+      dispatch(
+        updateUserProfile({
+          id: user._id,
+          name,
+          email,
+          password,
+          address,
+          phone,
+        })
+      );
       // console.log(name, email, password);
     }
   };
@@ -183,6 +210,54 @@ const UserProfile = () => {
                   error={!!passwordError}
                   helperText={passwordError}
                   autoComplete="current-password"
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="street"
+                  label="Street"
+                  name="street"
+                  value={street}
+                  onChange={(event) => setStreet(event.target.value)}
+                  // autoComplete="name"
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="city"
+                  label="City"
+                  name="city"
+                  value={city}
+                  onChange={(event) => setCity(event.target.value)}
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="country"
+                  label="Country"
+                  name="country"
+                  value={country}
+                  onChange={(event) => setCountry(event.target.value)}
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="code"
+                  label="Postal Code"
+                  name="code"
+                  value={code}
+                  onChange={(event) => setCode(event.target.value)}
+                  // autoComplete="name"
+                />
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  id="phone"
+                  label="Phone"
+                  name="phone"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  // autoComplete="name"
                 />
                 <Button
                   type="submit"

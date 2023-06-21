@@ -6,13 +6,14 @@ import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
+// import BarChartIcon from "@mui/icons-material/BarChart";
 // import LayersIcon from "@mui/icons-material/Layers";
 // import AssignmentIcon from "@mui/icons-material/Assignment";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import ArticleIcon from "@mui/icons-material/Article";
+import PersonIcon from "@mui/icons-material/Person";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { Link } from "react-router-dom";
 
@@ -60,12 +61,18 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Blogs" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/users`}>
+      <ListItemIcon>
+        <PersonIcon />
+      </ListItemIcon>
+      <ListItemText primary="Users" />
+    </ListItemButton>
+    {/* <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
-    </ListItemButton>
+    </ListItemButton> */}
   </React.Fragment>
 );
 

@@ -16,6 +16,12 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_RESET,
+  USER_LIST_FAIL,
+  USER_LIST_SUCCESS,
+  USER_LIST_REQUEST,
+  USER_UPDATE_ISADMIN_FAIL,
+  USER_UPDATE_ISADMIN_SUCCESS,
+  USER_UPDATE_ISADMIN_REQUEST,
 } from "../constants/user";
 import { BLOG_LIST_MY_RESET } from "../constants/blog";
 import { ORDER_LIST_MY_RESET } from "../constants/order";
@@ -205,4 +211,84 @@ export const clearSuccess = () => async (dispatch) => {
   dispatch({ type: USER_UPDATE_PROFILE_RESET });
 
   // document.location.href = '/login'
+};
+
+export const getUserList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`http://localhost:5000/api/users`, config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const updateIsAdmin = (id, user) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_ISADMIN_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/users/${id}/isAdmin`,
+      user,
+      config
+    );
+
+    dispatch({
+      type: USER_UPDATE_ISADMIN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: USER_UPDATE_ISADMIN_FAIL,
+      payload: message,
+    });
+  }
 };

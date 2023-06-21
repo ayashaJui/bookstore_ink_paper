@@ -94,6 +94,9 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
+    user.address = req.body.address || user.address;
+    user.phone = req.body.phone || user.phone;
+
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -104,6 +107,8 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
+      address: updatedUser.address,
+      phone: updatedUser.phone,
       isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     });
@@ -120,4 +125,22 @@ export const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
 
   res.json(users);
+});
+
+// @desc    Update isAdmin
+// @route   PUT /api/users/:id/isAdmin
+// @access  Private, Admin
+export const updateIsAdmin = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.isAdmin = !user.isAdmin;
+
+    const updatedUser = await user.save();
+
+    res.json(updatedUser);
+  } else {
+    res.status(401);
+    throw new Error("User not found");
+  }
 });

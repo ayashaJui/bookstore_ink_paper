@@ -169,7 +169,7 @@ const Navbar = () => {
               >
                 Admin
               </Button>
-            ) : userInfo && userInfo.isAdmin ? (
+            ) : userInfo ? (
               <>
                 <Tooltip title={userInfo.name}>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

@@ -141,8 +141,8 @@ const PlaceOrder = () => {
                   </Typography>
                   <Typography component="p" sx={{ m: 1 }}>
                     <strong>Address: </strong>
-                    {shippingAddress.street}, {shippingAddress.city}{" "}
-                    {shippingAddress.code}, {shippingAddress.country}
+                    {shippingAddress.street}, {shippingAddress.city} ,{" "}
+                    {shippingAddress.country} - {shippingAddress.code}
                   </Typography>
                 </ListItemText>
               </ListItem>
