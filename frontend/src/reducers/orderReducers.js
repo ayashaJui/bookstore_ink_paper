@@ -2,6 +2,10 @@ import {
   ORDER_CREATE_FAIL,
   ORDER_CREATE_REQUEST,
   ORDER_CREATE_SUCCESS,
+  ORDER_CUSTOMER_LIST_FAIL,
+  ORDER_CUSTOMER_LIST_REQUEST,
+  ORDER_CUSTOMER_LIST_RESET,
+  ORDER_CUSTOMER_LIST_SUCCESS,
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
@@ -83,6 +87,36 @@ export const orderListMyReducers = (state = { orders: [] }, action) => {
     case ORDER_LIST_MY_RESET:
       return {
         orders: [],
+      };
+    default:
+      return state;
+  }
+};
+
+export const orderCustomerListReducers = (
+  state = { customerOrders: [] },
+  action
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case ORDER_CUSTOMER_LIST_REQUEST:
+      return {
+        loading: true,
+      };
+    case ORDER_CUSTOMER_LIST_SUCCESS:
+      return {
+        loading: false,
+        customerOrders: payload,
+      };
+    case ORDER_CUSTOMER_LIST_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case ORDER_CUSTOMER_LIST_RESET:
+      return {
+        customerOrders: [],
       };
     default:
       return state;

@@ -95,7 +95,7 @@ const BookSchema = new mongoose.Schema(
     series: [seriesSchema],
 
     isFeatured: {
-      type: String,
+      type: Boolean,
       required: true,
       default: false,
     },
@@ -139,11 +139,11 @@ const BookSchema = new mongoose.Schema(
       },
     ],
 
-    isHidden: {
-      type: String,
-      required: true,
-      default: false,
-    },
+    // isHidden: {
+    //   type: String,
+    //   required: true,
+    //   default: false,
+    // },
   },
   {
     timestamps: true,

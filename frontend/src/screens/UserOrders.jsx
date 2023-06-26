@@ -46,7 +46,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Orders = () => {
+const UserOrders = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -153,4 +153,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default UserOrders;

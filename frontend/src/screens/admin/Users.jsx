@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserList, updateIsAdmin } from "../../actions/userActions";
 import {
+  Box,
   Breadcrumbs,
   Button,
+  Divider,
   Paper,
   Table,
   TableBody,
@@ -68,71 +70,65 @@ const Users = () => {
         <Typography color="text.primary">All Users</Typography>
       </Breadcrumbs>
 
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message severity={"error"} title={"Error!"}>
-          {" "}
-          {error}{" "}
-        </Message>
-      ) : (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>No</StyledTableCell>
-                <StyledTableCell>Full Name</StyledTableCell>
-                <StyledTableCell>Email</StyledTableCell>
-                <StyledTableCell>Phone</StyledTableCell>
-                <StyledTableCell>Street</StyledTableCell>
-                <StyledTableCell>City</StyledTableCell>
-                <StyledTableCell>Postal Code</StyledTableCell>
-                <StyledTableCell>Country</StyledTableCell>
-                <StyledTableCell>Admin</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map(
-                ({ _id, name, email, phone, address, isAdmin }, idx) => (
-                  <StyledTableRow key={idx}>
-                    <StyledTableCell component="th" scope="row">
-                      {idx + 1}
-                    </StyledTableCell>
-                    <StyledTableCell component="th" scope="row">
-                      {name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{email}</StyledTableCell>
-                    <StyledTableCell align="right">{phone}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {address?.street}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {address?.city}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {address?.code}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {address?.country}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={(event) =>
-                          handleAdminSubmit(event, _id, isAdmin)
-                        }
-                      >
-                        {isAdmin ? "Remove" : "Add"}
-                      </Button>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                )
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+      <Divider />
+
+      <Box sx={{ mt: 5 }}>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message severity={"error"} title={"Error!"}>
+            {" "}
+            {error}{" "}
+          </Message>
+        ) : (
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>No</StyledTableCell>
+                  <StyledTableCell>Full Name</StyledTableCell>
+                  <StyledTableCell>Email</StyledTableCell>
+                  <StyledTableCell>Phone</StyledTableCell>
+                  <StyledTableCell>Street</StyledTableCell>
+                  <StyledTableCell>City</StyledTableCell>
+                  <StyledTableCell>Postal Code</StyledTableCell>
+                  <StyledTableCell>Country</StyledTableCell>
+                  <StyledTableCell>Admin</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users.map(
+                  ({ _id, name, email, phone, address, isAdmin }, idx) => (
+                    <StyledTableRow key={idx}>
+                      <StyledTableCell component="th" scope="row">
+                        {idx + 1}
+                      </StyledTableCell>
+                      <StyledTableCell>{name}</StyledTableCell>
+                      <StyledTableCell>{email}</StyledTableCell>
+                      <StyledTableCell>{phone}</StyledTableCell>
+                      <StyledTableCell>{address?.street}</StyledTableCell>
+                      <StyledTableCell>{address?.city}</StyledTableCell>
+                      <StyledTableCell>{address?.code}</StyledTableCell>
+                      <StyledTableCell>{address?.country}</StyledTableCell>
+                      <StyledTableCell>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          onClick={(event) =>
+                            handleAdminSubmit(event, _id, isAdmin)
+                          }
+                        >
+                          {isAdmin ? "Remove" : "Add"}
+                        </Button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Box>
     </MainComponent>
   );
 };

@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 
 import Book from "../models/Book.js";
 import Author from "../models/Author.js";
+import User from '../models/User.js'
 
 // @desc        get all books
 // @route       GET     /api/books/
@@ -59,7 +60,7 @@ export const getAllBooks = asyncHandler(async (req, res) => {
         .populate("author");
     }
   } else {
-    books = await Book.find(queryParams).populate("author");
+    books = await Book.find(queryParams).populate("author", "name").populate("user", "name");
   }
 
   res.json({ count: books.length, books });

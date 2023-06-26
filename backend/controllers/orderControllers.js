@@ -64,3 +64,49 @@ export const getMyOrders = asyncHandler(async (req, res) => {
 
   res.json({ count: orders.length, orders });
 });
+
+// @desc        Get Users who ordered
+// @route       GET     /api/orders/customers
+// @access      Private
+export const getOrderedByCustomers = asyncHandler(async (req, res) => {
+  const pipeline = [
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "userInfo",
+      },
+    },
+    {
+      $unwind: "$userInfo",
+    },
+
+    {
+      // $group: {
+      //   _id: "$user",
+      //   orders: { $push: "$$ROOT" },
+      // },
+      $group: {
+        _id: "$user",
+        name: { $first: "$userInfo.name" },
+        email: { $first: "$userInfo.email" },
+        user_created: {$first: '$userInfo.createdAt'},
+        orders: {
+          $push: {
+            totalPrice: "$totalPrice",
+            orderedItems: "$orderItems",
+            itemQuantity: { $sum: "$orderItems.qty" },
+           
+          },
+        },
+        totalSpend: { $sum: "$totalPrice" },
+        avgSpend: { $avg: "$totalPrice" },
+      },
+    },
+  ];
+
+  const orders = await Order.aggregate(pipeline);
+
+  res.json(orders);
+});

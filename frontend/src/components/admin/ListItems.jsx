@@ -25,7 +25,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/orders`}>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
@@ -43,7 +43,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Reviews" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/books`}>
       <ListItemIcon>
         <LibraryBooksIcon />
       </ListItemIcon>

@@ -1,7 +1,6 @@
 import {
   Box,
   Breadcrumbs,
-  Button,
   Checkbox,
   Divider,
   IconButton,
@@ -25,11 +24,11 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getUserList } from "../../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
 import { formattedDate } from "../../helper/helperFunction";
+import { getOrderCustomerList } from "../../actions/orderActions";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -63,50 +62,37 @@ const headCells = [
   {
     id: "name",
     numeric: false,
-    // disablePadding: true,
     label: "Full Name",
   },
   {
     id: "email",
     numeric: false,
-    // disablePadding: false,
     label: "Email",
   },
   {
     id: "registered",
-    numeric: Date,
-    // disablePadding: false,
+    numeric: false,
     label: "Date Registered",
   },
   {
     id: "orders",
     numeric: true,
-    // disablePadding: false,
     label: "Orders",
   },
   {
     id: "total_spend",
     numeric: true,
-    // disablePadding: false,
     label: "Total Spend",
   },
   {
-    id: "country",
-    numeric: false,
-    // disablePadding: false,
-    label: "Country",
+    id: "avg_spend",
+    numeric: true,
+    label: "Avg Spend",
   },
   {
-    id: "city",
-    numeric: false,
-    // disablePadding: false,
-    label: "City",
-  },
-  {
-    id: "role",
-    numeric: false,
-    // disablePadding: false,
-    label: "role",
+    id: "total_qty",
+    numeric: true,
+    label: "Total Quantity",
   },
 ];
 
@@ -119,6 +105,7 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
+
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -137,11 +124,10 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells.map((headCell, idx) => (
           <TableCell
-            key={headCell.id}
+            key={idx}
             align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
@@ -180,7 +166,7 @@ function EnhancedTableToolbar(props) {
         }),
       }}
     >
-      {/* {numSelected > 0 ? (
+      {numSelected > 0 ? (
         <Typography
           sx={{ flex: "1 1 100%" }}
           color="inherit"
@@ -196,9 +182,9 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Customers
         </Typography>
-      )} */}
+      )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
@@ -223,34 +209,35 @@ const Customers = () => {
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  const { loading, error, users } = useSelector((state) => state.userList);
-  console.log(users);
+  const { loading, error, customerOrders } = useSelector(
+    (state) => state.orderCustomerList
+  );
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(getUserList());
+      dispatch(getOrderCustomerList());
     } else {
       navigate("/signin");
     }
   }, [dispatch, navigate, userInfo]);
 
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("calories");
+  const [orderBy, setOrderBy] = useState("orders");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  // const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   let visibleRows = [];
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
+
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = users.map((n) => n.name);
+      const newSelected = customerOrders.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -273,7 +260,7 @@ const Customers = () => {
         selected.slice(selectedIndex + 1)
       );
     }
-
+    // console.log(newSelected)
     setSelected(newSelected);
   };
 
@@ -286,21 +273,19 @@ const Customers = () => {
     setPage(0);
   };
 
-  // const handleChangeDense = (event) => {
-  //   setDense(event.target.checked);
-  // };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - customerOrders.length)
+      : 0;
 
-  if (users && users.length > 0) {
-    visibleRows = stableSort(users, getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    );
+  if (customerOrders && customerOrders.length > 0) {
+    visibleRows = stableSort(
+      customerOrders,
+      getComparator(order, orderBy)
+    ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   }
 
   return (
@@ -311,7 +296,7 @@ const Customers = () => {
 
       <Divider />
 
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "100%", mt: 5 }}>
         {loading ? (
           <Loader />
         ) : error ? (
@@ -326,7 +311,6 @@ const Customers = () => {
               <Table
                 sx={{ minWidth: 750 }}
                 aria-labelledby="tableTitle"
-                // size={dense ? "small" : "medium"}
                 size="medium"
               >
                 <EnhancedTableHead
@@ -335,7 +319,7 @@ const Customers = () => {
                   orderBy={orderBy}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={users.length}
+                  rowCount={customerOrders.length}
                 />
                 <TableBody>
                   {visibleRows.map((row, index) => {
@@ -370,20 +354,17 @@ const Customers = () => {
                         >
                           {row.name}
                         </TableCell>
-                        <TableCell align="right">{row.email}</TableCell>
+                        <TableCell>{row.email}</TableCell>
+                        <TableCell>{formattedDate(row.user_created)}</TableCell>
+                        <TableCell align="right">{row.orders.length}</TableCell>
+                        <TableCell align="right">{row.totalSpend}</TableCell>
+                        <TableCell align="right">{row.avgSpend}</TableCell>
                         <TableCell align="right">
-                          {formattedDate(row.createdAt)}
-                        </TableCell>
-                        <TableCell align="right">{row.country}</TableCell>
-                        <TableCell align="right">{row.country}</TableCell>
-                        <TableCell align="right">
-                          {row.address?.country}
-                        </TableCell>
-                        <TableCell align="right">{row.address?.city}</TableCell>
-                        <TableCell align="right">
-                          <Button size="small">
-                            {row.isAdmin ? "Remove" : "Add"}
-                          </Button>
+                          {" "}
+                          {row.orders.reduce(
+                            (total, order) => total + order.itemQuantity,
+                            0
+                          )}{" "}
                         </TableCell>
                       </TableRow>
                     );
@@ -391,7 +372,6 @@ const Customers = () => {
                   {emptyRows > 0 && (
                     <TableRow
                       style={{
-                        // height: (dense ? 33 : 53) * emptyRows,
                         height: 53 * emptyRows,
                       }}
                     >
@@ -404,7 +384,7 @@ const Customers = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={users.length}
+              count={customerOrders.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
@@ -412,11 +392,6 @@ const Customers = () => {
             />
           </Paper>
         )}
-
-        {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
       </Box>
     </MainComponent>
   );

@@ -79,185 +79,195 @@ const Cart = () => {
 
       <Divider />
 
-      {cartItems.length === 0 ? (
-        <Message title="Empty Cart">
-          Your cart is empty. <Link to="/shop">Go to shop</Link>
-        </Message>
-      ) : (
-        <Box sx={{ mx: { md: 10, sm: 4, xs: 2 }, my: 6 }}>
-          <TableContainer component="div">
-            <Table sx={{ minWidth: 200 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Image</TableCell>
-                  <TableCell align="center">Product</TableCell>
-                  <TableCell align="center">Book Format</TableCell>
-                  <TableCell align="center">
-                    Price&nbsp;(each in BDT){" "}
-                  </TableCell>
-                  <TableCell align="center">Quantity</TableCell>
-                  <TableCell align="center">Total (BDT) </TableCell>
-                  <TableCell align="center">Remove</TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {cartItems.map((item) => (
-                  <TableRow key={item.book}>
-                    <TableCell
-                      align="center"
-                      component="th"
-                      scope="row"
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      <Card component={Link} to={`/book/${item.book}/details`}>
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            image={`/${item.image}`}
-                            alt={`${item.title}`}
-                            height="100"
-                            sx={{ objectFit: "contain" }}
-                          />
-                        </CardActionArea>
-                      </Card>
-                    </TableCell>
-
+      <Box
+        align="center"
+        sx={{ maxWidth: 1000, minWidth: 250, mx: { md: "auto", sm: 4 }, my: 6 }}
+      >
+        {cartItems.length === 0 ? (
+          <Message title="Empty Cart">
+            Your cart is empty. <Link to="/shop">Go to shop</Link>
+          </Message>
+        ) : (
+          <Box sx={{ mx: { md: 10, sm: 4, xs: 2 }, my: 6 }}>
+            <TableContainer component="div">
+              <Table sx={{ minWidth: 200 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center">Image</TableCell>
+                    <TableCell align="center">Product</TableCell>
+                    <TableCell align="center">Book Format</TableCell>
                     <TableCell align="center">
-                      <MuiLink
-                        component={Link}
-                        to={`/book/${item.book}/details`}
-                        sx={{ textDecoration: "none" }}
+                      Price&nbsp;(each in BDT){" "}
+                    </TableCell>
+                    <TableCell align="center">Quantity</TableCell>
+                    <TableCell align="center">Total (BDT) </TableCell>
+                    <TableCell align="center">Remove</TableCell>
+                  </TableRow>
+                </TableHead>
+
+                <TableBody>
+                  {cartItems.map((item) => (
+                    <TableRow key={item.book}>
+                      <TableCell
+                        align="center"
+                        component="th"
+                        scope="row"
+                        sx={{ fontWeight: "bold" }}
                       >
-                        {item.title}
-                      </MuiLink>
-                    </TableCell>
+                        <Card
+                          component={Link}
+                          to={`/book/${item.book}/details`}
+                        >
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              image={`/${item.image}`}
+                              alt={`${item.title}`}
+                              height="100"
+                              sx={{ objectFit: "contain" }}
+                            />
+                          </CardActionArea>
+                        </Card>
+                      </TableCell>
 
-                    <TableCell align="center">
-                      <TextField
-                        size="small"
-                        id="outlined-select-bookformat"
-                        select
-                        value={item.formatType}
-                        onChange={(e) =>
-                          dispatch(
-                            addToCart(
-                              item.book,
-                              item.quantity,
-                              Number(e.target.value)
+                      <TableCell align="center">
+                        <MuiLink
+                          component={Link}
+                          to={`/book/${item.book}/details`}
+                          sx={{ textDecoration: "none" }}
+                        >
+                          {item.title}
+                        </MuiLink>
+                      </TableCell>
+
+                      <TableCell align="center">
+                        <TextField
+                          size="small"
+                          id="outlined-select-bookformat"
+                          select
+                          value={item.formatType}
+                          onChange={(e) =>
+                            dispatch(
+                              addToCart(
+                                item.book,
+                                item.quantity,
+                                Number(e.target.value)
+                              )
                             )
-                          )
-                        }
-                        sx={{ borderRadius: 0 }}
-                      >
-                        {item.format.map((option, idx) => (
-                          <MenuItem key={idx} value={idx}>
-                            {option}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </TableCell>
+                          }
+                          sx={{ borderRadius: 0 }}
+                        >
+                          {item.format.map((option, idx) => (
+                            <MenuItem key={idx} value={idx}>
+                              {option}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </TableCell>
 
-                    <TableCell align="center">
-                      {item.offer ? (
-                        <>
-                          <Typography
-                            sx={{
-                              textDecoration: "line-through",
-                              color: "#9B908A",
-                              fontSize: "0.875rem",
-                            }}
-                          >
-                            {item.price[item.formatType]}
-                          </Typography>
+                      <TableCell align="center">
+                        {item.offer ? (
+                          <>
+                            <Typography
+                              sx={{
+                                textDecoration: "line-through",
+                                color: "#9B908A",
+                                fontSize: "0.875rem",
+                              }}
+                            >
+                              {item.price[item.formatType]}
+                            </Typography>
 
-                          <Typography sx={{ fontSize: "0.875rem" }}>
-                            {makeOfferPrice(
-                              item.offer,
-                              item.price[item.formatType]
-                            )}
-                          </Typography>
-                        </>
-                      ) : (
-                        item.price[item.formatType]
-                      )}
-                    </TableCell>
+                            <Typography sx={{ fontSize: "0.875rem" }}>
+                              {makeOfferPrice(
+                                item.offer,
+                                item.price[item.formatType]
+                              )}
+                            </Typography>
+                          </>
+                        ) : (
+                          item.price[item.formatType]
+                        )}
+                      </TableCell>
 
-                    <TableCell align="center">
-                      <TextField
-                        size="small"
-                        id="outlined-select-bookformat"
-                        select
-                        value={item.quantity}
-                        onChange={(e) =>
-                          dispatch(
-                            addToCart(
-                              item.book,
-                              Number(e.target.value),
-                              item.formatType
+                      <TableCell align="center">
+                        <TextField
+                          size="small"
+                          id="outlined-select-bookformat"
+                          select
+                          value={item.quantity}
+                          onChange={(e) =>
+                            dispatch(
+                              addToCart(
+                                item.book,
+                                Number(e.target.value),
+                                item.formatType
+                              )
                             )
-                          )
-                        }
-                        sx={{ borderRadius: 0 }}
-                      >
-                        {[
-                          ...Array(item.countInStock[item.formatType]).keys(),
-                        ].map((x) => (
-                          <MenuItem key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </TableCell>
+                          }
+                          sx={{ borderRadius: 0 }}
+                        >
+                          {[
+                            ...Array(item.countInStock[item.formatType]).keys(),
+                          ].map((x) => (
+                            <MenuItem key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+                      </TableCell>
 
-                    <TableCell align="center">
-                      {/* {item.price[item.formatType] * item.quantity}/- */}
-                      {makeOfferPrice(item.offer, item.price[item.formatType]) *
-                        item.quantity}
-                    </TableCell>
+                      <TableCell align="center">
+                        {/* {item.price[item.formatType] * item.quantity}/- */}
+                        {makeOfferPrice(
+                          item.offer,
+                          item.price[item.formatType]
+                        ) * item.quantity}
+                      </TableCell>
 
-                    <TableCell align="center">
-                      <Button onClick={() => handleItemRemove(item.book)}>
-                        <CloseIcon />
-                      </Button>
+                      <TableCell align="center">
+                        <Button onClick={() => handleItemRemove(item.book)}>
+                          <CloseIcon />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                  <TableRow>
+                    <TableCell rowSpan={3} />
+                    <TableCell colSpan={4} sx={{ fontWeight: "bold" }}>
+                      Subtotal
+                    </TableCell>
+                    <TableCell colSpan={3} sx={{ fontWeight: "bold" }}>
+                      {cartItems
+                        .reduce(
+                          (acc, item) =>
+                            acc +
+                            item.quantity *
+                              makeOfferPrice(
+                                item.offer,
+                                item.price[item.formatType]
+                              ),
+                          0
+                        )
+                        .toFixed(2)}
+                      /-
                     </TableCell>
                   </TableRow>
-                ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                <TableRow>
-                  <TableCell rowSpan={3} />
-                  <TableCell colSpan={4} sx={{ fontWeight: "bold" }}>
-                    Subtotal
-                  </TableCell>
-                  <TableCell colSpan={3} sx={{ fontWeight: "bold" }}>
-                    {cartItems
-                      .reduce(
-                        (acc, item) =>
-                          acc +
-                          item.quantity *
-                            makeOfferPrice(
-                              item.offer,
-                              item.price[item.formatType]
-                            ),
-                        0
-                      )
-                      .toFixed(2)}
-                    /-
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <Button
-            onClick={handleCheckout}
-            variant="contained"
-            sx={{ mt: 6, borderRadius: 0, bgcolor: "#272643" }}
-          >
-            Proceed to Checkout
-          </Button>
-        </Box>
-      )}
+            <Button
+              onClick={handleCheckout}
+              variant="contained"
+              sx={{ mt: 6, borderRadius: 0, bgcolor: "#272643" }}
+            >
+              Proceed to Checkout
+            </Button>
+          </Box>
+        )}
+      </Box>
     </div>
   );
 };

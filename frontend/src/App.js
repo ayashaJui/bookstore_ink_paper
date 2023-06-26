@@ -21,10 +21,12 @@ import UserProfile from "./screens/UserProfile";
 import Payment from "./screens/Payment";
 import PlaceOrder from "./screens/PlaceOrder";
 import OrderDetails from "./screens/OrderDetails";
-import Orders from "./screens/Orders";
+import UserOrders from "./screens/UserOrders";
 import Dashboard from "./screens/admin/Dashboard";
 import Customers from "./screens/admin/Customers";
 import Users from "./screens/admin/Users";
+import Books from "./screens/admin/Books";
+import Orders from "./screens/admin/Orders";
 
 axios.defaults.withCredentials = true;
 
@@ -57,7 +59,7 @@ function App() {
             <Route exact path="/payment" Component={Payment} />
             <Route exact path="/place_order" Component={PlaceOrder} />
 
-            <Route exact path="/myorders" Component={Orders} />
+            <Route exact path="/myorders" Component={UserOrders} />
             <Route exact path="/order/:id" Component={OrderDetails} />
 
             <Route exact path="/profile" Component={UserProfile} />
@@ -67,7 +69,9 @@ function App() {
 
             <Route exact path="/admin/dashboard" Component={Dashboard} />
             <Route exact path="/admin/users" Component={Users} />
-            {/* <Route exact path="/admin/customers" Component={Customers} /> */}
+            <Route exact path="/admin/customers" Component={Customers} />
+            <Route exact path="/admin/books" Component={Books} />
+            <Route exact path="/admin/orders" Component={Orders} />
           </Routes>
         </main>
         <Footer />
