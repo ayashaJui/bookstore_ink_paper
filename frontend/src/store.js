@@ -6,6 +6,7 @@ import {
   bookAuthorListReducer,
   bookDetailsReducer,
   bookListReducer,
+  bookWithOrderReducers,
   featuredBookListReducer,
   formatListReducer,
   genreListReducer,
@@ -43,6 +44,7 @@ import {
   orderCustomerListReducers,
   orderDetailsReducers,
   orderListMyReducers,
+  orderListReducers,
 } from "./reducers/orderReducers.js";
 
 const reducers = combineReducers({
@@ -76,7 +78,9 @@ const reducers = combineReducers({
   userOrderList: orderListMyReducers,
   userList: userListReducer,
   userUpdateIsAdmin: userUpdateIsAdminReducer,
-  orderCustomerList: orderCustomerListReducers
+  orderCustomerList: orderCustomerListReducers,
+  bookWithOrderList: bookWithOrderReducers,
+  orderList: orderListReducers,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

@@ -31,7 +31,11 @@ import {
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
+  BOOK_WITH_ORDERS_FAIL,
+  BOOK_WITH_ORDERS_REQUEST,
+  BOOK_WITH_ORDERS_SUCCESS,
 } from "../constants/book";
+import { logout } from "./userActions";
 
 export const getAllBooks =
   (queryParams = "") =>
@@ -275,6 +279,47 @@ export const getSaleBooks = () => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+  }
+};
+
+export const getBookWithOrderList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BOOK_WITH_ORDERS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `http://localhost:5000/api/books/orders`,
+      config
+    );
+
+    dispatch({
+      type: BOOK_WITH_ORDERS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BOOK_WITH_ORDERS_FAIL,
+      payload: message,
     });
   }
 };

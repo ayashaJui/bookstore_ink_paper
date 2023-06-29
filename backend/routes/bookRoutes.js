@@ -4,6 +4,7 @@ const router = express();
 import {
   getAllAuthorsBooks,
   getAllBooks,
+  getAllBooksWithOrder,
   getAllFormats,
   getAllGenres,
   getAllPublishers,
@@ -13,8 +14,9 @@ import {
   getPopularBooks,
   getSaleBooks,
 } from "../controllers/bookControllers.js";
+import { protect } from "../middleware/authMiddleware.js";
 
-// genres
+router.route("/orders").get(protect, getAllBooksWithOrder);
 router.get("/genres", getAllGenres);
 router.get("/authors", getAllAuthorsBooks);
 router.get("/formats", getAllFormats);

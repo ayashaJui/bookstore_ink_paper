@@ -91,13 +91,12 @@ export const getOrderedByCustomers = asyncHandler(async (req, res) => {
         _id: "$user",
         name: { $first: "$userInfo.name" },
         email: { $first: "$userInfo.email" },
-        user_created: {$first: '$userInfo.createdAt'},
+        user_created: { $first: "$userInfo.createdAt" },
         orders: {
           $push: {
             totalPrice: "$totalPrice",
             orderedItems: "$orderItems",
             itemQuantity: { $sum: "$orderItems.qty" },
-           
           },
         },
         totalSpend: { $sum: "$totalPrice" },
@@ -107,6 +106,15 @@ export const getOrderedByCustomers = asyncHandler(async (req, res) => {
   ];
 
   const orders = await Order.aggregate(pipeline);
+
+  res.json(orders);
+});
+
+// @desc        Get All Orders
+// @route       GET     /api/orders/
+// @access      Private, Admin
+export const getAllOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("user", "name");
 
   res.json(orders);
 });

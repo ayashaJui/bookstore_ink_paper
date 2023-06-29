@@ -29,6 +29,10 @@ import {
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
+  BOOK_WITH_ORDERS_FAIL,
+  BOOK_WITH_ORDERS_REQUEST,
+  BOOK_WITH_ORDERS_RESET,
+  BOOK_WITH_ORDERS_SUCCESS,
 } from "../constants/book";
 
 const initialState = {
@@ -288,6 +292,36 @@ export const saleBookListReducer = (state = initialState, action) => {
       return {
         loading: false,
         error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const bookWithOrderReducers = (
+  state = { bookWithOrder: [] },
+  action
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_WITH_ORDERS_REQUEST:
+      return {
+        loading: true,
+      };
+    case BOOK_WITH_ORDERS_SUCCESS:
+      return {
+        loading: false,
+        bookWithOrder: payload,
+      };
+    case BOOK_WITH_ORDERS_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case BOOK_WITH_ORDERS_RESET:
+      return {
+        bookWithOrder: [],
       };
     default:
       return state;

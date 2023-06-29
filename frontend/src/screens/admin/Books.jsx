@@ -1,7 +1,6 @@
 import {
   Box,
   Breadcrumbs,
-  Button,
   Divider,
   Paper,
   Link as MuiLink,
@@ -16,12 +15,19 @@ import {
   Card,
   CardActionArea,
   CardMedia,
+  TablePagination,
+  IconButton,
+  TableSortLabel,
 } from "@mui/material";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
+import DoneIcon from "@mui/icons-material/Done";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllBooks } from "../../actions/bookActions";
+import { getBookWithOrderList } from "../../actions/bookActions";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
 import styled from "@emotion/styled";
@@ -47,38 +53,104 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const StyledTableSortLabel = styled(TableSortLabel)({
+  "&.Mui-active": {
+    color: "#ffffff", // Set your desired white color here
+  },
+  "&.MuiTableSortLabel-root.Mui-active .MuiTableSortLabel-icon": {
+    color: "inherit",
+  },
+});
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
 const Books = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [sortOrder, setSortOrder] = useState("desc");
+  let visibleRows = [];
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  const { loading, error, books } = useSelector((state) => state.bookList);
-
-  console.log(books.books);
+  const { loading, error, bookWithOrder } = useSelector(
+    (state) => state.bookWithOrderList
+  );
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(getAllBooks());
+      dispatch(getBookWithOrderList());
     } else {
       navigate("/signin");
     }
   }, [dispatch, navigate, userInfo]);
 
   const handleFeatureSubmit = (event, id, isFeatured) => {
-    console.log(id, isFeatured)
-  }
+    console.log(id, isFeatured);
+  };
 
   const handleBestSellerSubmit = (event, id, isBestSeller) => {
-    console.log(id, isBestSeller)
-  }
+    console.log(id, isBestSeller);
+  };
 
   const handleEdit = (event, id) => {
-    console.log(id)
-  }
+    console.log(id);
+  };
 
   const handleDeleteSubmit = (event, id) => {
-    console.log(id)
+    console.log(id);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleSort = () => {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+  };
+
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - bookWithOrder.length) : 0;
+
+  if (bookWithOrder && bookWithOrder.length > 0) {
+    visibleRows = stableSort(
+      bookWithOrder,
+      getComparator(sortOrder, "saleCount")
+    ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   }
 
   return (
@@ -98,166 +170,180 @@ const Books = () => {
             {error}{" "}
           </Message>
         ) : (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>No</StyledTableCell>
-                  <StyledTableCell>Image</StyledTableCell>
-                  <StyledTableCell>Title</StyledTableCell>
-                  <StyledTableCell>Author</StyledTableCell>
-                  <StyledTableCell>Formats</StyledTableCell>
-                  <StyledTableCell>Prices</StyledTableCell>
-                  <StyledTableCell>Stock</StyledTableCell>
-                  <StyledTableCell>Release Date</StyledTableCell>
-                  <StyledTableCell>Created By</StyledTableCell>
-                  {/* <StyledTableCell>Rating</StyledTableCell>
-                  <StyledTableCell>No of Reviews</StyledTableCell> */}
-                  <StyledTableCell>Offer (%) </StyledTableCell>
-                  <StyledTableCell>Featured</StyledTableCell>
-                  <StyledTableCell>BestSeller</StyledTableCell>
-                  <StyledTableCell colSpan={2} align="center">
-                    Actions
-                  </StyledTableCell>
-                  {/* <StyledTableCell ></StyledTableCell> */}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {books.books.map(
-                  (
-                    {
-                      _id,
-                      //   isbn,
-                      title,
-                      author,
-                      user,
-                      format,
-                      price,
-                      countInStock,
-                      image,
-                      release,
-                      //   rating,
-                      //   numReviews,
-                      offer,
-                      isFeatured,
-                      isBestSeller,
-                    },
-                    idx
-                  ) => (
-                    <StyledTableRow key={idx}>
-                      <StyledTableCell component="th" scope="row">
-                        {idx + 1}
-                      </StyledTableCell>
-
-                      <StyledTableCell>
-                        <Card component={Link} to={`/book/${_id}/details`}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              image={`/${image}`}
-                              alt={`${title}`}
-                              height="80"
-                              sx={{ objectFit: "contain" }}
-                            />
-                          </CardActionArea>
-                        </Card>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <MuiLink
-                          component={Link}
-                          to={`/book/${_id}/details`}
-                          sx={{ textDecoration: "none" }}
-                        >
-                          {" "}
-                          {title}{" "}
-                        </MuiLink>
-                      </StyledTableCell>
-                      <StyledTableCell>
+          <Box sx={{ width: "100%", mb: 2 }}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>No</StyledTableCell>
+                    <StyledTableCell>Image</StyledTableCell>
+                    <StyledTableCell>Title</StyledTableCell>
+                    <StyledTableCell>Format</StyledTableCell>
+                    <StyledTableCell>Prices</StyledTableCell>
+                    <StyledTableCell>Stock</StyledTableCell>
+                    <StyledTableCell>Release Date</StyledTableCell>
+                    <StyledTableCell>
+                      <StyledTableSortLabel
+                        active={true}
+                        sx={{
+                          "&:hover": { color: "white" },
+                        }}
+                        direction={sortOrder}
+                        onClick={handleSort}
+                      >
                         {" "}
-                        {author.map(({ _id, name }, index) => (
-                          <span key={index}>
-                            <MuiLink
-                              component={Link}
-                              to={`/author/${_id}/profile`}
-                              sx={{
-                                ml: 1,
-                                textDecoration: "none",
-                              }}
-                            >
-                              {name}
-                            </MuiLink>
-                            {index !== author.length - 1 && (
-                              <Typography component={"span"}>,</Typography>
+                        Sales{" "}
+                      </StyledTableSortLabel>
+                    </StyledTableCell>
+                    <StyledTableCell>Offer (%) </StyledTableCell>
+                    <StyledTableCell>Featured</StyledTableCell>
+                    <StyledTableCell>Best Seller</StyledTableCell>
+                    <StyledTableCell colSpan={2} align="center">
+                      Actions
+                    </StyledTableCell>
+                    <StyledTableCell>Created By</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {visibleRows.map(
+                    (
+                      {
+                        _id,
+                        title,
+                        user,
+                        format,
+                        price,
+                        countInStock,
+                        image,
+                        release,
+                        offer,
+                        isFeatured,
+                        isBestSeller,
+                        saleCount,
+                      },
+                      idx
+                    ) => (
+                      <StyledTableRow key={idx}>
+                        <StyledTableCell component="th" scope="row">
+                          {idx + 1}
+                        </StyledTableCell>
+
+                        <StyledTableCell>
+                          <Card component={Link} to={`/book/${_id}/details`}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                image={`/${image}`}
+                                alt={`${title}`}
+                                height="80"
+                                sx={{ objectFit: "contain" }}
+                              />
+                            </CardActionArea>
+                          </Card>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <MuiLink
+                            component={Link}
+                            to={`/book/${_id}/details`}
+                            sx={{ textDecoration: "none" }}
+                          >
+                            {" "}
+                            {title}{" "}
+                          </MuiLink>
+                        </StyledTableCell>
+
+                        <StyledTableCell>
+                          {format.slice(0, -1).join(", ") +
+                            (format.length > 1 ? ", " : "") +
+                            format[format.length - 1]}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {price.slice(0, -1).join(", ") +
+                            (price.length > 1 ? ", " : "") +
+                            price[price.length - 1]}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {countInStock.slice(0, -1).join(", ") +
+                            (countInStock.length > 1 ? ", " : "") +
+                            countInStock[countInStock.length - 1]}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {formattedDate(release)}
+                        </StyledTableCell>
+                        <StyledTableCell> {saleCount} </StyledTableCell>
+                        <StyledTableCell> {offer} </StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            size="small"
+                            variant="contained"
+                            fontWeight="bold"
+                            onClick={(event) =>
+                              handleFeatureSubmit(event, _id, isFeatured)
+                            }
+                          >
+                            {isFeatured ? (
+                              <DoneIcon fontSize="small" color="success" />
+                            ) : (
+                              <CloseIcon fontSize="small" color="error" />
                             )}
-                          </span>
-                        ))}{" "}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {format.slice(0, -1).join(", ") +
-                          (format.length > 1 ? ", " : "") +
-                          format[format.length - 1]}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {price.slice(0, -1).join(", ") +
-                          (price.length > 1 ? ", " : "") +
-                          price[price.length - 1]}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {countInStock.slice(0, -1).join(", ") +
-                          (countInStock.length > 1 ? ", " : "") +
-                          countInStock[countInStock.length - 1]}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        {formattedDate(release)}
-                      </StyledTableCell>
-                      <StyledTableCell>{user.name}</StyledTableCell>
-                      {/* <StyledTableCell>{rating}</StyledTableCell>
-                      <StyledTableCell> {numReviews} </StyledTableCell> */}
-                      <StyledTableCell> {offer} </StyledTableCell>
-                      <StyledTableCell>
-                        <Button  size="small" variant="contained" onClick={(event) => handleFeatureSubmit(event, _id, isFeatured)}>
-                            {
-                                isFeatured ? "Remove" : "Add"
-                            }
-                        </Button>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                      <Button  size="small" variant="contained" onClick={(event) => handleBestSellerSubmit(event, _id, isFeatured)}>
-                            {
-                                isBestSeller ? "Remove" : "Add"
-                            }
-                        </Button>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          size="small"
+                          </IconButton>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            size="small"
+                            variant="contained"
                             onClick={(event) =>
-                              handleEdit(event, _id)
+                              handleBestSellerSubmit(event, _id, isFeatured)
                             }
-                        >
-                          Edit
-                        </Button>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          size="small"
-                            onClick={(event) =>
-                              handleDeleteSubmit(event, _id)
-                            }
-                        >
-                          delete
-                        </Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  )
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                          >
+                            {isBestSeller ? (
+                              <DoneIcon fontSize="small" color="success" />
+                            ) : (
+                              <CloseIcon fontSize="small" color="error" />
+                            )}
+                          </IconButton>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            color="secondary"
+                            size="small"
+                            onClick={(event) => handleEdit(event, _id)}
+                          >
+                            <ModeEditIcon fontSize="small" />
+                          </IconButton>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <IconButton
+                            color="error"
+                            size="small"
+                            onClick={(event) => handleDeleteSubmit(event, _id)}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </StyledTableCell>
+                        <StyledTableCell>{user}</StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  )}
+
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={bookWithOrder.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Box>
         )}
       </Box>
     </MainComponent>

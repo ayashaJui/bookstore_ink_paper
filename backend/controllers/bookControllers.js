@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 
 import Book from "../models/Book.js";
 import Author from "../models/Author.js";
-import User from '../models/User.js'
+import User from "../models/User.js";
 
 // @desc        get all books
 // @route       GET     /api/books/
@@ -60,7 +60,9 @@ export const getAllBooks = asyncHandler(async (req, res) => {
         .populate("author");
     }
   } else {
-    books = await Book.find(queryParams).populate("author", "name").populate("user", "name");
+    books = await Book.find(queryParams)
+      .populate("author", "name")
+      .populate("user", "name");
   }
 
   res.json({ count: books.length, books });
@@ -194,4 +196,82 @@ export const getSaleBooks = asyncHandler(async (req, res) => {
     .limit(4);
 
   res.json({ count: sales.length, sales });
+});
+
+// @desc        get all books with order count
+// @route       GET     /api/books/orders
+// @access      Private, Admin
+export const getAllBooksWithOrder = asyncHandler(async (req, res) => {
+  const pipeline = [
+    {
+      $lookup: {
+        from: "orders",
+        let: { bookId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $in: ["$$bookId", "$orderItems.book"],
+              },
+            },
+          },
+          {
+            $unwind: "$orderItems",
+          },
+          {
+            $match: {
+              $expr: {
+                $eq: ["$orderItems.book", "$$bookId"],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              saleCount: { $sum: "$orderItems.qty" },
+            },
+          },
+        ],
+        as: "saleCountData",
+      },
+    },
+
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "users",
+      },
+    },
+
+    {
+      $project: {
+        _id: 1,
+        title: 1,
+        user: { $arrayElemAt: ["$users.name", 0] },
+        // author: {
+        //   $map: {
+        //     input: "$authors",
+        //     as: "author",
+        //     in: "$$author.name",
+        //   },
+        // },
+        image: 1,
+        format: 1,
+        price: 1,
+        countInStock: 1,
+        release: 1,
+        offer: 1,
+        isFeatured: 1,
+        isBestSeller: 1,
+        saleCount: {
+          $ifNull: [{ $arrayElemAt: ["$saleCountData.saleCount", 0] }, 0],
+        },
+      },
+    },
+  ];
+
+  const books = await Book.aggregate(pipeline);
+  res.json(books);
 });

@@ -49,7 +49,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Books" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/authors`}>
       <ListItemIcon>
         <LocalLibraryIcon />
       </ListItemIcon>
