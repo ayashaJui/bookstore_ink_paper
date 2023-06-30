@@ -55,7 +55,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Authors" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/blogs`}>
       <ListItemIcon>
         <ArticleIcon />
       </ListItemIcon>
@@ -81,17 +81,23 @@ export const secondaryListItems = (
     {/* <ListSubheader component="div" inset>
       Saved reports
     </ListSubheader> */}
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/add_book`}>
       <ListItemIcon>
         <AddCircleOutlineOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Add Book" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton component={Link} to={`/admin/add_author`}>
       <ListItemIcon>
         <AddCircleOutlineOutlinedIcon />
       </ListItemIcon>
       <ListItemText primary="Add Author" />
+    </ListItemButton>
+    <ListItemButton component={Link} to={`/admin/add_user`}>
+      <ListItemIcon>
+        <AddCircleOutlineOutlinedIcon />
+      </ListItemIcon>
+      <ListItemText primary="Add User" />
     </ListItemButton>
     {/* <ListItemButton>
       <ListItemIcon>

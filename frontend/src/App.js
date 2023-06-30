@@ -28,6 +28,7 @@ import Users from "./screens/admin/Users";
 import Books from "./screens/admin/Books";
 import Orders from "./screens/admin/Orders";
 import AuthorList from "./screens/admin/AuthorList";
+import BlogList from "./screens/admin/BlogList";
 
 axios.defaults.withCredentials = true;
 
@@ -74,6 +75,7 @@ function App() {
             <Route exact path="/admin/books" Component={Books} />
             <Route exact path="/admin/orders" Component={Orders} />
             <Route exact path="/admin/authors" Component={AuthorList} />
+            <Route exact path="/admin/blogs" Component={BlogList} />
           </Routes>
         </main>
         <Footer />

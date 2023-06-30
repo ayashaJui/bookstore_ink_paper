@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 import Book from "../models/Book.js";
 import Author from "../models/Author.js";
+import User from "../models/User.js";
 
 const lookup = [
   {
@@ -19,15 +20,25 @@ const lookup = [
 // @route       GET     /api/authors/
 // @access      Public
 export const getAllAuthors = asyncHandler(async (req, res) => {
+  const userLookup = {
+    $lookup: {
+      from: "users",
+      localField: "user",
+      foreignField: "_id",
+      as: "users",
+    },
+  };
+
   const project = {
     $project: {
       _id: 1,
+      user: "$users.name",
       authorInfo: "$$ROOT",
       totalBooks: { $size: "$books" },
     },
   };
 
-  const pipeline = [...lookup, project];
+  const pipeline = [...lookup, userLookup, project];
 
   const authors = await Author.aggregate(pipeline);
 

@@ -56,81 +56,91 @@ const Blogs = () => {
               {blogs &&
                 blogs.map(
                   (
-                    { _id, title, user, description, image, createdAt },
+                    {
+                      _id,
+                      title,
+                      user,
+                      description,
+                      image,
+                      createdAt,
+                      isHidden,
+                    },
                     idx
-                  ) => (
-                    <Card
-                      sx={{ my: 4, boxShadow: "none", mx: "auto" }}
-                      key={idx}
-                      height="300px"
-                    >
-                      <Grid container>
-                        <Grid item xs={12} sm={4} md={5}>
-                          <CardMedia
-                            component="img"
-                            image={`/${image}`}
-                            alt={title}
-                            height="300px"
-                            sx={{ objectFit: "cover" }}
-                          />
+                  ) =>
+                    !isHidden && (
+                      <Card
+                        sx={{ my: 4, boxShadow: "none", mx: "auto" }}
+                        key={idx}
+                        height="300px"
+                      >
+                        <Grid container>
+                          <Grid item xs={12} sm={4} md={5}>
+                            <CardMedia
+                              component="img"
+                              image={`/${image}`}
+                              alt={title}
+                              height="300px"
+                              sx={{ objectFit: "cover" }}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={8} md={7}>
+                            <CardContent sx={{ ml: 1 }}>
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="div"
+                                sx={{
+                                  textAlign: "left",
+                                  fontWeight: "bold",
+                                  fontFamily: "Roboto",
+                                }}
+                              >
+                                {title}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  textAlign: "left",
+                                  my: 2,
+                                  fontWeight: "bold",
+                                  fontFamily: "Roboto",
+                                }}
+                              >
+                                POSTS BY {user.name} /{" "}
+                                {formattedDate(createdAt)}
+                              </Typography>
+                              <Divider />
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  textAlign: "left",
+                                  my: 3,
+                                  fontSize: "15px",
+                                }}
+                              >
+                                {description.split(" ").slice(0, 30).join(" ")}
+                                ......
+                              </Typography>
+                            </CardContent>
+                            <CardActions sx={{ ml: 1, mb: 2 }}>
+                              <Button
+                                component={Link}
+                                size="small"
+                                to={`/blog/${_id}/details`}
+                                //   variant="outlined"
+                                sx={{
+                                  color: "#272643",
+                                  fontWeight: "bold",
+                                  "&:hover": { color: "#2c698d" },
+                                }}
+                              >
+                                Read More
+                              </Button>
+                            </CardActions>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={8} md={7}>
-                          <CardContent sx={{ ml: 1 }}>
-                            <Typography
-                              gutterBottom
-                              variant="h5"
-                              component="div"
-                              sx={{
-                                textAlign: "left",
-                                fontWeight: "bold",
-                                fontFamily: "Roboto",
-                              }}
-                            >
-                              {title}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                textAlign: "left",
-                                my: 2,
-                                fontWeight: "bold",
-                                fontFamily: "Roboto",
-                              }}
-                            >
-                              POSTS BY {user.name} / {formattedDate(createdAt)}
-                            </Typography>
-                            <Divider />
-                            <Typography
-                              variant="body2"
-                              sx={{
-                                textAlign: "left",
-                                my: 3,
-                                fontSize: "15px",
-                              }}
-                            >
-                              {description.split(" ").slice(0, 30).join(" ")}
-                              ......
-                            </Typography>
-                          </CardContent>
-                          <CardActions sx={{ ml: 1, mb: 2 }}>
-                            <Button
-                              component={Link}
-                              size="small"
-                              to={`/blog/${_id}/details`}
-                              //   variant="outlined"
-                              sx={{
-                                color: "#272643",
-                                fontWeight: "bold",
-                                "&:hover": { color: "#2c698d" },
-                              }}
-                            >
-                              Read More
-                            </Button>
-                          </CardActions>
-                        </Grid>
-                      </Grid>
-                    </Card>
-                  )
+                      </Card>
+                    )
                 )}
 
               {blogs && blogs.length > 0 && (

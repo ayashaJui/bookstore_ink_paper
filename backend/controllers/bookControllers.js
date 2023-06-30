@@ -96,7 +96,7 @@ export const getAllGenres = asyncHandler(async (req, res) => {
   res.json(genres);
 });
 
-// @desc        get all genres
+// @desc        get all authors book
 // @route       GET     /api/books/authors/
 // @access      Public
 export const getAllAuthorsBooks = asyncHandler(async (req, res) => {

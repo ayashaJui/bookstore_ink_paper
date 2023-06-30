@@ -8,6 +8,7 @@ import {
   Breadcrumbs,
   Button,
   Divider,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -20,6 +21,8 @@ import {
   styled,
   tableCellClasses,
 } from "@mui/material";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
 
@@ -77,6 +80,14 @@ const Users = () => {
     setPage(0);
   };
 
+  const handleEdit = (event, id) => {
+    console.log(id);
+  };
+
+  const handleDeleteSubmit = (event, id) => {
+    console.log(id);
+  };
+
   return (
     <MainComponent>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
@@ -108,6 +119,7 @@ const Users = () => {
                     <StyledTableCell>Postal Code</StyledTableCell>
                     <StyledTableCell>Country</StyledTableCell>
                     <StyledTableCell>Admin</StyledTableCell>
+                    <StyledTableCell colSpan={2}>Actions</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -130,6 +142,7 @@ const Users = () => {
                         <StyledTableCell>{address?.city}</StyledTableCell>
                         <StyledTableCell>{address?.code}</StyledTableCell>
                         <StyledTableCell>{address?.country}</StyledTableCell>
+
                         <StyledTableCell>
                           <Button
                             variant="contained"
@@ -141,6 +154,32 @@ const Users = () => {
                             {isAdmin ? "Remove" : "Add"}
                           </Button>
                         </StyledTableCell>
+                        {isAdmin ? (
+                          <>
+                            <StyledTableCell>
+                              <IconButton
+                                color="secondary"
+                                size="small"
+                                onClick={(event) => handleEdit(event, _id)}
+                              >
+                                <ModeEditIcon fontSize="small" />
+                              </IconButton>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                              <IconButton
+                                color="error"
+                                size="small"
+                                onClick={(event) =>
+                                  handleDeleteSubmit(event, _id)
+                                }
+                              >
+                                <DeleteIcon fontSize="small" />
+                              </IconButton>
+                            </StyledTableCell>
+                          </>
+                        ) : (
+                          <StyledTableCell colSpan={2}></StyledTableCell>
+                        )}
                       </StyledTableRow>
                     )
                   )}

@@ -3,6 +3,7 @@ import {
   Breadcrumbs,
   Divider,
   Paper,
+  Link as MuiLink,
   Table,
   TableBody,
   TableCell,
@@ -12,11 +13,16 @@ import {
   Typography,
   styled,
   tableCellClasses,
+  Avatar,
+  TablePagination,
+  IconButton,
 } from "@mui/material";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { getAllAuthors } from "../../actions/authorActions";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
@@ -42,13 +48,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const AuthorList = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const { loading, error, authors } = useSelector((state) => state.authorList);
-  console.log(authors);
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -57,6 +65,23 @@ const AuthorList = () => {
       navigate("/signin");
     }
   }, [dispatch, navigate, userInfo]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleEdit = (event, id) => {
+    console.log(id);
+  };
+
+  const handleDeleteSubmit = (event, id) => {
+    console.log(id);
+  };
 
   return (
     <MainComponent>
@@ -81,44 +106,77 @@ const AuthorList = () => {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>No</StyledTableCell>
-                    <StyledTableCell>Full Name</StyledTableCell>
+                    <StyledTableCell>Image</StyledTableCell>
+                    <StyledTableCell>Name</StyledTableCell>
                     <StyledTableCell>Email</StyledTableCell>
-                    <StyledTableCell>Phone</StyledTableCell>
-                    <StyledTableCell>Street</StyledTableCell>
-                    <StyledTableCell>City</StyledTableCell>
-                    <StyledTableCell>Postal Code</StyledTableCell>
-                    <StyledTableCell>Country</StyledTableCell>
-                    <StyledTableCell>Admin</StyledTableCell>
+                    <StyledTableCell>Books</StyledTableCell>
+                    <StyledTableCell colSpan={2}>Actions</StyledTableCell>
+                    <StyledTableCell>Created By</StyledTableCell>
                   </TableRow>
                 </TableHead>
-                {/* <TableBody>
+                <TableBody>
                   {(rowsPerPage > 0
-                    ? orders.slice(
+                    ? authors.slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
-                    : orders
-                  ).map(
-                    ({ _id, name, email, phone, address, isAdmin }, idx) => (
-                      <StyledTableRow key={idx}>
-                        <StyledTableCell component="th" scope="row">
-                          {idx + 1}
-                        </StyledTableCell>
-                        <StyledTableCell>{name}</StyledTableCell>
-                        <StyledTableCell>{email}</StyledTableCell>
-                        <StyledTableCell>{phone}</StyledTableCell>
-                        <StyledTableCell>{address?.street}</StyledTableCell>
-                        <StyledTableCell>{address?.city}</StyledTableCell>
-                        <StyledTableCell>{address?.code}</StyledTableCell>
-                        <StyledTableCell>{address?.country}</StyledTableCell>
-                        <StyledTableCell></StyledTableCell>
-                      </StyledTableRow>
-                    )
-                  )}
-                </TableBody> */}
+                    : authors
+                  ).map(({ authorInfo, user, totalBooks }, idx) => (
+                    <StyledTableRow key={idx}>
+                      <StyledTableCell component="th" scope="row">
+                        {idx + 1}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <MuiLink
+                          component={Link}
+                          to={`/author/${authorInfo._id}/profile`}
+                          sx={{ textDecoration: "none", color: "#000" }}
+                        >
+                          <Avatar
+                            alt={`${authorInfo.name}`}
+                            src={`/${authorInfo.image}`}
+                            sx={{ width: 50, height: 50 }}
+                          />
+                        </MuiLink>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <MuiLink
+                          component={Link}
+                          to={`/author/${authorInfo._id}/profile`}
+                          sx={{ textDecoration: "none" }}
+                        >
+                          {authorInfo.name}
+                        </MuiLink>
+                      </StyledTableCell>
+                      <StyledTableCell>{authorInfo.email}</StyledTableCell>
+                      <StyledTableCell>{totalBooks}</StyledTableCell>
+                      <StyledTableCell>
+                        <IconButton
+                          color="secondary"
+                          size="small"
+                          onClick={(event) => handleEdit(event, authorInfo._id)}
+                        >
+                          <ModeEditIcon fontSize="small" />
+                        </IconButton>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <IconButton
+                          color="error"
+                          size="small"
+                          onClick={(event) =>
+                            handleDeleteSubmit(event, authorInfo._id)
+                          }
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </StyledTableCell>
+                      <StyledTableCell>{user}</StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
               </Table>
             </TableContainer>
-            {/* <TablePagination
+            <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
               count={authors.length}
@@ -126,7 +184,7 @@ const AuthorList = () => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            /> */}
+            />
           </Box>
         )}
       </Box>

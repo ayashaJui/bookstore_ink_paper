@@ -60,7 +60,7 @@ const BlogSchema = mongoose.Schema(
     ],
 
     isHidden: {
-      type: String,
+      type: Boolean,
       required: true,
       default: false,
     },
