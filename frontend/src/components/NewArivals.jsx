@@ -13,10 +13,7 @@ import { Link } from "react-router-dom";
 const NewArrivals = () => {
   const dispatch = useDispatch();
 
-  const { latestReleases: latestBooks } = useSelector(
-    (state) => state.latestReleaseList
-  );
-  const { latestReleases } = latestBooks;
+  const { latestReleases } = useSelector((state) => state.latestReleaseList);
   // console.log(latestReleases);
 
   useEffect(() => {

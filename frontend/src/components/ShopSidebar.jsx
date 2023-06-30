@@ -53,20 +53,15 @@ const ShopSidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { genres: bookGenre } = useSelector((state) => state.genreList);
-  const genreItem = sortObject(
-    countOccurances(makeGenreArray(bookGenre.genres))
-  );
+  const { genres } = useSelector((state) => state.genreList);
+  const genreItem = sortObject(countOccurances(makeGenreArray(genres)));
 
   const { bookAuthors } = useSelector((state) => state.bookAuthorList);
-  const { authors } = bookAuthors;
-  const { formats: bookFormat } = useSelector((state) => state.formatList);
-  const formatItem = countOccurances(makeFormatArray(bookFormat.formats));
 
-  const { publishers: bookPublishers } = useSelector(
-    (state) => state.publisherList
-  );
-  const { publishers } = bookPublishers;
+  const { formats } = useSelector((state) => state.formatList);
+  const formatItem = countOccurances(makeFormatArray(formats));
+
+  const { publishers } = useSelector((state) => state.publisherList);
   // console.log(publishers);
 
   // Accordion expand
@@ -241,8 +236,8 @@ const ShopSidebar = () => {
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {authors &&
-              authors.map(({ _id, name, totalBooks }, idx) => {
+            {bookAuthors &&
+              bookAuthors.map(({ _id, name, totalBooks }, idx) => {
                 return (
                   <ListItem key={idx} disablePadding>
                     <ListItemButton

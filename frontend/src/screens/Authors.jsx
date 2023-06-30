@@ -59,8 +59,7 @@ const Authors = () => {
 
   const dispatch = useDispatch();
 
-  const { authors: allAuthors } = useSelector((state) => state.authorList);
-  const { authors } = allAuthors;
+  const { authors } = useSelector((state) => state.authorList);
 
   useEffect(() => {
     dispatch(getAllAuthors());

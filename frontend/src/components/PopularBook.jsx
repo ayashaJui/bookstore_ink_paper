@@ -44,7 +44,6 @@ const PopularBooks = () => {
   const dispatch = useDispatch();
 
   const { popularBooks } = useSelector((state) => state.popularBookList);
-  const { popular } = popularBooks;
 
   useEffect(() => {
     dispatch(getPopularBooks());
@@ -113,8 +112,8 @@ const PopularBooks = () => {
         // sx={{ py: 4, boxShadow: "0px 9px 11px 0px rgba(0,0,0,0.43)" }}
       >
         <Slider {...settings}>
-          {popular &&
-            popular.map((book, idx) => (
+          {popularBooks &&
+            popularBooks.map((book, idx) => (
               <BookCard
                 mediaHeight="280"
                 cardColor="#e3f6f5"

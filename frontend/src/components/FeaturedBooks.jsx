@@ -10,7 +10,7 @@ const FeaturedBooks = () => {
   const dispatch = useDispatch();
 
   const { featuredBooks } = useSelector((state) => state.featuredBookList);
-  const { featured } = featuredBooks;
+
   // console.log(featured);
 
   useEffect(() => {
@@ -42,11 +42,10 @@ const FeaturedBooks = () => {
       </Typography>
       <Paper elevation={3}>
         <Slider {...settings}>
-          {featured &&
-            featured.map((book) => <FeatureCard book={book} key={book._id} />)}
-          {/* <FeatureCard />
-          <FeatureCard />
-          <FeatureCard /> */}
+          {featuredBooks &&
+            featuredBooks.map((book) => (
+              <FeatureCard book={book} key={book._id} />
+            ))}
         </Slider>
       </Paper>
     </Box>

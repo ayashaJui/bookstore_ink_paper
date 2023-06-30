@@ -33,21 +33,7 @@ import {
   sortObject,
 } from "../helper/helperFunction";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
-// const times = [
-//   {
-//     title: "March 2015",
-//     count: 10,
-//   },
-//   {
-//     title: "March 2015",
-//     count: 10,
-//   },
-//   {
-//     title: "March 2015",
-//     count: 10,
-//   },
-// ];
+import Loader from "../layouts/Loader";
 
 const BlogSidebar = () => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
@@ -59,17 +45,16 @@ const BlogSidebar = () => {
 
   const { categories } = useSelector((state) => state.blogCategoryList);
   const uniqueCategories = makeObjectArray(
-    sortObject(countOccurances(makeCategoryArray(categories.categories)))
+    sortObject(countOccurances(makeCategoryArray(categories)))
   );
 
-  const { latest } = useSelector((state) => state.blogLatest);
-  const { blogs } = latest;
+  const { loading, latest } = useSelector((state) => state.blogLatest);
 
   const { tags } = useSelector((state) => state.blogTagList);
   const uniqueTags = makeObjectArray(
-    sortObject(countOccurances(makeTagArray(tags.tags)))
+    sortObject(countOccurances(makeTagArray(tags)))
   );
-  // console.log(uniqueTags);
+  // console.log(latest);
 
   useEffect(() => {
     dispatch(getAllBlogCategories());
@@ -181,8 +166,10 @@ const BlogSidebar = () => {
       </Typography>
 
       <Box component="div" sx={{ mb: 7 }}>
-        {blogs &&
-          blogs.map(({ _id, title, image, createdAt }, idx) => (
+        {loading ? (
+          <Loader />
+        ) : (
+          latest.map(({ _id, title, image, createdAt }, idx) => (
             <Card sx={{ my: 2, boxShadow: "none", ml: 1 }} key={idx}>
               <Grid container spacing={0}>
                 <Grid item>
@@ -225,112 +212,8 @@ const BlogSidebar = () => {
                 </Grid>
               </Grid>
             </Card>
-          ))}
-
-        {/* <Card sx={{ my: 2, boxShadow: "none", ml: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item>
-              <CardMedia
-                component="img"
-                image="/images/static/carousal/1.jpg"
-                alt="featured image"
-                height="60px"
-                width="60px"
-              />
-            </Grid>
-            <Grid item>
-              <Typography
-                variant="h6"
-                sx={{
-                  textAlign: "left",
-                  fontWeight: "bold",
-                  fontFamily: "Roboto",
-                }}
-              >
-                Lizard
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  textAlign: "left",
-                  fontSize: "10px",
-                }}
-              >
-                March 18, 2023
-              </Typography>
-            </Grid>
-          </Grid>
-        </Card>
-
-        <Card sx={{ my: 2, boxShadow: "none", ml: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item>
-              <CardMedia
-                component="img"
-                image="/images/static/carousal/1.jpg"
-                alt="featured image"
-                height="60px"
-                width="60px"
-              />
-            </Grid>
-            <Grid item>
-              <Typography
-                variant="h6"
-                sx={{
-                  textAlign: "left",
-                  fontWeight: "bold",
-                  fontFamily: "Roboto",
-                }}
-              >
-                Lizard
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  textAlign: "left",
-                  fontSize: "10px",
-                }}
-              >
-                March 18, 2023
-              </Typography>
-            </Grid>
-          </Grid>
-        </Card>
-
-        <Card sx={{ my: 2, boxShadow: "none", ml: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item>
-              <CardMedia
-                component="img"
-                image="/images/static/carousal/1.jpg"
-                alt="featured image"
-                height="60px"
-                width="60px"
-              />
-            </Grid>
-            <Grid item>
-              <Typography
-                variant="h6"
-                sx={{
-                  textAlign: "left",
-                  fontWeight: "bold",
-                  fontFamily: "Roboto",
-                }}
-              >
-                Lizard
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  textAlign: "left",
-                  fontSize: "10px",
-                }}
-              >
-                March 18, 2023
-              </Typography>
-            </Grid>
-          </Grid>
-        </Card> */}
+          ))
+        )}
       </Box>
 
       <Typography

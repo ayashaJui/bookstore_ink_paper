@@ -31,7 +31,7 @@ export const getAllAuthors = asyncHandler(async (req, res) => {
 
   const authors = await Author.aggregate(pipeline);
 
-  res.json({ count: authors.length, authors });
+  res.json(authors);
 });
 
 // @desc        get author by id
@@ -104,5 +104,5 @@ export const getAuthorsByPopularity = asyncHandler(async (req, res) => {
 
   const popularAuthors = await Author.aggregate(pipeline);
 
-  res.json({ count: popularAuthors.length, popularAuthors });
+  res.json(popularAuthors);
 });

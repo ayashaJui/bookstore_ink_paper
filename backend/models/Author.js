@@ -31,11 +31,7 @@ const AuthorSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    isHidden: {
-      type: String,
-      required: true,
-      default: false,
-    },
+
     social: {
       youtube: {
         type: String,

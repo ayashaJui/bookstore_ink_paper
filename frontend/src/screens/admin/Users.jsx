@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserList, updateIsAdmin } from "../../actions/userActions";
 import {
   Box,
@@ -14,6 +14,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
   styled,
@@ -43,6 +44,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Users = () => {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -64,6 +68,15 @@ const Users = () => {
     dispatch(updateIsAdmin(id, { isAdmin: !isAdmin }));
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <MainComponent>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
@@ -81,52 +94,69 @@ const Users = () => {
             {error}{" "}
           </Message>
         ) : (
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>No</StyledTableCell>
-                  <StyledTableCell>Full Name</StyledTableCell>
-                  <StyledTableCell>Email</StyledTableCell>
-                  <StyledTableCell>Phone</StyledTableCell>
-                  <StyledTableCell>Street</StyledTableCell>
-                  <StyledTableCell>City</StyledTableCell>
-                  <StyledTableCell>Postal Code</StyledTableCell>
-                  <StyledTableCell>Country</StyledTableCell>
-                  <StyledTableCell>Admin</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.map(
-                  ({ _id, name, email, phone, address, isAdmin }, idx) => (
-                    <StyledTableRow key={idx}>
-                      <StyledTableCell component="th" scope="row">
-                        {idx + 1}
-                      </StyledTableCell>
-                      <StyledTableCell>{name}</StyledTableCell>
-                      <StyledTableCell>{email}</StyledTableCell>
-                      <StyledTableCell>{phone}</StyledTableCell>
-                      <StyledTableCell>{address?.street}</StyledTableCell>
-                      <StyledTableCell>{address?.city}</StyledTableCell>
-                      <StyledTableCell>{address?.code}</StyledTableCell>
-                      <StyledTableCell>{address?.country}</StyledTableCell>
-                      <StyledTableCell>
-                        <Button
-                          variant="contained"
-                          size="small"
-                          onClick={(event) =>
-                            handleAdminSubmit(event, _id, isAdmin)
-                          }
-                        >
-                          {isAdmin ? "Remove" : "Add"}
-                        </Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  )
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Box sx={{ width: "100%", mb: 2 }}>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>No</StyledTableCell>
+                    <StyledTableCell>Full Name</StyledTableCell>
+                    <StyledTableCell>Email</StyledTableCell>
+                    <StyledTableCell>Phone</StyledTableCell>
+                    <StyledTableCell>Street</StyledTableCell>
+                    <StyledTableCell>City</StyledTableCell>
+                    <StyledTableCell>Postal Code</StyledTableCell>
+                    <StyledTableCell>Country</StyledTableCell>
+                    <StyledTableCell>Admin</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {(rowsPerPage > 0
+                    ? users.slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                    : users
+                  ).map(
+                    ({ _id, name, email, phone, address, isAdmin }, idx) => (
+                      <StyledTableRow key={idx}>
+                        <StyledTableCell component="th" scope="row">
+                          {idx + 1}
+                        </StyledTableCell>
+                        <StyledTableCell>{name}</StyledTableCell>
+                        <StyledTableCell>{email}</StyledTableCell>
+                        <StyledTableCell>{phone}</StyledTableCell>
+                        <StyledTableCell>{address?.street}</StyledTableCell>
+                        <StyledTableCell>{address?.city}</StyledTableCell>
+                        <StyledTableCell>{address?.code}</StyledTableCell>
+                        <StyledTableCell>{address?.country}</StyledTableCell>
+                        <StyledTableCell>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            onClick={(event) =>
+                              handleAdminSubmit(event, _id, isAdmin)
+                            }
+                          >
+                            {isAdmin ? "Remove" : "Add"}
+                          </Button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    )
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={users.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Box>
         )}
       </Box>
     </MainComponent>

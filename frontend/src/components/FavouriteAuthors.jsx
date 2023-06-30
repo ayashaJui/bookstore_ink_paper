@@ -49,9 +49,6 @@ const FavouriteAuthors = () => {
   const dispatch = useDispatch();
 
   const { favoriteAuthors } = useSelector((state) => state.favoriteAuthorList);
-  const { popularAuthors } = favoriteAuthors;
-
-  // console.log(popularAuthors);
 
   useEffect(() => {
     dispatch(getFavoriteAuthors());
@@ -120,8 +117,8 @@ const FavouriteAuthors = () => {
       </Grid>
 
       <Slider {...settings}>
-        {popularAuthors &&
-          popularAuthors.map(({ _id, authorInfo, totalBooks }) => (
+        {favoriteAuthors &&
+          favoriteAuthors.map(({ _id, authorInfo, totalBooks }) => (
             <MuiLink
               key={_id}
               component={Link}
@@ -147,167 +144,6 @@ const FavouriteAuthors = () => {
               </Typography>
             </MuiLink>
           ))}
-
-        {/* <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link>
-
-        <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link>
-
-        <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link>
-
-        <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link>
-
-        <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link>
-
-        <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link>
-
-        <Link
-          href="/authors/1/profile"
-          sx={{ textDecoration: "none", color: "#000" }}
-        >
-          <Avatar
-            alt="author"
-            src="/images/authors/14.jpg"
-            sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
-          />
-          <Typography
-            variant="h6"
-            sx={{ my: 1, fontWeight: "bold", fontSize: "19px" }}
-          >
-            John Doe
-          </Typography>
-          <Typography
-            variant="subtitle"
-            sx={{ color: "#9B908A", fontSize: "17px" }}
-          >
-            12 Published Books
-          </Typography>
-        </Link> */}
       </Slider>
     </Box>
   );

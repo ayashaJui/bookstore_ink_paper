@@ -31,7 +31,7 @@ export const getAllBlogs = asyncHandler(async (req, res) => {
     blogs = await Blog.find(queryParams).populate("user");
   }
 
-  res.json({ count: blogs.length, blogs });
+  res.json(blogs);
 });
 
 // @desc        get blog by id
@@ -53,7 +53,7 @@ export const getBlogById = asyncHandler(async (req, res) => {
 export const getAllBlogCategories = asyncHandler(async (req, res) => {
   const categories = await Blog.find({}).select("categories");
 
-  res.json({ count: categories.length, categories });
+  res.json(categories);
   // res.json(genres);
 });
 
@@ -63,8 +63,7 @@ export const getAllBlogCategories = asyncHandler(async (req, res) => {
 export const getAllBlogTags = asyncHandler(async (req, res) => {
   const tags = await Blog.find({}).select("tags");
 
-  res.json({ count: tags.length, tags });
-  // res.json(genres);
+  res.json(tags);
 });
 
 // @desc        Get logged in user blogs

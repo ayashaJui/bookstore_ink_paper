@@ -25,10 +25,6 @@ const LatestNews = () => {
 
   const { loading, error, latest } = useSelector((state) => state.blogLatest);
 
-  const { blogs } = latest;
-
-  // console.log(blogs);
-
   useEffect(() => {
     dispatch(getLatestBlogs());
   }, [dispatch]);
@@ -55,7 +51,7 @@ const LatestNews = () => {
             {error}
           </Message>
         ) : (
-          blogs.map(
+          latest.map(
             ({ _id, title, description, user, createdAt, image }, idx) => (
               <Grid item md={4} sm={6} xs={false} key={idx}>
                 <Card

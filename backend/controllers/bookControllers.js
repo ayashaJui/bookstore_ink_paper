@@ -65,7 +65,7 @@ export const getAllBooks = asyncHandler(async (req, res) => {
       .populate("user", "name");
   }
 
-  res.json({ count: books.length, books });
+  res.json(books);
 });
 
 // @desc        get a book by id
@@ -92,8 +92,8 @@ export const getBookById = asyncHandler(async (req, res) => {
 export const getAllGenres = asyncHandler(async (req, res) => {
   const genres = await Book.find({}).select("genres");
 
-  res.json({ count: genres.length, genres });
-  // res.json(genres);
+  // res.json({ count: genres.length, genres });
+  res.json(genres);
 });
 
 // @desc        get all genres
@@ -120,7 +120,7 @@ export const getAllAuthorsBooks = asyncHandler(async (req, res) => {
 
   const authors = await Author.aggregate(pipeline);
 
-  res.json({ count: authors.length, authors });
+  res.json(authors);
 });
 
 // @desc        get all formats
@@ -129,7 +129,7 @@ export const getAllAuthorsBooks = asyncHandler(async (req, res) => {
 export const getAllFormats = asyncHandler(async (req, res) => {
   const formats = await Book.find({}).select("format");
 
-  res.json({ count: formats.length, formats });
+  res.json(formats);
   // res.json(genres);
 });
 
@@ -153,7 +153,7 @@ export const getAllPublishers = asyncHandler(async (req, res) => {
     },
   ]);
 
-  res.json({ publishers });
+  res.json(publishers);
 });
 
 // @desc        get latest releasr
@@ -164,7 +164,7 @@ export const getLatestRelease = asyncHandler(async (req, res) => {
     .sort({ release: -1 })
     .populate("author")
     .limit(8);
-  res.json({ count: latestReleases.length, latestReleases });
+  res.json(latestReleases);
 });
 
 // @desc        get popular books
@@ -175,7 +175,7 @@ export const getPopularBooks = asyncHandler(async (req, res) => {
     .sort({ rating: -1 })
     .populate("author")
     .limit(7);
-  res.json({ count: popular.length, popular });
+  res.json(popular);
 });
 
 // @desc        get featured books
@@ -184,7 +184,7 @@ export const getPopularBooks = asyncHandler(async (req, res) => {
 export const getFeaturedBooks = asyncHandler(async (req, res) => {
   const featured = await Book.find({ isFeatured: true }).populate("author");
 
-  res.json({ count: featured.length, featured });
+  res.json(featured);
 });
 
 // @desc        get featured books
@@ -195,7 +195,7 @@ export const getSaleBooks = asyncHandler(async (req, res) => {
     .populate("author")
     .limit(4);
 
-  res.json({ count: sales.length, sales });
+  res.json(sales);
 });
 
 // @desc        get all books with order count

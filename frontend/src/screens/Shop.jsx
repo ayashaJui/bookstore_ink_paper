@@ -80,7 +80,7 @@ const Shop = () => {
               ) : (
                 <>
                   <Grid container spacing={3}>
-                    {books.books.map(
+                    {books.map(
                       ({
                         _id,
                         title,
