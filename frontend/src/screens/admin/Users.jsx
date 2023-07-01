@@ -2,7 +2,12 @@ import { useDispatch, useSelector } from "react-redux";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserList, updateIsAdmin } from "../../actions/userActions";
+import {
+  clearSuccess,
+  deleteUser,
+  getUserList,
+  updateIsAdmin,
+} from "../../actions/userActions";
 import {
   Box,
   Breadcrumbs,
@@ -57,19 +62,47 @@ const Users = () => {
 
   const { loading, error, users } = useSelector((state) => state.userList);
 
-  const { success } = useSelector((state) => state.userUpdateIsAdmin);
+  const { success: updateAdminSuccess } = useSelector(
+    (state) => state.userUpdateIsAdmin
+  );
+  const { success: createUserSuccess } = useSelector(
+    (state) => state.userCreate
+  );
+  const { success: updateUserSuccess } = useSelector(
+    (state) => state.userUpdate
+  );
+  const { success: deleteUserSuccess } = useSelector(
+    (state) => state.userDelete
+  );
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getUserList());
+
+      if (
+        updateAdminSuccess ||
+        createUserSuccess ||
+        updateUserSuccess ||
+        deleteUserSuccess
+      ) {
+        const timer = setTimeout(() => {
+          dispatch(clearSuccess());
+        }, 6000);
+
+        return () => clearTimeout(timer);
+      }
     } else {
       navigate("/signin");
     }
-  }, [dispatch, navigate, userInfo, success]);
-
-  const handleAdminSubmit = (event, id, isAdmin) => {
-    dispatch(updateIsAdmin(id, { isAdmin: !isAdmin }));
-  };
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    updateAdminSuccess,
+    createUserSuccess,
+    updateUserSuccess,
+    deleteUserSuccess,
+  ]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -80,12 +113,19 @@ const Users = () => {
     setPage(0);
   };
 
+  const handleAdminSubmit = (event, id, isAdmin) => {
+    dispatch(updateIsAdmin(id, { isAdmin: !isAdmin }));
+  };
+
   const handleEdit = (event, id) => {
-    console.log(id);
+    navigate(`/admin/user/${id}/edit`);
   };
 
   const handleDeleteSubmit = (event, id) => {
-    console.log(id);
+    if (window.confirm("Are you sure")) {
+      dispatch(deleteUser(id));
+      // console.log(id);
+    }
   };
 
   return (
@@ -97,6 +137,28 @@ const Users = () => {
       <Divider />
 
       <Box sx={{ mt: 5 }}>
+        {updateAdminSuccess && (
+          <Message severity={"success"} title={"Updated"} marginY={3}>
+            {" "}
+            User info has been updated{" "}
+          </Message>
+        )}
+        {updateUserSuccess && (
+          <Message severity={"success"} title={"Updated"} marginY={3}>
+            {" "}
+            User info has been updated{" "}
+          </Message>
+        )}
+        {createUserSuccess && (
+          <Message severity={"success"} title={"Created"} marginY={3}>
+            New user has been created
+          </Message>
+        )}
+        {deleteUserSuccess && (
+          <Message severity={"success"} title={"Deleted"} marginY={3}>
+            User has been deleted
+          </Message>
+        )}
         {loading ? (
           <Loader />
         ) : error ? (

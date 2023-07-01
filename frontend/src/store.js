@@ -32,12 +32,15 @@ import {
   blogTagListReducer,
 } from "./reducers/blogReducers.js";
 import {
+  userCreateReducers,
+  userDeleteReducer,
   userDetailsReducer,
   userListReducer,
   userLoginReducer,
   userRegisterReducer,
   userUpdateIsAdminReducer,
   userUpdateProfileReducer,
+  userUpdateReducers,
 } from "./reducers/userReducers.js";
 import {
   orderCreateReducers,
@@ -68,19 +71,23 @@ const reducers = combineReducers({
   blogLatest: blogLatestReducer,
   blogCategoryList: blogCategoyListReducer,
   blogTagList: blogTagListReducer,
-  userLogin: userLoginReducer,
-  userDetails: userDetailsReducer,
-  userRegister: userRegisterReducer,
-  userUpdateProfile: userUpdateProfileReducer,
   userBlogList: blogListMyReducer,
   orderCreate: orderCreateReducers,
   orderDetails: orderDetailsReducers,
   userOrderList: orderListMyReducers,
-  userList: userListReducer,
-  userUpdateIsAdmin: userUpdateIsAdminReducer,
   orderCustomerList: orderCustomerListReducers,
   bookWithOrderList: bookWithOrderReducers,
   orderList: orderListReducers,
+
+  userLogin: userLoginReducer,
+  userDetails: userDetailsReducer,
+  userRegister: userRegisterReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userUpdateIsAdmin: userUpdateIsAdminReducer,
+  userCreate: userCreateReducers,
+  userUpdate: userUpdateReducers,
+  userDelete: userDeleteReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

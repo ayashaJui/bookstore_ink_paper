@@ -18,6 +18,7 @@ import {
   TablePagination,
   IconButton,
   TableSortLabel,
+  Tooltip,
 } from "@mui/material";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -273,35 +274,47 @@ const Books = () => {
                         <StyledTableCell> {saleCount} </StyledTableCell>
                         <StyledTableCell> {offer} </StyledTableCell>
                         <StyledTableCell>
-                          <IconButton
-                            size="small"
-                            variant="contained"
-                            fontWeight="bold"
-                            onClick={(event) =>
-                              handleFeatureSubmit(event, _id, isFeatured)
-                            }
+                          <Tooltip
+                            title={`Press to ${
+                              isFeatured ? "stop Featuring" : "start Featuring"
+                            }`}
                           >
-                            {isFeatured ? (
-                              <DoneIcon fontSize="small" color="success" />
-                            ) : (
-                              <CloseIcon fontSize="small" color="error" />
-                            )}
-                          </IconButton>
+                            <IconButton
+                              size="small"
+                              variant="contained"
+                              fontWeight="bold"
+                              onClick={(event) =>
+                                handleFeatureSubmit(event, _id, isFeatured)
+                              }
+                            >
+                              {isFeatured ? (
+                                <DoneIcon fontSize="small" color="success" />
+                              ) : (
+                                <CloseIcon fontSize="small" color="error" />
+                              )}
+                            </IconButton>
+                          </Tooltip>
                         </StyledTableCell>
                         <StyledTableCell>
-                          <IconButton
-                            size="small"
-                            variant="contained"
-                            onClick={(event) =>
-                              handleBestSellerSubmit(event, _id, isFeatured)
-                            }
+                          <Tooltip
+                            title={`press to ${
+                              isBestSeller ? "remove" : "add"
+                            }`}
                           >
-                            {isBestSeller ? (
-                              <DoneIcon fontSize="small" color="success" />
-                            ) : (
-                              <CloseIcon fontSize="small" color="error" />
-                            )}
-                          </IconButton>
+                            <IconButton
+                              size="small"
+                              variant="contained"
+                              onClick={(event) =>
+                                handleBestSellerSubmit(event, _id, isFeatured)
+                              }
+                            >
+                              {isBestSeller ? (
+                                <DoneIcon fontSize="small" color="success" />
+                              ) : (
+                                <CloseIcon fontSize="small" color="error" />
+                              )}
+                            </IconButton>
+                          </Tooltip>
                         </StyledTableCell>
                         <StyledTableCell>
                           <IconButton

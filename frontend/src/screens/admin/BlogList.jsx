@@ -13,6 +13,7 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import MainComponent from "../../layouts/admin/MainComponent";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -138,19 +139,25 @@ const BlogList = () => {
                         <TableCell align="right">{comments.length}</TableCell>
                         <TableCell>{formattedDate(createdAt)}</TableCell>
                         <TableCell align="center">
-                          <IconButton
-                            size="small"
-                            variant="contained"
-                            onClick={(event) =>
-                              handleHiddenSubmit(event, _id, isHidden)
-                            }
+                          <Tooltip
+                            title={`Press to ${
+                              isHidden ? "Unhide" : "Hide"
+                            } this`}
                           >
-                            {isHidden ? (
-                              <DoneIcon fontSize="small" color="success" />
-                            ) : (
-                              <CloseIcon fontSize="small" color="error" />
-                            )}
-                          </IconButton>
+                            <IconButton
+                              size="small"
+                              variant="contained"
+                              onClick={(event) =>
+                                handleHiddenSubmit(event, _id, isHidden)
+                              }
+                            >
+                              {isHidden ? (
+                                <DoneIcon fontSize="small" color="success" />
+                              ) : (
+                                <CloseIcon fontSize="small" color="error" />
+                              )}
+                            </IconButton>
+                          </Tooltip>
                         </TableCell>
                         <TableCell>
                           <IconButton

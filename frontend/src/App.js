@@ -29,6 +29,10 @@ import Books from "./screens/admin/Books";
 import Orders from "./screens/admin/Orders";
 import AuthorList from "./screens/admin/AuthorList";
 import BlogList from "./screens/admin/BlogList";
+import AddEditAuthor from "./screens/admin/AddEditAuthor";
+import AddEditUser from "./screens/admin/AddEditUser";
+import AddEditBook from "./screens/admin/AddEditBook";
+import Reviews from "./screens/admin/Reviews";
 
 axios.defaults.withCredentials = true;
 
@@ -69,13 +73,28 @@ function App() {
             <Route exact path="/about" Component={About} />
             <Route exact path="/contact" Component={Contact} />
 
+            {/* ......................Admin Routes......................... */}
             <Route exact path="/admin/dashboard" Component={Dashboard} />
-            <Route exact path="/admin/users" Component={Users} />
-            <Route exact path="/admin/customers" Component={Customers} />
-            <Route exact path="/admin/books" Component={Books} />
             <Route exact path="/admin/orders" Component={Orders} />
-            <Route exact path="/admin/authors" Component={AuthorList} />
+            <Route exact path="/admin/customers" Component={Customers} />
             <Route exact path="/admin/blogs" Component={BlogList} />
+            <Route exact path="/admin/reviews" Component={Reviews} />
+
+            <Route exact path="/admin/users" Component={Users} />
+            <Route exact path="/admin/add_user" Component={AddEditUser} />
+            <Route exact path="/admin/user/:id/edit" Component={AddEditUser} />
+
+            <Route exact path="/admin/books" Component={Books} />
+            <Route exact path="/admin/add_book" Component={AddEditBook} />
+            <Route exact path="/admin/book/:id//edit" Component={AddEditBook} />
+
+            <Route exact path="/admin/authors" Component={AuthorList} />
+            <Route exact path="/admin/add_author" Component={AddEditAuthor} />
+            <Route
+              exact
+              path="/admin/author/:id/edit"
+              Component={AddEditAuthor}
+            />
           </Routes>
         </main>
         <Footer />
