@@ -25,11 +25,13 @@ import {
 
 import {
   blogCategoyListReducer,
+  blogCreateReducers,
   blogDeatilsReducer,
   blogLatestReducer,
   blogListMyReducer,
   blogListReducer,
   blogTagListReducer,
+  blogUpdateIsHiddenReducer,
 } from "./reducers/blogReducers.js";
 import {
   userCreateReducers,
@@ -78,6 +80,8 @@ const reducers = combineReducers({
   orderCustomerList: orderCustomerListReducers,
   bookWithOrderList: bookWithOrderReducers,
   orderList: orderListReducers,
+  blogUpdateIsHidden: blogUpdateIsHiddenReducer,
+  blogCreate: blogCreateReducers,
 
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,

@@ -4,6 +4,10 @@ import {
   BLOG_CATEGORIES_FAIL,
   BLOG_CATEGORIES_REQUEST,
   BLOG_CATEGORIES_SUCCESS,
+  BLOG_CREATE_FAIL,
+  BLOG_CREATE_REQUEST,
+  BLOG_CREATE_RESET,
+  BLOG_CREATE_SUCCESS,
   BLOG_DETAILS_FAIL,
   BLOG_DETAILS_REQUEST,
   BLOG_DETAILS_SUCCESS,
@@ -19,6 +23,10 @@ import {
   BLOG_TAGS_FAIL,
   BLOG_TAGS_REQUEST,
   BLOG_TAGS_SUCCESS,
+  BLOG_UPDATE_ISHIDDEN_FAIL,
+  BLOG_UPDATE_ISHIDDEN_REQUEST,
+  BLOG_UPDATE_ISHIDDEN_RESET,
+  BLOG_UPDATE_ISHIDDEN_SUCCESS,
 } from "../constants/blog";
 import { logout } from "./userActions";
 
@@ -184,4 +192,95 @@ export const getMyBlogList = () => async (dispatch, getState) => {
       payload: message,
     });
   }
+};
+
+export const updateIsHidden = (id, blog) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BLOG_UPDATE_ISHIDDEN_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/blogs/${id}/isHidden`,
+      blog,
+      config
+    );
+
+    dispatch({
+      type: BLOG_UPDATE_ISHIDDEN_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BLOG_UPDATE_ISHIDDEN_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const createBlog = (blog) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BLOG_CREATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `http://localhost:5000/api/blogs`,
+      blog,
+      config
+    );
+
+    dispatch({
+      type: BLOG_CREATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BLOG_CREATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const blogClearSuccess = () => async (dispatch) => {
+  dispatch({ type: BLOG_UPDATE_ISHIDDEN_RESET });
+  dispatch({type: BLOG_CREATE_RESET})
+
+  // document.location.href = '/login'
 };

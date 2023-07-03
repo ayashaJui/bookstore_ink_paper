@@ -26,7 +26,11 @@ import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
 import { Link, useNavigate } from "react-router-dom";
 import { formattedDate } from "../../helper/helperFunction";
-import { getAllBlogs } from "../../actions/blogActions";
+import {
+  blogClearSuccess,
+  getAllBlogs,
+  updateIsHidden,
+} from "../../actions/blogActions";
 
 const BlogList = () => {
   const [page, setPage] = useState(0);
@@ -37,14 +41,25 @@ const BlogList = () => {
 
   const { userInfo } = useSelector((state) => state.userLogin);
   const { loading, error, blogs } = useSelector((state) => state.blogList);
+  const { success: updateHiddenSuccess, blog } = useSelector(
+    (state) => state.blogUpdateIsHidden
+  );
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getAllBlogs());
+
+      if (updateHiddenSuccess) {
+        const timer = setTimeout(() => {
+          dispatch(blogClearSuccess());
+        }, 6000);
+
+        return () => clearTimeout(timer);
+      }
     } else {
       navigate("/signin");
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [dispatch, navigate, userInfo, updateHiddenSuccess]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,8 +70,8 @@ const BlogList = () => {
     setPage(0);
   };
 
-  const handleHiddenSubmit = (event, id) => {
-    console.log(id);
+  const handleHiddenSubmit = (event, id, isHidden) => {
+    dispatch(updateIsHidden(id, { isHidden: !isHidden }));
   };
 
   const handleDeleteSubmit = (event, id) => {
@@ -72,6 +87,12 @@ const BlogList = () => {
       <Divider />
 
       <Box sx={{ width: "100%", mt: 5 }}>
+        {updateHiddenSuccess && (
+          <Message severity={"success"} title={"Updated"} marginY={3}>
+            {" "}
+            Blog has been {blog.isHidden ? "hidden" : "unhidden"}
+          </Message>
+        )}
         {loading ? (
           <Loader />
         ) : error ? (

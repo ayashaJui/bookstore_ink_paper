@@ -74,3 +74,63 @@ export const getMyBlogs = asyncHandler(async (req, res) => {
 
   res.json({ count: blogs.length, blogs });
 });
+
+// @desc    Update isHidden
+// @route   PUT /api/users/:id/isHidden
+// @access  Private, Admin
+export const updateIsHidden = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  if (blog) {
+    blog.isHidden = !blog.isHidden;
+
+    const updatedBlog = await blog.save();
+
+    res.json(updatedBlog);
+  } else {
+    res.status(401);
+    throw new Error("Blog not found");
+  }
+});
+
+// @desc    Create new blog
+// @route   POST /api/blogs
+// @access  Private
+export const createBlog = asyncHandler(async (req, res) => {
+  const { title, description, tags, categories } = req.body;
+
+  const blog = await Blog.create({
+    title,
+    description,
+    tags,
+    categories,
+    user: req.user._id,
+  });
+
+  if (blog) {
+    res.json(blog);
+  } else {
+    res.status(400);
+    throw new Error("Invalid blog data");
+  }
+});
+
+// @desc    Update blog
+// @route   PUT /api/blogs/:id/
+// @access  Private
+export const updateBlog = asyncHandler(async (req, res) => {
+  const blog = await Blog.findOne({ _id: req.params.id, user: req.user._id });
+
+  if (blog) {
+    blog.title = req.body.title || blog.title;
+    blog.description = req.body.description || blog.description;
+    blog.categories = req.body.categories || blog.categories;
+    blog.tags = req.body.tags || blog.tags;
+
+    const updatedBlog = await blog.save();
+    res.json(updatedBlog);
+  } else {
+    res.status(404);
+    throw new Error("Blog not found");
+  }
+});

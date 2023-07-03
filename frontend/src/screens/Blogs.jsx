@@ -77,7 +77,9 @@ const Blogs = () => {
                           <Grid item xs={12} sm={4} md={5}>
                             <CardMedia
                               component="img"
-                              image={`/${image}`}
+                              image={`/${
+                                image ? image : "images/sample_blog.png"
+                              }`}
                               alt={title}
                               height="300px"
                               sx={{ objectFit: "cover" }}

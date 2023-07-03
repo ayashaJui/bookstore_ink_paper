@@ -33,6 +33,7 @@ import AddEditAuthor from "./screens/admin/AddEditAuthor";
 import AddEditUser from "./screens/admin/AddEditUser";
 import AddEditBook from "./screens/admin/AddEditBook";
 import Reviews from "./screens/admin/Reviews";
+import CreateEditBlog from "./screens/CreateEditBlog";
 
 axios.defaults.withCredentials = true;
 
@@ -51,6 +52,8 @@ function App() {
             <Route exact path="/book/:id/details" Component={BookDetails} />
 
             <Route exact path="/blogs" Component={Blogs} />
+            <Route exact path="/blog/create" Component={CreateEditBlog} />
+            <Route exact path="/blog/:id/edit" Component={CreateEditBlog} />
             <Route exact path="/blog/:id/details" Component={BlogDetails} />
 
             <Route exact path="/authors" Component={Authors} />

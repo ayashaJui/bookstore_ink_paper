@@ -63,7 +63,9 @@ const BlogDetails = () => {
                     sx={{
                       position: "relative",
                       marginBottom: "20px",
-                      backgroundImage: `url("/${blog.image}")`,
+                      backgroundImage: `url("/${
+                        blog.image ? blog.image : "images/sample_blog.png"
+                      }")`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       height: "500px",

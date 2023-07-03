@@ -11,8 +11,11 @@ import {
   Grid,
   TextField,
   Typography,
+  IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,7 +27,7 @@ import {
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/user";
-import { getMyBlogList } from "../actions/blogActions";
+import { blogClearSuccess, getMyBlogList } from "../actions/blogActions";
 import { formattedDate } from "../helper/helperFunction";
 import Navbar from "../layouts/Navbar";
 
@@ -44,6 +47,9 @@ const UserProfile = () => {
   const { loading, user, error } = useSelector((state) => state.userDetails);
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success } = useSelector((state) => state.userUpdateProfile);
+  const { success: createBlogSuccess } = useSelector(
+    (state) => state.blogCreate
+  );
 
   const {
     loading: loadingBlogs,
@@ -68,16 +74,20 @@ const UserProfile = () => {
         setCode(user.address?.code || "");
         setPhone(user.phone || "");
 
-        if (success) {
+        if (success || createBlogSuccess) {
           const timer = setTimeout(() => {
             dispatch(clearSuccess());
+            if (createBlogSuccess) {
+              dispatch(blogClearSuccess());
+            } else if (success) {
+            }
           }, 6000);
 
           return () => clearTimeout(timer);
         }
       }
     }
-  }, [dispatch, navigate, userInfo, user, success]);
+  }, [dispatch, navigate, userInfo, user, success, createBlogSuccess]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -109,6 +119,18 @@ const UserProfile = () => {
       );
       // console.log(name, email, password);
     }
+  };
+
+  const handleEdit = (event, id) => {
+    navigate(`/blog/${id}/edit`);
+  };
+
+  const handleDeleteSubmit = (event, id) => {
+    // if (window.confirm("Are you sure")) {
+    //   dispatch(deleteUser(id));
+
+    // }
+    console.log(id);
   };
   return (
     <>
@@ -301,6 +323,11 @@ const UserProfile = () => {
             </Grid>
 
             <Box sx={{ mx: 3 }}>
+              {createBlogSuccess && (
+                <Message severity={"success"} title={"Added"} marginY={3}>
+                  New Article has been added.
+                </Message>
+              )}
               {loadingBlogs ? (
                 <Loader />
               ) : errorBlogs ? (
@@ -324,7 +351,9 @@ const UserProfile = () => {
                         <Grid item xs={12} sm={4} md={5}>
                           <CardMedia
                             component="img"
-                            image={`/${image}`}
+                            image={`/${
+                              image ? image : "images/sample_blog.png"
+                            }`}
                             alt={title}
                             height="100%"
                             sx={{ objectFit: "cover" }}
@@ -369,19 +398,42 @@ const UserProfile = () => {
                             </Typography>
                           </CardContent>
                           <CardActions sx={{ ml: 1 }}>
-                            <Button
-                              component={Link}
-                              size="small"
-                              to={`/blog/${_id}/details`}
-                              //   variant="outlined"
-                              sx={{
-                                color: "#272643",
-                                fontWeight: "bold",
-                                "&:hover": { color: "#2c698d" },
-                              }}
-                            >
-                              Read More
-                            </Button>
+                            <Grid container justifyContent={"space-between"}>
+                              <Grid item>
+                                <Button
+                                  component={Link}
+                                  size="small"
+                                  to={`/blog/${_id}/details`}
+                                  //   variant="outlined"
+                                  sx={{
+                                    color: "#272643",
+                                    fontWeight: "bold",
+                                    "&:hover": { color: "#2c698d" },
+                                  }}
+                                >
+                                  Read More
+                                </Button>
+                              </Grid>
+
+                              <Grid item>
+                                <IconButton
+                                  color="secondary"
+                                  size="small"
+                                  onClick={(event) => handleEdit(event, _id)}
+                                >
+                                  <ModeEditIcon fontSize="small" />
+                                </IconButton>
+                                <IconButton
+                                  color="error"
+                                  size="small"
+                                  onClick={(event) =>
+                                    handleDeleteSubmit(event, _id)
+                                  }
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              </Grid>
+                            </Grid>
                           </CardActions>
                         </Grid>
                       </Grid>
