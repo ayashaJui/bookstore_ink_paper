@@ -77,12 +77,15 @@ const BlogDetails = () => {
                   <Typography
                     variant="subtitle2"
                     textAlign="left"
-                    color="error"
+                    color="secondary"
                     fontWeight="bold"
                   >
-                    {blog.categories.slice(0, -1).join(", ") +
-                      (blog.categories.length > 1 ? ", " : "") +
-                      blog.categories[blog.categories.length - 1]}
+                    {blog.categories &&
+                      blog.categories.slice(0, -1).join(", ") +
+                        (blog.categories && blog.categories.length > 1
+                          ? ", "
+                          : "") +
+                        blog.categories[blog.categories.length - 1]}
                   </Typography>
 
                   <Typography
@@ -99,7 +102,12 @@ const BlogDetails = () => {
                   >
                     {blog.title}
                   </Typography>
-
+                  {blog.isHidden && (
+                    <Typography textAlign="left" color={"error"}>
+                      Some content of your article may cause violence. That's
+                      why, it is hidden from anothers.
+                    </Typography>
+                  )}
                   <Divider />
 
                   <Typography
@@ -120,21 +128,22 @@ const BlogDetails = () => {
 
                   <Box component="div" sx={{ mx: 1, mt: 6, mb: 3 }}>
                     <Grid container spacing={1}>
-                      {blog.tags.map((tag, idx) => (
-                        <Grid item key={idx}>
-                          <Typography
-                            component="div"
-                            sx={{ textDecoration: "none" }}
-                            // to={`/`}
-                          >
-                            <Chip
-                              label={`${tag}`}
-                              variant="outlined"
-                              color="primary"
-                            />
-                          </Typography>
-                        </Grid>
-                      ))}
+                      {blog.tags &&
+                        blog.tags.map((tag, idx) => (
+                          <Grid item key={idx}>
+                            <Typography
+                              component="div"
+                              sx={{ textDecoration: "none" }}
+                              // to={`/`}
+                            >
+                              <Chip
+                                label={`${tag}`}
+                                variant="outlined"
+                                color="primary"
+                              />
+                            </Typography>
+                          </Grid>
+                        ))}
                     </Grid>
                   </Box>
 
@@ -147,13 +156,15 @@ const BlogDetails = () => {
                         sx={{ px: 2, py: 1.5, textTransform: "capitalize" }}
                       >
                         <FavoriteBorderIcon sx={{ mr: 1 }} />{" "}
-                        {blog.likes.length} people like this
+                        {blog.likes && blog.likes.length} people like this
                       </Button>
                     </Grid>
                     <Grid item>
                       <Typography variant="body2" sx={{ py: 1.5, px: 2 }}>
-                        {blog.comments.length}{" "}
-                        {blog.comments.length === 1 ? "Comment" : "Comments"}
+                        {blog.comments && blog.comments.length}{" "}
+                        {blog.comments && blog.comments.length === 1
+                          ? "Comment"
+                          : "Comments"}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -167,9 +178,10 @@ const BlogDetails = () => {
                       <ForumOutlinedIcon /> Comments
                     </Typography>
 
-                    {blog.comments.length === 0
+                    {blog.comments && blog.comments.length === 0
                       ? "No Comment"
-                      : blog.comments.map((comment, idx) => (
+                      : blog.comments &&
+                        blog.comments.map((comment, idx) => (
                           <Card
                             sx={{ my: 3, ml: 3, boxShadow: "none" }}
                             key={idx}

@@ -175,7 +175,7 @@ const BlogSidebar = () => {
                 <Grid item>
                   <CardMedia
                     component="img"
-                    image={`/${image}`}
+                    image={`/${image ? image : 'images/sample_blog.png'}`}
                     alt={title}
                     height="60px"
                     width="60px"

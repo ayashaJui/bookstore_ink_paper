@@ -46,29 +46,41 @@ const AddEditUser = () => {
     success: successCreate,
   } = useSelector((state) => state.userCreate);
   const { user } = useSelector((state) => state.userDetails);
+  const { userInfo } = useSelector((state) => state.userLogin);
   const { success: successUpdate } = useSelector((state) => state.userUpdate);
 
   useEffect(() => {
-    if (url.includes("add_user")) {
-      if (successCreate) {
-        navigate("/admin/users");
-      }
-    } else if (url.includes("edit") && id) {
-      if (successUpdate) {
-        navigate("/admin/users");
-      } else if (!user.name) {
-        dispatch(getUserDetails(id));
-      } else {
-        setName(user.name || "");
-        setEmail(user.email || "");
-        setStreet(user.address?.street || "");
-        setCity(user.address?.city || "");
-        setCountry(user.address?.country || "");
-        setCode(user.address?.code || "");
-        setPhone(user.phone || "");
+    if (userInfo && userInfo.isAdmin) {
+      if (url.includes("add_user")) {
+        if (successCreate) {
+          navigate("/admin/users");
+        }
+      } else if (url.includes("edit") && id) {
+        if (successUpdate) {
+          navigate("/admin/users");
+        } else if (!user.name) {
+          dispatch(getUserDetails(id));
+        } else {
+          setName(user.name || "");
+          setEmail(user.email || "");
+          setStreet(user.address?.street || "");
+          setCity(user.address?.city || "");
+          setCountry(user.address?.country || "");
+          setCode(user.address?.code || "");
+          setPhone(user.phone || "");
+        }
       }
     }
-  }, [navigate, successCreate, successUpdate, dispatch, id, url, user]);
+  }, [
+    navigate,
+    successCreate,
+    successUpdate,
+    dispatch,
+    id,
+    url,
+    user,
+    userInfo,
+  ]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

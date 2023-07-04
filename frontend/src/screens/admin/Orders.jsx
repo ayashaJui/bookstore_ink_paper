@@ -12,13 +12,10 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  IconButton,
   Button,
   Chip,
 } from "@mui/material";
 import MainComponent from "../../layouts/admin/MainComponent";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -55,14 +52,6 @@ const Orders = () => {
     setPage(0);
   };
 
-  const handleEdit = (event, id) => {
-    console.log(id);
-  };
-
-  const handleDeleteSubmit = (event, id) => {
-    console.log(id);
-  };
-
   const handleDeliveryStatusChange = (event, id) => {
     console.log(id);
   };
@@ -96,10 +85,6 @@ const Orders = () => {
                     <TableCell> Payment Method </TableCell>
                     <TableCell> Delivery Status </TableCell>
                     <TableCell> Order Date </TableCell>
-                    <TableCell colSpan={2} align="center">
-                      {" "}
-                      Actions{" "}
-                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -165,24 +150,6 @@ const Orders = () => {
                           </Button>
                         </TableCell>
                         <TableCell>{formattedDate(createdAt)}</TableCell>
-                        <TableCell>
-                          <IconButton
-                            color="secondary"
-                            size="small"
-                            onClick={(event) => handleEdit(event, _id)}
-                          >
-                            <ModeEditIcon fontSize="small" />
-                          </IconButton>
-                        </TableCell>
-                        <TableCell>
-                          <IconButton
-                            color="error"
-                            size="small"
-                            onClick={(event) => handleDeleteSubmit(event, _id)}
-                          >
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
-                        </TableCell>
                       </TableRow>
                     )
                   )}

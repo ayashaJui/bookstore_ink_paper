@@ -3,6 +3,7 @@ const router = express();
 
 import {
   createBlog,
+  deleteBlog,
   getAllBlogCategories,
   getAllBlogTags,
   getAllBlogs,
@@ -21,6 +22,10 @@ router.get("/categories", getAllBlogCategories);
 router.get("/tags", getAllBlogTags);
 
 router.route("/").get(getAllBlogs).post(protect, createBlog);
-router.route("/:id").get(getBlogById).put(protect, updateBlog);
+router
+  .route("/:id")
+  .get(getBlogById)
+  .put(protect, updateBlog)
+  .delete(protect, deleteBlog);
 
 export default router;

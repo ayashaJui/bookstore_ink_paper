@@ -16,7 +16,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import MainComponent from "../../layouts/admin/MainComponent";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,10 +74,6 @@ const BlogList = () => {
     dispatch(updateIsHidden(id, { isHidden: !isHidden }));
   };
 
-  const handleDeleteSubmit = (event, id) => {
-    console.log(id);
-  };
-
   return (
     <MainComponent>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
@@ -109,11 +105,10 @@ const BlogList = () => {
                     <TableCell>No</TableCell>
                     <TableCell>Title</TableCell>
                     <TableCell>Written By</TableCell>
-                    <TableCell>Likes</TableCell>
-                    <TableCell>Comments</TableCell>
+                    <TableCell align="right">Likes</TableCell>
+                    <TableCell align="right">Comments</TableCell>
                     <TableCell>Published At</TableCell>
                     <TableCell>Hidden</TableCell>
-                    <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -179,15 +174,6 @@ const BlogList = () => {
                               )}
                             </IconButton>
                           </Tooltip>
-                        </TableCell>
-                        <TableCell>
-                          <IconButton
-                            color="error"
-                            size="small"
-                            onClick={(event) => handleDeleteSubmit(event, _id)}
-                          >
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
                         </TableCell>
                       </TableRow>
                     )

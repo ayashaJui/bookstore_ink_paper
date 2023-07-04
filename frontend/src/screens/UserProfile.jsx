@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
   IconButton,
+  Chip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
@@ -27,7 +28,11 @@ import {
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/user";
-import { blogClearSuccess, getMyBlogList } from "../actions/blogActions";
+import {
+  blogClearSuccess,
+  deleteBlog,
+  getMyBlogList,
+} from "../actions/blogActions";
 import { formattedDate } from "../helper/helperFunction";
 import Navbar from "../layouts/Navbar";
 
@@ -51,6 +56,14 @@ const UserProfile = () => {
     (state) => state.blogCreate
   );
 
+  const { success: updateBlogSuccess } = useSelector(
+    (state) => state.blogUpdate
+  );
+
+  const { success: deleteBlogSuccess } = useSelector(
+    (state) => state.blogDelete
+  );
+
   const {
     loading: loadingBlogs,
     error: errorBlogs,
@@ -61,10 +74,10 @@ const UserProfile = () => {
     if (!userInfo) {
       navigate("/signin");
     } else {
+      dispatch(getMyBlogList());
       if (!user.name) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
-        dispatch(getMyBlogList());
       } else {
         setName(user.name || "");
         setEmail(user.email || "");
@@ -74,12 +87,17 @@ const UserProfile = () => {
         setCode(user.address?.code || "");
         setPhone(user.phone || "");
 
-        if (success || createBlogSuccess) {
+        if (
+          success ||
+          createBlogSuccess ||
+          updateBlogSuccess ||
+          deleteBlogSuccess
+        ) {
           const timer = setTimeout(() => {
-            dispatch(clearSuccess());
-            if (createBlogSuccess) {
+            if (createBlogSuccess || updateBlogSuccess || deleteBlogSuccess) {
               dispatch(blogClearSuccess());
             } else if (success) {
+              dispatch(clearSuccess());
             }
           }, 6000);
 
@@ -87,7 +105,16 @@ const UserProfile = () => {
         }
       }
     }
-  }, [dispatch, navigate, userInfo, user, success, createBlogSuccess]);
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    user,
+    success,
+    createBlogSuccess,
+    updateBlogSuccess,
+    deleteBlogSuccess,
+  ]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -126,11 +153,10 @@ const UserProfile = () => {
   };
 
   const handleDeleteSubmit = (event, id) => {
-    // if (window.confirm("Are you sure")) {
-    //   dispatch(deleteUser(id));
-
-    // }
-    console.log(id);
+    if (window.confirm("Are you sure")) {
+      dispatch(deleteBlog(id));
+    }
+    // console.log(id);
   };
   return (
     <>
@@ -328,6 +354,18 @@ const UserProfile = () => {
                   New Article has been added.
                 </Message>
               )}
+              {updateBlogSuccess && (
+                <Message severity={"success"} title={"Updated"} marginY={3}>
+                  Article has been updated.
+                </Message>
+              )}
+
+              {deleteBlogSuccess && (
+                <Message severity={"success"} title={"Deleted"} marginY={3}>
+                  Article has been deleted.
+                </Message>
+              )}
+
               {loadingBlogs ? (
                 <Loader />
               ) : errorBlogs ? (
@@ -341,7 +379,10 @@ const UserProfile = () => {
               ) : (
                 blogs &&
                 blogs.map(
-                  ({ _id, title, description, image, createdAt }, idx) => (
+                  (
+                    { _id, title, description, image, createdAt, isHidden },
+                    idx
+                  ) => (
                     <Card
                       sx={{ my: 4, boxShadow: "none", mx: "auto" }}
                       key={idx}
@@ -372,6 +413,9 @@ const UserProfile = () => {
                               }}
                             >
                               {title}
+                              {isHidden && (
+                                <Chip label={"Warning!"} color="error" />
+                              )}
                             </Typography>
                             <Typography
                               variant="body2"

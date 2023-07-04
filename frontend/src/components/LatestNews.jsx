@@ -68,7 +68,7 @@ const LatestNews = () => {
                     component="img"
                     alt={title}
                     height="300"
-                    image={`/${image}`}
+                    image={`/${image ? image : 'images/sample_blog.png'}`}
                   />
                   <CardContent sx={{ mx: 1 }}>
                     <Grid container spacing={1} sx={{ color: "#9B908A" }}>

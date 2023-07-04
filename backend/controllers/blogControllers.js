@@ -134,3 +134,20 @@ export const updateBlog = asyncHandler(async (req, res) => {
     throw new Error("Blog not found");
   }
 });
+
+// @desc    Delete blog
+// @route   DELETE /api/blogs/:id
+// @access  Private
+export const deleteBlog = asyncHandler(async (req, res) => {
+  const blog = await Blog.findOneAndDelete({
+    _id: req.params.id,
+    user: req.user._id,
+  });
+
+  if (blog) {
+    res.json({ message: "Blog removed" });
+  } else {
+    res.status(404);
+    throw new Error("Blog not found");
+  }
+});

@@ -14,7 +14,7 @@ import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createBlog, getBlogById } from "../actions/blogActions";
+import { createBlog, getBlogById, updateBlog } from "../actions/blogActions";
 
 const CreateEditBlog = () => {
   const [title, setTitle] = useState("");
@@ -31,13 +31,9 @@ const CreateEditBlog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {
-    loading,
-    error,
-    success: successCreate,
-  } = useSelector((state) => state.blogCreate);
-//   const { blog } = useSelector((state) => state.blogDetails);
-  //   const { success: successUpdate } = useSelector((state) => state.blogUpdate);
+  const { success: successCreate } = useSelector((state) => state.blogCreate);
+  const { loading, error, blog } = useSelector((state) => state.blogDetails);
+  const { success: successUpdate } = useSelector((state) => state.blogUpdate);
 
   useEffect(() => {
     if (url.includes("create")) {
@@ -45,20 +41,18 @@ const CreateEditBlog = () => {
         navigate("/profile");
       }
     } else if (url.includes("edit") && id) {
-      //   if (successUpdate) {
-      //     navigate("/");
-      //   } else if (!blog.title) {
-      //     dispatch(getBlogById(id));
-      //   } else {
-      //     setName(blog.title || "");
-      //     setName(blog.description || "");
-      //     setName(blog.categories || "");
-      //     setName(blog.tags || "");
-
-      //   }
-      console.log("hello");
+      if (successUpdate) {
+        navigate("/profile");
+      } else if (!blog.title) {
+        dispatch(getBlogById(id));
+      } else {
+        setTitle(blog.title || "");
+        setDescription(blog.description || "");
+        setCategories(blog.categories || "");
+        setTags(blog.tags || "");
+      }
     }
-  }, [navigate, successCreate, dispatch, id, url]);
+  }, [navigate, successCreate, dispatch, id, url, successUpdate, blog]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -83,16 +77,15 @@ const CreateEditBlog = () => {
         );
       }
     } else if (url.includes("edit") && id) {
-      //   dispatch(
-      //     updateUser({
-      //       id,
-      //       name,
-      //       email,
-      //       password,
-      //       address,
-      //       phone,
-      //     })
-      //   );
+      dispatch(
+        updateBlog({
+          id,
+          title,
+          description,
+          categories,
+          tags,
+        })
+      );
     }
   };
 

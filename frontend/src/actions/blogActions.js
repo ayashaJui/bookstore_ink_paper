@@ -8,6 +8,10 @@ import {
   BLOG_CREATE_REQUEST,
   BLOG_CREATE_RESET,
   BLOG_CREATE_SUCCESS,
+  BLOG_DELETE_FAIL,
+  BLOG_DELETE_REQUEST,
+  BLOG_DELETE_RESET,
+  BLOG_DELETE_SUCCESS,
   BLOG_DETAILS_FAIL,
   BLOG_DETAILS_REQUEST,
   BLOG_DETAILS_SUCCESS,
@@ -23,10 +27,14 @@ import {
   BLOG_TAGS_FAIL,
   BLOG_TAGS_REQUEST,
   BLOG_TAGS_SUCCESS,
+  BLOG_UPDATE_FAIL,
   BLOG_UPDATE_ISHIDDEN_FAIL,
   BLOG_UPDATE_ISHIDDEN_REQUEST,
   BLOG_UPDATE_ISHIDDEN_RESET,
   BLOG_UPDATE_ISHIDDEN_SUCCESS,
+  BLOG_UPDATE_REQUEST,
+  BLOG_UPDATE_RESET,
+  BLOG_UPDATE_SUCCESS,
 } from "../constants/blog";
 import { logout } from "./userActions";
 
@@ -278,9 +286,92 @@ export const createBlog = (blog) => async (dispatch, getState) => {
   }
 };
 
+export const updateBlog = (blog) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BLOG_UPDATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/blogs/${blog.id}`,
+      blog,
+      config
+    );
+
+    dispatch({
+      type: BLOG_UPDATE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: BLOG_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BLOG_UPDATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const deleteBlog = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BLOG_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`http://localhost:5000/api/blogs/${id}`, config);
+
+    dispatch({ type: BLOG_DELETE_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: BLOG_DELETE_FAIL,
+      payload: message,
+    });
+  }
+};
+
 export const blogClearSuccess = () => async (dispatch) => {
   dispatch({ type: BLOG_UPDATE_ISHIDDEN_RESET });
-  dispatch({type: BLOG_CREATE_RESET})
+  dispatch({ type: BLOG_CREATE_RESET });
+  dispatch({ type: BLOG_UPDATE_RESET });
+  dispatch({ type: BLOG_DELETE_RESET });
 
   // document.location.href = '/login'
 };
