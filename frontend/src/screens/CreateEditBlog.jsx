@@ -43,7 +43,7 @@ const CreateEditBlog = () => {
     } else if (url.includes("edit") && id) {
       if (successUpdate) {
         navigate("/profile");
-      } else if (!blog.title) {
+      } else if (!blog?.title) {
         dispatch(getBlogById(id));
       } else {
         setTitle(blog.title || "");

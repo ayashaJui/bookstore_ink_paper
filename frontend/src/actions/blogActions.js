@@ -14,6 +14,7 @@ import {
   BLOG_DELETE_SUCCESS,
   BLOG_DETAILS_FAIL,
   BLOG_DETAILS_REQUEST,
+  BLOG_DETAILS_RESET,
   BLOG_DETAILS_SUCCESS,
   BLOG_LATEST_FAIL,
   BLOG_LATEST_REQUEST,
@@ -372,6 +373,7 @@ export const blogClearSuccess = () => async (dispatch) => {
   dispatch({ type: BLOG_CREATE_RESET });
   dispatch({ type: BLOG_UPDATE_RESET });
   dispatch({ type: BLOG_DELETE_RESET });
+  dispatch({ type: BLOG_DETAILS_RESET });
 
   // document.location.href = '/login'
 };

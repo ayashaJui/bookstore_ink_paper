@@ -30,6 +30,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
+import { USER_DETAILS_RESET } from "../../constants/user";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -76,6 +77,7 @@ const Users = () => {
   );
 
   useEffect(() => {
+    dispatch({ type: USER_DETAILS_RESET });
     if (userInfo && userInfo.isAdmin) {
       dispatch(getUserList());
 

@@ -12,12 +12,13 @@ import {
 
 import { admin, protect } from "../middleware/authMiddleware.js";
 
+router.get("/popular", getAuthorsByPopularity);
 router
   .route("/:id")
   .get(getAuthorsById)
   .put(protect, admin, updateAuthor)
   .delete(protect, admin, deleteAuthor);
+
 router.route("/").get(getAllAuthors).post(protect, admin, createAuthor);
-router.get("/popular", getAuthorsByPopularity);
 
 export default router;

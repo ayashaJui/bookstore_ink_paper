@@ -35,6 +35,7 @@ import {
 } from "../actions/blogActions";
 import { formattedDate } from "../helper/helperFunction";
 import Navbar from "../layouts/Navbar";
+import { BLOG_DETAILS_RESET } from "../constants/blog";
 
 const UserProfile = () => {
   const [name, setName] = useState("");
@@ -71,6 +72,7 @@ const UserProfile = () => {
   } = useSelector((state) => state.userBlogList);
 
   useEffect(() => {
+    dispatch({ type: BLOG_DETAILS_RESET });
     if (!userInfo) {
       navigate("/signin");
     } else {

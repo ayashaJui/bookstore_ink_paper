@@ -97,7 +97,7 @@ export const getAuthorsByPopularity = asyncHandler(async (req, res) => {
     $project: {
       _id: 1,
       authorInfo: "$$ROOT",
-      totalBooks: { $size: "$books" },
+      totalBooks: { $cond: [{ $isArray: "$books" }, { $size: "$books" }, 0] },
       avgRating: { $avg: "$books.rating" },
     },
   };
@@ -171,7 +171,7 @@ export const updateAuthor = asyncHandler(async (req, res) => {
 // @route   DELETE /api/authors/:id
 // @access  Private, Admin
 export const deleteAuthor = asyncHandler(async (req, res) => {
-  const author = await Author.findOneAndDelete(req.params.id);
+  const author = await Author.findByIdAndDelete(req.params.id);
 
   if (author) {
     res.json({ message: "Author removed" });

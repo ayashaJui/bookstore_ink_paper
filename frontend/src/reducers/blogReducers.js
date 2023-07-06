@@ -12,6 +12,7 @@ import {
   BLOG_DELETE_SUCCESS,
   BLOG_DETAILS_FAIL,
   BLOG_DETAILS_REQUEST,
+  BLOG_DETAILS_RESET,
   BLOG_DETAILS_SUCCESS,
   BLOG_LATEST_FAIL,
   BLOG_LATEST_REQUEST,
@@ -79,6 +80,8 @@ export const blogDeatilsReducer = (state = { blog: {} }, action) => {
         loading: false,
         error: payload,
       };
+    case BLOG_DETAILS_RESET:
+      return {};
     default:
       return state;
   }
