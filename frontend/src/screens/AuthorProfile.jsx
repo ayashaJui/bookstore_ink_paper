@@ -44,15 +44,6 @@ const AuthorProfile = () => {
     (state) => state.authorDetails
   );
 
-  const {
-    authorInfo,
-    books,
-    totalBooks,
-    totalNumReviews,
-    avgRating,
-    uniqueGenres,
-  } = author;
-
   useEffect(() => {
     dispatch(getAuthorDetails(id));
   }, [dispatch, id]);
@@ -74,7 +65,7 @@ const AuthorProfile = () => {
             Authors List
           </MuiLink>
           <Typography color="text.primary">
-            {authorInfo && authorInfo.name}
+            {author && author.authorInfo && author.authorInfo.name}
           </Typography>
         </Breadcrumbs>
       </Box>
@@ -92,17 +83,17 @@ const AuthorProfile = () => {
           <Grid container spacing={3} justifyContent="center">
             <Grid item md={4}>
               <Card sx={{ p: 2, boxShadow: "none" }}>
-                {authorInfo.image ? (
+                {author.authorInfo?.image ? (
                   <CardMedia
                     component="img"
-                    image={`/${authorInfo.image}`}
-                    alt={`${authorInfo.name}`}
+                    image={`/${author.authorInfo.image}`}
+                    alt={`${author.authorInfo?.name}`}
                     height="300px"
                   />
                 ) : (
                   <Avatar
-                    alt={`${authorInfo.name}`}
-                    src={`/${authorInfo.image}`}
+                    alt={`${author.authorInfo?.name}`}
+                    src={`/${author.authorInfo?.image}`}
                     sx={{ mx: "auto", width: "150px", height: "150px" }}
                   />
                 )}
@@ -128,7 +119,7 @@ const AuthorProfile = () => {
                 }}
               >
                 <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-                  {authorInfo.name}
+                  {author.authorInfo?.name}
                 </Typography>
                 <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
                   Registered Author
@@ -138,7 +129,7 @@ const AuthorProfile = () => {
               <TableContainer component="div">
                 <Table sx={{ p: 1, maxWidth: 500 }} aria-label="simple table">
                   <TableBody>
-                    {authorInfo.dob && (
+                    {author.authorInfo?.dob && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -148,12 +139,12 @@ const AuthorProfile = () => {
                           Born
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {formattedDate(authorInfo.dob)}
+                          {formattedDate(author.authorInfo.dob)}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.dod && (
+                    {author.authorInfo?.dod && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -163,12 +154,12 @@ const AuthorProfile = () => {
                           Death
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {formattedDate(authorInfo.dod)}
+                          {formattedDate(author.authorInfo.dod)}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.email && (
+                    {author.authorInfo?.email && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -178,12 +169,12 @@ const AuthorProfile = () => {
                           Email
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.email}
+                          {author.authorInfo.email}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.website && (
+                    {author.authorInfo?.website && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -193,12 +184,12 @@ const AuthorProfile = () => {
                           Website
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.website}
+                          {author.authorInfo.website}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.youtube && (
+                    {author.authorInfo?.youtube && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -208,12 +199,12 @@ const AuthorProfile = () => {
                           YouYube
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.youtube}
+                          {author.authorInfo.youtube}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.twitter && (
+                    {author.authorInfo?.twitter && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -223,12 +214,12 @@ const AuthorProfile = () => {
                           Twitter
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.twitter}
+                          {author.authorInfo.twitter}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.facebook && (
+                    {author.authorInfo?.facebook && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -238,12 +229,12 @@ const AuthorProfile = () => {
                           FaceBook
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.facebook}
+                          {author.authorInfo.facebook}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {authorInfo.instagram && (
+                    {author.authorInfo?.instagram && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -253,12 +244,12 @@ const AuthorProfile = () => {
                           Instagram
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.instagram}
+                          {author.authorInfo.instagram}
                         </TableCell>
                       </TableRow>
                     )}
 
-                    {uniqueGenres && (
+                    {author.uniqueGenres && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -268,7 +259,7 @@ const AuthorProfile = () => {
                           Genre
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {[...new Set(uniqueGenres.flat())].map(
+                          {[...new Set(author.uniqueGenres.flat())].map(
                             (genre, idx) => (
                               <span key={idx}>
                                 <MuiLink
@@ -280,7 +271,8 @@ const AuthorProfile = () => {
                                 </MuiLink>
 
                                 {idx !==
-                                  [...new Set(uniqueGenres.flat())].length -
+                                  [...new Set(author.uniqueGenres.flat())]
+                                    .length -
                                     1 && <span>, </span>}
                               </span>
                             )
@@ -289,7 +281,7 @@ const AuthorProfile = () => {
                       </TableRow>
                     )}
 
-                    {authorInfo.createdAt && (
+                    {author.authorInfo?.createdAt && (
                       <TableRow>
                         <TableCell
                           component="th"
@@ -299,7 +291,7 @@ const AuthorProfile = () => {
                           Member Since
                         </TableCell>
                         <TableCell align="right" sx={{ borderBottom: "none" }}>
-                          {authorInfo.createdAt.split("-")[0]}
+                          {author.authorInfo.createdAt.split("-")[0]}
                         </TableCell>
                       </TableRow>
                     )}
@@ -311,20 +303,21 @@ const AuthorProfile = () => {
                 variant="body2"
                 sx={{ p: 1, my: 2, textAlign: "left" }}
               >
-                {authorInfo.description}
+                {author.authorInfo?.description}
               </Typography>
 
               <Typography variant="h6" sx={{ textAlign: "left", p: 1, mt: 6 }}>
-                {authorInfo.name}'s Books
+                {author.authorInfo?.name}'s Books
               </Typography>
               <Divider />
               <Typography variant="caption" sx={{ p: 2, my: 5 }}>
-                Average rating: {avgRating} | Rated by 5200 people (static) |{" "}
-                {totalNumReviews} reviews | {totalBooks} Books
+                Average rating: {author.avgRating} | Rated by 5200 people
+                (static) | {author.totalNumReviews} reviews |{" "}
+                {author.totalBooks} Books
               </Typography>
 
-              {books &&
-                books.map((book, idx) => (
+              {author.books &&
+                author.books.map((book, idx) => (
                   <div key={idx}>
                     <Card sx={{ my: 1, boxShadow: "none" }}>
                       <Grid
@@ -355,7 +348,7 @@ const AuthorProfile = () => {
                               variant="body2"
                               sx={{ textAlign: "left", fontSize: "12px" }}
                             >
-                              by {authorInfo.name}
+                              by {author.authorInfo.name}
                             </Typography>
 
                             <Box
@@ -424,95 +417,7 @@ const AuthorProfile = () => {
                   </div>
                 ))}
 
-              {/* <Card sx={{ my: 1, boxShadow: "none" }}>
-                <Grid
-                  container
-                  spacing={2}
-                  justifyContent="center"
-                  alignContent="center"
-                >
-                  <Grid item md={2}>
-                    <CardMedia
-                      component="img"
-                      image="/images/new_arrivals/pride_and_prejudice.jpg"
-                      alt="featured image"
-                      height="100"
-                      sx={{ p: 1 }}
-                    />
-                  </Grid>
-
-                  <Grid item md={7}>
-                    <CardContent sx={{ p: 0 }}>
-                      <Typography
-                        variant="h6"
-                        sx={{ textAlign: "left", fontWeight: "bold" }}
-                      >
-                        Pride and Prejudice
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ textAlign: "left", fontSize: "12px" }}
-                      >
-                        by Jane Austen
-                      </Typography>
-
-                      <Box
-                        component="div"
-                        sx={{
-                          textAlign: "left",
-                          py: 1,
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Rating
-                          readOnly
-                          name="customized"
-                          defaultValue={2.5}
-                          precision={0.5}
-                          icon={<StarIcon sx={{ fontSize: 20 }} />}
-                          emptyIcon={<StarBorderIcon sx={{ fontSize: 20 }} />}
-                        />
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ ml: 2, fontSize: 12 }}
-                        >
-                          {" "}
-                          - 5000 ratings
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: 12, ml: 2 }}
-                        >
-                          (1500 Reviews)
-                        </Typography>
-                      </Box>
-                    </CardContent>
-                  </Grid>
-
-                  <Grid item md={3} justifyContent="center">
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ textAlign: "center", fontSize: "15px" }}
-                    >
-                      BDT 5.58
-                    </Typography>
-                    <CardActions sx={{ ml: 3 }}>
-                      <Button
-                        size="small"
-                        href="/books/1/details"
-                        variant="outlined"
-                        sx={{ borderColor: "#fff" }}
-                      >
-                        view Details
-                      </Button>
-                    </CardActions>
-                  </Grid>
-                </Grid>
-              </Card>
-              <Divider /> */}
-
-              {books && (
+              {author.books && (
                 <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
                   <Pagination
                     count={10}

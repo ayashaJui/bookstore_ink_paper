@@ -9,8 +9,16 @@ import {
 } from "@mui/material";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  createAuthor,
+  getAuthorDetails,
+  updateAuthor,
+} from "../../actions/authorActions";
+import Loader from "../../layouts/Loader";
+import Message from "../../layouts/Message";
+import { formattedDate } from "../../helper/helperFunction";
 
 const AddEditAuthor = () => {
   const [name, setName] = useState("");
@@ -34,55 +42,100 @@ const AddEditAuthor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { success: successCreate } = useSelector((state) => state.authorCreate);
+  const { loading, error, author } = useSelector(
+    (state) => state.authorDetails
+  );
+
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const { success: successUpdate } = useSelector((state) => state.authorUpdate);
+
+  useEffect(() => {
+    if (userInfo && userInfo.isAdmin) {
+      if (url.includes("add_author")) {
+        if (successCreate) {
+          navigate("/admin/authors");
+        }
+      } else if (url.includes("edit") && id) {
+        if (!author?.authorInfo) {
+          dispatch(getAuthorDetails(id));
+        } else if (successUpdate) {
+          navigate("/admin/authors");
+        } else {
+          setName(author.authorInfo?.name || "");
+          setEmail(author.authorInfo?.email || "");
+          setDescription(author.authorInfo?.description || "");
+          setWebsite(author.authorInfo?.website || "");
+          setDateOfBirth(formattedDate(author?.authorInfo?.dob) || "");
+          setDateOfDeath(formattedDate(author.authorInfo?.dod) || "");
+          setFacebook(author.authorInfo?.social?.facebook || "");
+          setTwitter(author.authorInfo?.social?.twitter || "");
+          setInstagram(author.authorInfo?.social?.instagram || "");
+          setYoutube(author.authorInfo?.social?.youtube || "");
+        }
+      }
+    } else {
+      navigate("/signin");
+    }
+  }, [
+    navigate,
+    successCreate,
+    dispatch,
+    id,
+    url,
+    successUpdate,
+    author,
+    userInfo,
+  ]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // const name = data.get("name");
-    // const email = data.get("email");
-    // const password = data.get("password");
-    // const confirmPassword = data.get("confirm_password");
-    // const address = {
-    //   street: data.get("street"),
-    //   city: data.get("city"),
-    //   country: data.get("country"),
-    //   code: data.get("code"),
-    // };
-    // const phone = data.get("phone");
+    const data = new FormData(event.currentTarget);
+    const name = data.get("name");
+    const email = data.get("email");
+    const description = data.get("description");
+    const website = data.get("website");
+    const dob = new Date(data.get("dob"));
+    const dod = new Date(data.get("dod"));
+    const social = {
+      facebook: data.get("facebook"),
+      twitter: data.get("twitter"),
+      instagram: data.get("instagram"),
+      youtube: data.get("youtube"),
+    };
 
-    // if (url.includes("add_user")) {
-    //   if (name === "" || email === "" || password === "") {
-    //     if (name === "") setNameError("Name is required");
-    //     if (email === "") setEmailError("Email is required");
-    //     if (password === "") setPasswordError("Password is required");
-    //   } else if (password !== confirmPassword) {
-    //     setPasswordMatchError("Password doesnot match!!");
-    //   } else {
-    //     dispatch(
-    //       createUser({
-    //         name,
-    //         email,
-    //         password,
-    //         address,
-    //         phone,
-    //       })
-    //     );
-    //   }
-    // } else if (url.includes("edit") && id) {
-    //   if (password !== confirmPassword) {
-    //     setPasswordMatchError("Password doesnot match!!");
-    //   } else {
-    //     dispatch(
-    //       updateUser({
-    //         id,
-    //         name,
-    //         email,
-    //         password,
-    //         address,
-    //         phone,
-    //       })
-    //     );
-    //   }
-    // }
+    if (url.includes("add_author")) {
+      if (name === "" || email === "" || description === "") {
+        if (name === "") setNameError("Name is required");
+        if (email === "") setEmailError("Email is required");
+        if (description === "") setDescriptionError("Description is required");
+      } else {
+        dispatch(
+          createAuthor({
+            name,
+            email,
+            description,
+            website,
+            dob,
+            dod,
+            social,
+          })
+        );
+      }
+    } else if (url.includes("edit") && id) {
+      dispatch(
+        updateAuthor({
+          id,
+          name,
+          email,
+          description,
+          website,
+          dob,
+          dod,
+          social,
+        })
+      );
+    }
   };
 
   return (
@@ -100,132 +153,148 @@ const AddEditAuthor = () => {
       <Divider />
 
       <Container component="main" maxWidth="sm" sx={{ width: "100%", mt: 5 }}>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-          <TextField
-            margin="normal"
-            size="medium"
-            required
-            fullWidth
-            label="Name of Author"
-            name="name"
-            // value={name}
-            // onChange={(event) => setName(event.target.value)}
-            // error={!!nameError}
-            // helperText={nameError}
-          />
-          <TextField
-            margin="normal"
-            size="medium"
-            required
-            fullWidth
-            label="Email"
-            name="email"
-            // onChange={(event) => setEmail(event.target.value)}
-            // value={email}
-            // error={!!emailError}
-            // helperText={emailError}
-          />
-
-          <TextField
-            margin="normal"
-            size="medium"
-            fullWidth
-            required
-            multiline
-            rows={8}
-            label="Description"
-            name="description"
-            // value={phone}
-            // onChange={(event) => setPhone(event.target.value)}
-          />
-
-          <TextField
-            margin="normal"
-            size="medium"
-            fullWidth
-            label="Date of Birth"
-            name="dob"
-            // value={street}
-            // onChange={(event) => setStreet(event.target.value)}
-          />
-          <TextField
-            margin="normal"
-            size="medium"
-            fullWidth
-            label="Date of Death"
-            name="dod"
-            // value={street}
-            // onChange={(event) => setStreet(event.target.value)}
-          />
-          <TextField
-            margin="normal"
-            size="medium"
-            fullWidth
-            label="Website"
-            name="website"
-            // value={city}
-            // onChange={(event) => setCity(event.target.value)}
-          />
-          <TextField
-            margin="normal"
-            size="medium"
-            fullWidth
-            label="Youtube Link"
-            name="youtube"
-            // value={code}
-            // onChange={(event) => setCode(event.target.value)}
-          />
-          <TextField
-            margin="normal"
-            type="url"
-            size="medium"
-            fullWidth
-            label="Twitter Link"
-            name="twitter"
-            // value={country}
-            // onChange={(event) => setCountry(event.target.value)}
-          />
-
-          <TextField
-            margin="normal"
-            type="url"
-            size="medium"
-            fullWidth
-            label="Facebook Link"
-            name="facebook"
-            // value={country}
-            // onChange={(event) => setCountry(event.target.value)}
-          />
-
-          <TextField
-            margin="normal"
-            type="url"
-            size="medium"
-            fullWidth
-            label="Instagram Link"
-            name="instagram"
-            // value={country}
-            // onChange={(event) => setCountry(event.target.value)}
-          />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 2,
-              py: "14px",
-              fontSize: "15px",
-              letterSpacing: 2,
-            }}
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message severity={"error"} title={"Error!"}>
+            {error}
+          </Message>
+        ) : (
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 3 }}
           >
-            {url.includes("add_author")
-              ? "Create"
-              : url.includes("edit") && id
-              ? "Update"
-              : ""}
-          </Button>
-        </Box>
+            <TextField
+              margin="normal"
+              size="medium"
+              required
+              fullWidth
+              label="Name of Author"
+              name="name"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              error={!!nameError}
+              helperText={nameError}
+            />
+            <TextField
+              margin="normal"
+              size="medium"
+              required
+              fullWidth
+              label="Email"
+              name="email"
+              onChange={(event) => setEmail(event.target.value)}
+              value={email}
+              error={!!emailError}
+              helperText={emailError}
+            />
+
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              required
+              multiline
+              rows={8}
+              label="Description"
+              name="description"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              error={!!descriptionError}
+              helperText={descriptionError}
+            />
+
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              label="Date of Birth (yyyy-mm-dd)"
+              name="dob"
+              value={dateOfBirth}
+              onChange={(event) => setDateOfBirth(event.target.value)}
+            />
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              label="Date of Death (yyyy-mm-dd)"
+              name="dod"
+              value={dateOfDeath}
+              onChange={(event) => setDateOfDeath(event.target.value)}
+            />
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              label="Website"
+              name="website"
+              value={website}
+              onChange={(event) => setWebsite(event.target.value)}
+            />
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              label="Youtube Link"
+              name="youtube"
+              value={youtube}
+              onChange={(event) => setYoutube(event.target.value)}
+            />
+            <TextField
+              margin="normal"
+              type="url"
+              size="medium"
+              fullWidth
+              label="Twitter Link"
+              name="twitter"
+              value={twitter}
+              onChange={(event) => setTwitter(event.target.value)}
+            />
+
+            <TextField
+              margin="normal"
+              type="url"
+              size="medium"
+              fullWidth
+              label="Facebook Link"
+              name="facebook"
+              value={facebook}
+              onChange={(event) => setFacebook(event.target.value)}
+            />
+
+            <TextField
+              margin="normal"
+              type="url"
+              size="medium"
+              fullWidth
+              label="Instagram Link"
+              name="instagram"
+              value={instagram}
+              onChange={(event) => setInstagram(event.target.value)}
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 2,
+                py: "14px",
+                fontSize: "15px",
+                letterSpacing: 2,
+                bgcolor: "#272643",
+              }}
+            >
+              {url.includes("add_author")
+                ? "Create"
+                : url.includes("edit") && id
+                ? "Update"
+                : ""}
+            </Button>
+          </Box>
+        )}
       </Container>
     </MainComponent>
   );

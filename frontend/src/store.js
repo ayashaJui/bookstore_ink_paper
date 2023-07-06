@@ -18,8 +18,11 @@ import {
 import { cartReducers } from "./reducers/cartReducers.js";
 import { favoriteReducers } from "./reducers/favoriteReducers.js";
 import {
+  AuthorCreateReducers,
+  authorDeleteReducer,
   authorDetailsReducer,
   authorListReducer,
+  authorUpdateReducers,
   favoriteAuthorListReducer,
 } from "./reducers/authorReducers.js";
 
@@ -67,25 +70,31 @@ const reducers = combineReducers({
   popularBookList: popularBookListReducer,
   featuredBookList: featuredBookListReducer,
   saleBookList: saleBookListReducer,
-  authorList: authorListReducer,
-  favoriteAuthorList: favoriteAuthorListReducer,
-  authorDetails: authorDetailsReducer,
-  blogList: blogListReducer,
-  blogDetails: blogDeatilsReducer,
-  blogLatest: blogLatestReducer,
-  blogCategoryList: blogCategoyListReducer,
-  blogTagList: blogTagListReducer,
-  userBlogList: blogListMyReducer,
   orderCreate: orderCreateReducers,
   orderDetails: orderDetailsReducers,
   userOrderList: orderListMyReducers,
   orderCustomerList: orderCustomerListReducers,
   bookWithOrderList: bookWithOrderReducers,
   orderList: orderListReducers,
+
+  authorList: authorListReducer,
+  favoriteAuthorList: favoriteAuthorListReducer,
+  authorDetails: authorDetailsReducer,
+  authorCreate: AuthorCreateReducers,
+  authorUpdate: authorUpdateReducers,
+  authorDelete: authorDeleteReducer,
+
+  blogList: blogListReducer,
+  blogDetails: blogDeatilsReducer,
+  blogLatest: blogLatestReducer,
+  blogCategoryList: blogCategoyListReducer,
+  blogTagList: blogTagListReducer,
   blogUpdateIsHidden: blogUpdateIsHiddenReducer,
   blogCreate: blogCreateReducers,
   blogUpdate: blogUpdateReducers,
   blogDelete: blogDeleteReducer,
+
+  userBlogList: blogListMyReducer,
 
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,

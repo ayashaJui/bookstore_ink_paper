@@ -274,6 +274,7 @@ const AddEditUser = () => {
                     mt: 2,
                     py: "14px",
                     fontSize: "15px",
+                    bgcolor: "#272643",
                     letterSpacing: 2,
                   }}
                 >

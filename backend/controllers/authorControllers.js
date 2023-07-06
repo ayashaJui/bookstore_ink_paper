@@ -55,33 +55,34 @@ export const getAuthorsById = asyncHandler(async (req, res) => {
 
   const unwind = {
     $unwind: "$books",
-  };
-
-  const grouping = {
-    $group: {
-      _id: null,
-      authorInfo: { $first: "$$ROOT" },
-      books: { $push: "$books" },
-      totalBooks: { $sum: 1 },
-      avgRating: { $avg: "$books.rating" },
-      totalNumReviews: { $sum: "$books.numReviews" },
-      uniqueGenres: { $addToSet: "$books.genres" },
-    },
+    preserveNullAndEmptyArrays: true,
   };
 
   const project = {
     $project: {
       _id: 1,
-      authorInfo: 1,
-      totalBooks: 1,
-      avgRating: 1,
-      totalNumReviews: 1,
-      uniqueGenres: 1,
-      books: 1,
+      authorInfo: "$$ROOT",
+      totalBooks: { $cond: [{ $isArray: "$books" }, { $size: "$books" }, 0] },
+      avgRating: { $avg: "$books.rating" },
+      totalNumReviews: { $sum: "$books.numReviews" },
+      uniqueGenres: {
+        $cond: [
+          { $isArray: "$books" },
+          {
+            $reduce: {
+              input: "$books.genres",
+              initialValue: [],
+              in: { $setUnion: ["$$value", "$$this"] },
+            },
+          },
+          [],
+        ],
+      },
+      books: { $ifNull: ["$books", []] },
     },
   };
 
-  const pipeline = [match, ...lookup, unwind, grouping, project];
+  const pipeline = [match, ...lookup, project];
 
   const author = await Author.aggregate(pipeline);
 
@@ -116,4 +117,66 @@ export const getAuthorsByPopularity = asyncHandler(async (req, res) => {
   const popularAuthors = await Author.aggregate(pipeline);
 
   res.json(popularAuthors);
+});
+
+// @desc    Create new author
+// @route   POST /api/authors
+// @access  Private, Admin
+export const createAuthor = asyncHandler(async (req, res) => {
+  const { name, email, description, dob, dod, website, social } = req.body;
+
+  const author = await Author.create({
+    name,
+    email,
+    description,
+    dob,
+    dod,
+    website,
+    social,
+    user: req.user._id,
+  });
+
+  if (author) {
+    res.json(author);
+  } else {
+    res.status(400);
+    throw new Error("Invalid author data");
+  }
+});
+
+// @desc    Update author
+// @route   PUT /api/authors/:id/
+// @access  Private, Admin
+export const updateAuthor = asyncHandler(async (req, res) => {
+  const author = await Author.findById(req.params.id);
+
+  if (author) {
+    author.name = req.body.name || author.name;
+    author.email = req.body.email || author.email;
+    author.description = req.body.description || author.description;
+    author.website = req.body.website || author.website;
+    author.dob = req.body.dob || author.dob;
+    author.dod = req.body.dod || author.dod;
+    author.social = req.body.social || author.social;
+
+    const updatedAuthor = await author.save();
+    res.json(updatedAuthor);
+  } else {
+    res.status(404);
+    throw new Error("Author not found");
+  }
+});
+
+// @desc    Delete author
+// @route   DELETE /api/authors/:id
+// @access  Private, Admin
+export const deleteAuthor = asyncHandler(async (req, res) => {
+  const author = await Author.findOneAndDelete(req.params.id);
+
+  if (author) {
+    res.json({ message: "Author removed" });
+  } else {
+    res.status(404);
+    throw new Error("Author not found");
+  }
 });

@@ -23,9 +23,14 @@ import MainComponent from "../../layouts/admin/MainComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getAllAuthors } from "../../actions/authorActions";
+import {
+  authorClearSuccess,
+  deleteAuthor,
+  getAllAuthors,
+} from "../../actions/authorActions";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
+import { AUTHOR_DETAILS_RESET } from "../../constants/author";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -49,7 +54,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const AuthorList = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -58,13 +63,41 @@ const AuthorList = () => {
 
   const { loading, error, authors } = useSelector((state) => state.authorList);
 
+  const { success: createAuthorSuccess } = useSelector(
+    (state) => state.authorCreate
+  );
+
+  const { success: updateAuthorSuccess } = useSelector(
+    (state) => state.authorUpdate
+  );
+
+  const { success: deleteAuthorSuccess } = useSelector(
+    (state) => state.authorDelete
+  );
+
   useEffect(() => {
+    dispatch({ type: AUTHOR_DETAILS_RESET });
     if (userInfo && userInfo.isAdmin) {
       dispatch(getAllAuthors());
+
+      if (createAuthorSuccess || updateAuthorSuccess || deleteAuthorSuccess) {
+        const timer = setTimeout(() => {
+          dispatch(authorClearSuccess());
+        }, 6000);
+
+        return () => clearTimeout(timer);
+      }
     } else {
       navigate("/signin");
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    createAuthorSuccess,
+    updateAuthorSuccess,
+    deleteAuthorSuccess,
+  ]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -76,11 +109,13 @@ const AuthorList = () => {
   };
 
   const handleEdit = (event, id) => {
-    console.log(id);
+    navigate(`/admin/author/${id}/edit`);
   };
 
   const handleDeleteSubmit = (event, id) => {
-    console.log(id);
+    if (window.confirm("Are you sure??")) {
+      dispatch(deleteAuthor(id));
+    }
   };
 
   return (
@@ -92,6 +127,21 @@ const AuthorList = () => {
       <Divider />
 
       <Box sx={{ width: "100%", mt: 5 }}>
+        {createAuthorSuccess && (
+          <Message severity={"success"} title={"Created"} marginY={3}>
+            New author has been created
+          </Message>
+        )}
+        {updateAuthorSuccess && (
+          <Message severity={"success"} title={"Updated"} marginY={3}>
+            Author Info has been updated
+          </Message>
+        )}
+        {deleteAuthorSuccess && (
+          <Message severity={"success"} title={"Deleted"} marginY={3}>
+            Author Info has been deleted
+          </Message>
+        )}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -109,8 +159,10 @@ const AuthorList = () => {
                     <StyledTableCell>Image</StyledTableCell>
                     <StyledTableCell>Name</StyledTableCell>
                     <StyledTableCell>Email</StyledTableCell>
-                    <StyledTableCell>Books</StyledTableCell>
-                    <StyledTableCell colSpan={2}>Actions</StyledTableCell>
+                    <StyledTableCell align="right">Books</StyledTableCell>
+                    <StyledTableCell colSpan={2} align="center">
+                      Actions
+                    </StyledTableCell>
                     <StyledTableCell>Created By</StyledTableCell>
                   </TableRow>
                 </TableHead>
@@ -149,8 +201,10 @@ const AuthorList = () => {
                         </MuiLink>
                       </StyledTableCell>
                       <StyledTableCell>{authorInfo.email}</StyledTableCell>
-                      <StyledTableCell>{totalBooks}</StyledTableCell>
-                      <StyledTableCell>
+                      <StyledTableCell align="right">
+                        {totalBooks}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
                         <IconButton
                           color="secondary"
                           size="small"
