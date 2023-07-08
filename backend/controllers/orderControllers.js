@@ -80,6 +80,11 @@ export const getOrderedByCustomers = asyncHandler(async (req, res) => {
     {
       $unwind: "$userInfo",
     },
+    {
+      $sort: {
+        "userInfo.createdAt": -1,
+      },
+    },
 
     {
       // $group: {
@@ -113,7 +118,9 @@ export const getOrderedByCustomers = asyncHandler(async (req, res) => {
 // @route       GET     /api/orders/
 // @access      Private, Admin
 export const getAllOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate("user", "name");
+  const orders = await Order.find({})
+    .sort({ createdAt: -1 })
+    .populate("user", "name");
 
   res.json(orders);
 });

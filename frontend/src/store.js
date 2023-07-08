@@ -61,10 +61,19 @@ import {
 } from "./reducers/orderReducers.js";
 
 const reducers = combineReducers({
-  bookList: bookListReducer,
-  bookDetails: bookDetailsReducer,
   cart: cartReducers,
   favorite: favoriteReducers,
+
+  orderCreate: orderCreateReducers,
+  orderDetails: orderDetailsReducers,
+  userOrderList: orderListMyReducers,
+  orderCustomerList: orderCustomerListReducers,
+  orderList: orderListReducers,
+
+  bookWithOrderList: bookWithOrderReducers,
+
+  bookList: bookListReducer,
+  bookDetails: bookDetailsReducer,
   genreList: genreListReducer,
   bookAuthorList: bookAuthorListReducer,
   formatList: formatListReducer,
@@ -73,12 +82,6 @@ const reducers = combineReducers({
   popularBookList: popularBookListReducer,
   featuredBookList: featuredBookListReducer,
   saleBookList: saleBookListReducer,
-  orderCreate: orderCreateReducers,
-  orderDetails: orderDetailsReducers,
-  userOrderList: orderListMyReducers,
-  orderCustomerList: orderCustomerListReducers,
-  bookWithOrderList: bookWithOrderReducers,
-  orderList: orderListReducers,
   bookCreate: bookCreateReducers,
   bookUpdate: bookUpdateReducers,
   bookDelete: bookDeleteReducer,
