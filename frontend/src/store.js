@@ -4,8 +4,11 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 import {
   bookAuthorListReducer,
+  bookCreateReducers,
+  bookDeleteReducer,
   bookDetailsReducer,
   bookListReducer,
+  bookUpdateReducers,
   bookWithOrderReducers,
   featuredBookListReducer,
   formatListReducer,
@@ -76,6 +79,9 @@ const reducers = combineReducers({
   orderCustomerList: orderCustomerListReducers,
   bookWithOrderList: bookWithOrderReducers,
   orderList: orderListReducers,
+  bookCreate: bookCreateReducers,
+  bookUpdate: bookUpdateReducers,
+  bookDelete: bookDeleteReducer,
 
   authorList: authorListReducer,
   favoriteAuthorList: favoriteAuthorListReducer,

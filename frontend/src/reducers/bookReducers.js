@@ -2,8 +2,17 @@ import {
   BOOK_AUTHOR_FAIL,
   BOOK_AUTHOR_REQUEST,
   BOOK_AUTHOR_SUCCESS,
+  BOOK_CREATE_FAIL,
+  BOOK_CREATE_REQUEST,
+  BOOK_CREATE_RESET,
+  BOOK_CREATE_SUCCESS,
+  BOOK_DELETE_FAIL,
+  BOOK_DELETE_REQUEST,
+  BOOK_DELETE_RESET,
+  BOOK_DELETE_SUCCESS,
   BOOK_DETAILS_FAIL,
   BOOK_DETAILS_REQUEST,
+  BOOK_DETAILS_RESET,
   BOOK_DETAILS_SUCCESS,
   BOOK_FEATURED_FAIL,
   BOOK_FEATURED_REQUEST,
@@ -29,36 +38,17 @@ import {
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
+  BOOK_UPDATE_FAIL,
+  BOOK_UPDATE_REQUEST,
+  BOOK_UPDATE_RESET,
+  BOOK_UPDATE_SUCCESS,
   BOOK_WITH_ORDERS_FAIL,
   BOOK_WITH_ORDERS_REQUEST,
   BOOK_WITH_ORDERS_RESET,
   BOOK_WITH_ORDERS_SUCCESS,
 } from "../constants/book";
 
-const initialState = {
-  books: [
-    {
-      author: [],
-    },
-  ],
-  book: {
-    reviews: [],
-    author: [],
-    series: [],
-  },
-  genres: [],
-  bookAuthors: [],
-  formats: [],
-  publishers: [],
-  latestReleases: [],
-  popularBooks: [],
-  featuredBooks: [],
-  saleBooks: [],
-  loading: true,
-  error: [],
-};
-
-export const bookListReducer = (state = initialState, action) => {
+export const bookListReducer = (state = { books: [] }, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -82,14 +72,13 @@ export const bookListReducer = (state = initialState, action) => {
   }
 };
 
-export const bookDetailsReducer = (state = initialState, action) => {
+export const bookDetailsReducer = (state = { book: {} }, action) => {
   const { type, payload } = action;
 
   switch (type) {
     case BOOK_DETAILS_REQUEST:
       return {
         loading: true,
-        book: {},
       };
     case BOOK_DETAILS_SUCCESS:
       return {
@@ -101,12 +90,14 @@ export const bookDetailsReducer = (state = initialState, action) => {
         loading: false,
         error: payload,
       };
+    case BOOK_DETAILS_RESET:
+      return {};
     default:
       return state;
   }
 };
 
-export const genreListReducer = (state = initialState, action) => {
+export const genreListReducer = (state = { genres: [] }, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -130,7 +121,7 @@ export const genreListReducer = (state = initialState, action) => {
   }
 };
 
-export const bookAuthorListReducer = (state = initialState, action) => {
+export const bookAuthorListReducer = (state = { bookAuthors: [] }, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -154,7 +145,7 @@ export const bookAuthorListReducer = (state = initialState, action) => {
   }
 };
 
-export const formatListReducer = (state = initialState, action) => {
+export const formatListReducer = (state = { formats: [] }, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -178,7 +169,7 @@ export const formatListReducer = (state = initialState, action) => {
   }
 };
 
-export const publisherListReducer = (state = initialState, action) => {
+export const publisherListReducer = (state = { publishers: [] }, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -202,9 +193,12 @@ export const publisherListReducer = (state = initialState, action) => {
   }
 };
 
-export const latestReleaseListReducer = (state = initialState, action) => {
+export const latestReleaseListReducer = (
+  state = { latestReleases: [] },
+  action
+) => {
   const { type, payload } = action;
-  // console.log(payload);
+
   switch (type) {
     case BOOK_LATEST_RELEASE_REQUEST:
       return {
@@ -226,7 +220,10 @@ export const latestReleaseListReducer = (state = initialState, action) => {
   }
 };
 
-export const popularBookListReducer = (state = initialState, action) => {
+export const popularBookListReducer = (
+  state = { popularBooks: [] },
+  action
+) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -250,7 +247,10 @@ export const popularBookListReducer = (state = initialState, action) => {
   }
 };
 
-export const featuredBookListReducer = (state = initialState, action) => {
+export const featuredBookListReducer = (
+  state = { featuredBooks: [] },
+  action
+) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -274,7 +274,7 @@ export const featuredBookListReducer = (state = initialState, action) => {
   }
 };
 
-export const saleBookListReducer = (state = initialState, action) => {
+export const saleBookListReducer = (state = { saleBooks: [] }, action) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -323,6 +323,73 @@ export const bookWithOrderReducers = (
       return {
         bookWithOrder: [],
       };
+    default:
+      return state;
+  }
+};
+
+export const bookCreateReducers = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_CREATE_REQUEST:
+      return {
+        loading: true,
+      };
+    case BOOK_CREATE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        book: payload,
+      };
+    case BOOK_CREATE_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case BOOK_CREATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const bookUpdateReducers = (state = { book: {} }, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_UPDATE_REQUEST:
+      return {
+        loading: true,
+      };
+    case BOOK_UPDATE_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        book: payload,
+      };
+    case BOOK_UPDATE_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case BOOK_UPDATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const bookDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case BOOK_DELETE_REQUEST:
+      return { loading: true };
+    case BOOK_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case BOOK_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    case BOOK_DELETE_RESET:
+      return {};
     default:
       return state;
   }

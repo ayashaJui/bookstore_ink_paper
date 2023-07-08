@@ -262,6 +262,8 @@ export const getAllBooksWithOrder = asyncHandler(async (req, res) => {
         price: 1,
         countInStock: 1,
         release: 1,
+        series: 1,
+        literaryReviews: 1,
         offer: 1,
         isFeatured: 1,
         isBestSeller: 1,
@@ -274,4 +276,92 @@ export const getAllBooksWithOrder = asyncHandler(async (req, res) => {
 
   const books = await Book.aggregate(pipeline);
   res.json(books);
+});
+
+// @desc    Create new book
+// @route   POST /api/books
+// @access  Private, Admin
+export const createBook = asyncHandler(async (req, res) => {
+  const {
+    author,
+    isbn,
+    title,
+    description,
+    genres,
+    format,
+    price,
+    pages,
+    countInStock,
+    publisher,
+    release,
+    offer,
+    numCopySold,
+  } = req.body;
+
+  const book = await Book.create({
+    author,
+    isbn,
+    title,
+    description,
+    genres,
+    format,
+    price,
+    countInStock,
+    publisher,
+    release,
+    offer,
+    pages,
+    numCopySold,
+    user: req.user._id,
+  });
+
+  if (book) {
+    res.json(book);
+  } else {
+    res.status(400);
+    throw new Error("Invalid book data");
+  }
+});
+
+// @desc    Update book
+// @route   PUT /api/books/:id/
+// @access  Private, Admin
+export const updateBook = asyncHandler(async (req, res) => {
+  const book = await Book.findById(req.params.id);
+
+  if (book) {
+    book.author = req.body.author || book.author;
+    book.isbn = req.body.isbn || book.isbn;
+    book.title = req.body.title || book.title;
+    book.description = req.body.description || book.description;
+    book.genres = req.body.genres || book.genres;
+    book.format = req.body.format || book.format;
+    book.price = req.body.price || book.price;
+    book.countInStock = req.body.countInStock || book.countInStock;
+    book.publisher = req.body.publisher || book.publisher;
+    book.release = req.body.release || book.release;
+    book.offer = req.body.offer || book.offer;
+    book.pages = req.body.pages || book.pages;
+    book.numCopySold = req.body.numCopySold || book.numCopySold;
+
+    const updatedBook = await book.save();
+    res.json(updatedBook);
+  } else {
+    res.status(404);
+    throw new Error("Book not found");
+  }
+});
+
+// @desc    Delete book
+// @route   DELETE /api/books/:id
+// @access  Private, Admin
+export const deleteBook = asyncHandler(async (req, res) => {
+  const book = await Book.findByIdAndDelete(req.params.id);
+
+  if (book) {
+    res.json({ message: "Book removed" });
+  } else {
+    res.status(404);
+    throw new Error("Book not found");
+  }
 });

@@ -111,7 +111,7 @@ const Favorite = () => {
                         <CardActionArea>
                           <CardMedia
                             component="img"
-                            image={`/${item.image}`}
+                            image={`/${item.image ? item.image : 'images/sample_book.jpg'}`}
                             alt={item.title}
                             height="150"
                             sx={{

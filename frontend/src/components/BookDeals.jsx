@@ -78,7 +78,7 @@ const BookDeals = () => {
                     <CardMedia
                       component="img"
                       height={300}
-                      image={`/${image}`}
+                      image={`/${image ? image : 'images/sample_book.jpg'}`}
                       alt={title}
                       sx={{ objectFit: "contain" }}
                     />

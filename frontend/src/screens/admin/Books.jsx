@@ -24,15 +24,21 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import DoneIcon from "@mui/icons-material/Done";
+// import AddIcon from "@mui/icons-material/Add";
 import MainComponent from "../../layouts/admin/MainComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getBookWithOrderList } from "../../actions/bookActions";
+import {
+  bookClearSuccess,
+  deleteBook,
+  getBookWithOrderList,
+} from "../../actions/bookActions";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
 import styled from "@emotion/styled";
 import { formattedDate } from "../../helper/helperFunction";
+import { BOOK_DETAILS_RESET } from "../../constants/book";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -93,7 +99,7 @@ function stableSort(array, comparator) {
 
 const Books = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortOrder, setSortOrder] = useState("desc");
   let visibleRows = [];
 
@@ -106,13 +112,41 @@ const Books = () => {
     (state) => state.bookWithOrderList
   );
 
+  const { success: createBookSuccess } = useSelector(
+    (state) => state.bookCreate
+  );
+
+  const { success: updateBookSuccess } = useSelector(
+    (state) => state.bookUpdate
+  );
+
+  const { success: deleteBookSuccess } = useSelector(
+    (state) => state.bookDelete
+  );
+
   useEffect(() => {
+    dispatch({ type: BOOK_DETAILS_RESET });
     if (userInfo && userInfo.isAdmin) {
       dispatch(getBookWithOrderList());
+
+      if (createBookSuccess || updateBookSuccess || deleteBookSuccess) {
+        const timer = setTimeout(() => {
+          dispatch(bookClearSuccess());
+        }, 6000);
+
+        return () => clearTimeout(timer);
+      }
     } else {
       navigate("/signin");
     }
-  }, [dispatch, navigate, userInfo]);
+  }, [
+    dispatch,
+    navigate,
+    userInfo,
+    createBookSuccess,
+    updateBookSuccess,
+    deleteBookSuccess,
+  ]);
 
   const handleFeatureSubmit = (event, id, isFeatured) => {
     console.log(id, isFeatured);
@@ -123,11 +157,13 @@ const Books = () => {
   };
 
   const handleEdit = (event, id) => {
-    console.log(id);
+    navigate(`/admin/book/${id}/edit`);
   };
 
   const handleDeleteSubmit = (event, id) => {
-    console.log(id);
+    if (window.confirm("Are you sure??")) {
+      dispatch(deleteBook(id));
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -163,6 +199,21 @@ const Books = () => {
       <Divider />
 
       <Box sx={{ mt: 5 }}>
+        {createBookSuccess && (
+          <Message severity={"success"} title={"Created"} marginY={3}>
+            New book has been created
+          </Message>
+        )}
+        {updateBookSuccess && (
+          <Message severity={"success"} title={"Updated"} marginY={3}>
+            Book Info has been updated
+          </Message>
+        )}
+        {deleteBookSuccess && (
+          <Message severity={"success"} title={"Deleted"} marginY={3}>
+            Book Info has been deleted
+          </Message>
+        )}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -197,6 +248,8 @@ const Books = () => {
                       </StyledTableSortLabel>
                     </StyledTableCell>
                     <StyledTableCell>Offer (%) </StyledTableCell>
+                    {/* <StyledTableCell>Series</StyledTableCell>
+                    <StyledTableCell>Literary Reviews</StyledTableCell> */}
                     <StyledTableCell>Featured</StyledTableCell>
                     <StyledTableCell>Best Seller</StyledTableCell>
                     <StyledTableCell colSpan={2} align="center">
@@ -219,6 +272,8 @@ const Books = () => {
                         release,
                         offer,
                         isFeatured,
+                        series,
+                        literaryReviews,
                         isBestSeller,
                         saleCount,
                       },
@@ -234,7 +289,9 @@ const Books = () => {
                             <CardActionArea>
                               <CardMedia
                                 component="img"
-                                image={`/${image}`}
+                                image={`/${
+                                  image ? image : "images/sample_book.jpg"
+                                }`}
                                 alt={`${title}`}
                                 height="80"
                                 sx={{ objectFit: "contain" }}
@@ -273,6 +330,26 @@ const Books = () => {
                         </StyledTableCell>
                         <StyledTableCell> {saleCount} </StyledTableCell>
                         <StyledTableCell> {offer} </StyledTableCell>
+                        {/* <StyledTableCell>
+                          {series.map((s) => `${s.name}#${s.no}`)}
+                          <IconButton
+                            size="small"
+                            variant="contained"
+                            fontWeight="bold"
+                            // onClick={(event) =>
+                            //   handleFeatureSubmit(event, _id, isFeatured)
+                            // }
+                          >
+                            
+                              <ModeEditIcon fontSize="small" />
+                           
+                              <AddIcon fontSize="small" />
+                            
+                          </IconButton>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {literaryReviews ? "Edit" : "Create"}
+                        </StyledTableCell> */}
                         <StyledTableCell>
                           <Tooltip
                             title={`Press to ${

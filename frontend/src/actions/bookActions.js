@@ -4,8 +4,17 @@ import {
   BOOK_AUTHOR_FAIL,
   BOOK_AUTHOR_REQUEST,
   BOOK_AUTHOR_SUCCESS,
+  BOOK_CREATE_FAIL,
+  BOOK_CREATE_REQUEST,
+  BOOK_CREATE_RESET,
+  BOOK_CREATE_SUCCESS,
+  BOOK_DELETE_FAIL,
+  BOOK_DELETE_REQUEST,
+  BOOK_DELETE_RESET,
+  BOOK_DELETE_SUCCESS,
   BOOK_DETAILS_FAIL,
   BOOK_DETAILS_REQUEST,
+  BOOK_DETAILS_RESET,
   BOOK_DETAILS_SUCCESS,
   BOOK_FEATURED_FAIL,
   BOOK_FEATURED_REQUEST,
@@ -31,6 +40,10 @@ import {
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
+  BOOK_UPDATE_FAIL,
+  BOOK_UPDATE_REQUEST,
+  BOOK_UPDATE_RESET,
+  BOOK_UPDATE_SUCCESS,
   BOOK_WITH_ORDERS_FAIL,
   BOOK_WITH_ORDERS_REQUEST,
   BOOK_WITH_ORDERS_SUCCESS,
@@ -322,4 +335,134 @@ export const getBookWithOrderList = () => async (dispatch, getState) => {
       payload: message,
     });
   }
+};
+
+export const createBook = (book) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BOOK_CREATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `http://localhost:5000/api/books`,
+      book,
+      config
+    );
+
+    dispatch({
+      type: BOOK_CREATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BOOK_CREATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const updateBook = (book) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BOOK_UPDATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:5000/api/books/${book.id}`,
+      book,
+      config
+    );
+
+    dispatch({
+      type: BOOK_UPDATE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: BOOK_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BOOK_UPDATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const deleteBook = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BOOK_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`http://localhost:5000/api/books/${id}`, config);
+
+    dispatch({ type: BOOK_DELETE_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: BOOK_DELETE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const bookClearSuccess = () => async (dispatch) => {
+  dispatch({ type: BOOK_CREATE_RESET });
+  dispatch({ type: BOOK_UPDATE_RESET });
+  dispatch({ type: BOOK_DETAILS_RESET });
+  dispatch({ type: BOOK_DELETE_RESET });
 };

@@ -329,7 +329,7 @@ const AuthorProfile = () => {
                         <Grid item md={2}>
                           <CardMedia
                             component="img"
-                            image={`/${book.image}`}
+                            image={`/${book.image ? book.image : 'images/sample_book.jpg'}`}
                             alt={book.title}
                             height="100"
                             sx={{ p: 1, objectFit: "contain" }}

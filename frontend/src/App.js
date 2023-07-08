@@ -89,7 +89,7 @@ function App() {
 
             <Route exact path="/admin/books" Component={Books} />
             <Route exact path="/admin/add_book" Component={AddEditBook} />
-            <Route exact path="/admin/book/:id//edit" Component={AddEditBook} />
+            <Route exact path="/admin/book/:id/edit" Component={AddEditBook} />
 
             <Route exact path="/admin/authors" Component={AuthorList} />
             <Route exact path="/admin/add_author" Component={AddEditAuthor} />

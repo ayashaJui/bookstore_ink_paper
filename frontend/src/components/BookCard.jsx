@@ -43,7 +43,7 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
           <CardMedia
             component="img"
             height={mediaHeight}
-            image={`/${image}`}
+            image={`/${image ? image : "images/sample_book.jpg"}`}
             alt={`${title}`}
             sx={{ objectFit: "contain" }}
           />

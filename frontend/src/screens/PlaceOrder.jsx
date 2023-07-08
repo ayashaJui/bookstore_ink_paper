@@ -185,7 +185,7 @@ const PlaceOrder = () => {
                               <CardActionArea>
                                 <CardMedia
                                   component="img"
-                                  image={`/${item.image}`}
+                                  image={`/${item.image ? item.image : 'images/sample_book.jpg'}`}
                                   alt={`${item.title}`}
                                   height="50"
                                   sx={{ objectFit: "contain" }}

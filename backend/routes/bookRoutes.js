@@ -2,6 +2,8 @@ import express from "express";
 const router = express();
 
 import {
+  createBook,
+  deleteBook,
   getAllAuthorsBooks,
   getAllBooks,
   getAllBooksWithOrder,
@@ -13,8 +15,9 @@ import {
   getLatestRelease,
   getPopularBooks,
   getSaleBooks,
+  updateBook,
 } from "../controllers/bookControllers.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { admin, protect } from "../middleware/authMiddleware.js";
 
 router.route("/orders").get(protect, getAllBooksWithOrder);
 router.get("/genres", getAllGenres);
@@ -27,7 +30,11 @@ router.get("/featured", getFeaturedBooks);
 router.get("/sale", getSaleBooks);
 
 router.get("/search", getAllBooks);
-router.get("/", getAllBooks);
-router.get("/:id", getBookById);
+router.route("/").get(getAllBooks).post(protect, admin, createBook);
+router
+  .route("/:id")
+  .get(getBookById)
+  .put(protect, admin, updateBook)
+  .delete(protect, admin, deleteBook);
 
 export default router;

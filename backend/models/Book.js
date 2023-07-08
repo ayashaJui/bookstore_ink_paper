@@ -66,6 +66,7 @@ const BookSchema = new mongoose.Schema(
     format: [
       {
         type: String,
+        required: true,
       },
     ],
     price: [
@@ -86,10 +87,11 @@ const BookSchema = new mongoose.Schema(
 
     image: {
       type: String,
-      required: true,
+      // required: true,
     },
     pages: {
       type: Number,
+      default: 0,
     },
 
     series: [seriesSchema],
@@ -138,12 +140,6 @@ const BookSchema = new mongoose.Schema(
         default: 0,
       },
     ],
-
-    // isHidden: {
-    //   type: String,
-    //   required: true,
-    //   default: false,
-    // },
   },
   {
     timestamps: true,

@@ -98,7 +98,7 @@ const BookTabs = ({ book }) => {
   const rows = [
     createData("ISBN", isbn),
     createData("Publisher", publisher),
-    createData("Published Year", release.split("T")[0]),
+    createData("Published Year", release?.split("T")[0]),
     createData("Pages", pages),
   ];
 
