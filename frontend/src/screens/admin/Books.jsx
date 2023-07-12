@@ -289,8 +289,12 @@ const Books = () => {
                             <CardActionArea>
                               <CardMedia
                                 component="img"
-                                image={`/${
-                                  image ? image : "images/sample_book.jpg"
+                                image={`${
+                                  image
+                                    ? `${
+                                        process.env.REACT_APP_BASE_URL + image
+                                      }`
+                                    : "/images/sample_book.jpg"
                                 }`}
                                 alt={`${title}`}
                                 height="80"

@@ -394,8 +394,10 @@ const UserProfile = () => {
                         <Grid item xs={12} sm={4} md={5}>
                           <CardMedia
                             component="img"
-                            image={`/${
-                              image ? image : "images/sample_blog.png"
+                            image={`${
+                              image
+                                ? process.env.REACT_APP_BASE_URL + image
+                                : "/images/sample_blog.png"
                             }`}
                             alt={title}
                             height="100%"

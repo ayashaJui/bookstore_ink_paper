@@ -9,6 +9,7 @@ import {
   Avatar,
   TextField,
   Typography,
+  CardMedia,
 } from "@mui/material";
 import BlogSidebar from "../components/BlogSidebar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -58,13 +59,13 @@ const BlogDetails = () => {
             <Grid container spacing={2} sx={{ mx: "auto" }}>
               <Grid item md={8} sm={12} xs={12}>
                 <Box component="div" sx={{ mr: 5, mt: 8 }}>
-                  <Box
+                  {/* <Box
                     component="div"
                     sx={{
                       position: "relative",
                       marginBottom: "20px",
-                      backgroundImage: `url("/${
-                        blog.image ? blog.image : "images/sample_blog.png"
+                      backgroundImage: `url("${
+                        blog.image ? imgUrl : "/images/sample_blog.png"
                       }")`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
@@ -72,7 +73,25 @@ const BlogDetails = () => {
                       color: "white",
                       borderRadius: 0,
                     }}
-                  />
+                  /> */}
+                  <Card
+                    sx={{
+                      height: "500px",
+                      borderRadius: 0,
+                      marginBottom: "25px",
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      alt={blog.title}
+                      image={`${
+                        blog.image
+                          ? process.env.REACT_APP_BASE_URL + blog.image
+                          : "/images/sample_blog.png"
+                      }`}
+                      sx={{ objectFit: "cover" }}
+                    />
+                  </Card>
 
                   <Typography
                     variant="subtitle2"

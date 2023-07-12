@@ -72,17 +72,9 @@ const PopularBooks = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          // initialSlide: 3,
         },
       },
-      // {
-      //   breakpoint: 600,
-      //   settings: {
-      //     slidesToShow: 2,
-      //     slidesToScroll: 1,
-      //     initialSlide: 2,
-      //   },
-      // },
+
       {
         breakpoint: 590,
         settings: {
@@ -107,10 +99,7 @@ const PopularBooks = () => {
         Popular Books
       </Typography>
 
-      <Box
-        component="div"
-        // sx={{ py: 4, boxShadow: "0px 9px 11px 0px rgba(0,0,0,0.43)" }}
-      >
+      <Box component="div">
         <Slider {...settings}>
           {popularBooks &&
             popularBooks.map((book, idx) => (
@@ -122,13 +111,6 @@ const PopularBooks = () => {
                 key={idx}
               />
             ))}
-
-          {/* <BookCard mediaHeight="300" cardMargin="6px" />
-          <BookCard mediaHeight="300" cardMargin="6px" />
-          <BookCard mediaHeight="300" cardMargin="6px" />
-          <BookCard mediaHeight="300" cardMargin="6px" />
-          <BookCard mediaHeight="300" cardMargin="6px" />
-          <BookCard mediaHeight="300" cardMargin="6px" /> */}
         </Slider>
       </Box>
 

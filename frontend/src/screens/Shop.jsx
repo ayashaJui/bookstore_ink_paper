@@ -106,7 +106,11 @@ const Shop = () => {
                                 component="img"
                                 alt={title}
                                 height="330"
-                                image={`/${image ? image : 'images/sample_book.jpg'}`}
+                                image={`${
+                                  image
+                                    ? process.env.REACT_APP_BASE_URL + image
+                                    : "/images/sample_book.jpg"
+                                }`}
                                 sx={{ objectFit: "contain" }}
                               />
                               {offer > 0 && (

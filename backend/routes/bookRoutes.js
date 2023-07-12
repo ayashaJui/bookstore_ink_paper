@@ -20,16 +20,16 @@ import {
 import { admin, protect } from "../middleware/authMiddleware.js";
 
 router.route("/orders").get(protect, getAllBooksWithOrder);
-router.get("/genres", getAllGenres);
-router.get("/authors", getAllAuthorsBooks);
-router.get("/formats", getAllFormats);
-router.get("/publishers", getAllPublishers);
-router.get("/latestRelease", getLatestRelease);
-router.get("/popular", getPopularBooks);
-router.get("/featured", getFeaturedBooks);
-router.get("/sale", getSaleBooks);
+router.route("/genres").get(getAllGenres);
+router.route("/authors").get(getAllAuthorsBooks);
+router.route("/formats").get(getAllFormats);
+router.route("/publishers").get(getAllPublishers);
+router.route("/latestRelease").get(getLatestRelease);
+router.route("/popular").get(getPopularBooks);
+router.route("/featured").get(getFeaturedBooks);
+router.route("/sale").get(getSaleBooks);
 
-router.get("/search", getAllBooks);
+router.route("/search", getAllBooks);
 router.route("/").get(getAllBooks).post(protect, admin, createBook);
 router
   .route("/:id")

@@ -259,7 +259,7 @@ const BookTabs = ({ book }) => {
                   Series
                 </TableCell>
                 <TableCell align="right" sx={{ borderBottom: "none" }}>
-                  {series.length > 0
+                  {series?.length > 0
                     ? series.map(({ _id, name, no }, idx) => (
                         <span key={idx}>
                           <Link

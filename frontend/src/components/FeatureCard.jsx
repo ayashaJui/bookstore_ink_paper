@@ -22,7 +22,7 @@ const FeatureCard = ({ book }) => {
         <Grid item xs={12} sm={4}>
           <CardMedia
             component="img"
-            image={`/${image ? image : "images/sample_book.jpg"}`}
+            image={`${image ? process.env.REACT_APP_BASE_URL +image : "/images/sample_book.jpg"}`}
             alt={title}
             height="100%"
             sx={{ objectFit: "contain" }}

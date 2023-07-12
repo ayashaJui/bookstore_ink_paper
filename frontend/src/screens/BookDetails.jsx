@@ -114,8 +114,10 @@ const BookDetails = () => {
                   <Card sx={{ borderRadius: 0, boxShadow: 0 }}>
                     <CardMedia
                       component="img"
-                      src={`/${
-                        book.image ? book.image : "images/sample_book.jpg"
+                      src={`${
+                        book.image
+                          ? process.env.REACT_APP_BASE_URL + book.image
+                          : "/images/sample_book.jpg"
                       }`}
                       alt={`${book.title}`}
                       height="400"
@@ -136,31 +138,34 @@ const BookDetails = () => {
                     </Typography>
                     <Typography variant="subtitle2" sx={{ my: 1 }}>
                       by{" "}
-                      {book.author.map(({ _id, name }, index) => (
-                        <span key={_id}>
-                          <Link
-                            href={`/author/${_id}/profile`}
-                            sx={{
-                              ml: 1,
-                              textDecoration: "none",
-                              color: "#9B908A",
-                            }}
-                          >
-                            {name}
-                          </Link>
-                          {index !== book.author.length - 1 && (
-                            <Typography
-                              component={"span"}
-                              sx={{ color: "#9B908A" }}
+                      {book.author &&
+                        book.author.map(({ _id, name }, index) => (
+                          <span key={_id}>
+                            <Link
+                              href={`/author/${_id}/profile`}
+                              sx={{
+                                ml: 1,
+                                textDecoration: "none",
+                                color: "#9B908A",
+                              }}
                             >
-                              ,
-                            </Typography>
-                          )}
-                        </span>
-                      ))}
+                              {name}
+                            </Link>
+                            {index !== book.author.length - 1 && (
+                              <Typography
+                                component={"span"}
+                                sx={{ color: "#9B908A" }}
+                              >
+                                ,
+                              </Typography>
+                            )}
+                          </span>
+                        ))}
                     </Typography>
                     <Typography component="p" variant="body2" sx={{ my: 3 }}>
-                      {book.description.split(".").slice(0, 4).join(".")}.
+                      {book.description &&
+                        book.description.split(".").slice(0, 4).join(".")}
+                      .
                     </Typography>
 
                     <Box component="div" sx={{ my: 3 }}>
@@ -198,11 +203,11 @@ const BookDetails = () => {
                   >
                     <CardHeader
                       title={
-                        book.price.length > 1
+                        book.price?.length > 1
                           ? `BDT ${Math.min(...book.price)} - BDT ${Math.max(
                               ...book.price
                             )}`
-                          : `BDT ${book.price[0]}`
+                          : `BDT ${book.price?.[0]}`
                       }
                       sx={{ bgcolor: "#e3f6f5", p: 3 }}
                     ></CardHeader>
@@ -220,7 +225,7 @@ const BookDetails = () => {
                         onChange={handleFormatChange}
                         sx={{ mt: 3, borderRadius: 0 }}
                       >
-                        {book.format.map((option, idx) => (
+                        {book.format?.map((option, idx) => (
                           <MenuItem key={idx} value={idx}>
                             {option} - {book.price[idx]}/-
                           </MenuItem>
@@ -262,7 +267,7 @@ const BookDetails = () => {
                         value={quantity}
                       />
 
-                      {book.countInStock[formatType] > 0 ? (
+                      {book.countInStock?.[formatType] > 0 ? (
                         <Button
                           size="large"
                           onClick={handleCartSubmit}

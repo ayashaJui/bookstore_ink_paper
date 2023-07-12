@@ -186,7 +186,9 @@ const AuthorList = () => {
                         >
                           <Avatar
                             alt={`${authorInfo.name}`}
-                            src={`/${authorInfo.image}`}
+                            src={`${
+                              process.env.REACT_APP_BASE_URL + authorInfo.image
+                            }`}
                             sx={{ width: 50, height: 50 }}
                           />
                         </MuiLink>

@@ -97,13 +97,14 @@ export const updateIsHidden = asyncHandler(async (req, res) => {
 // @route   POST /api/blogs
 // @access  Private
 export const createBlog = asyncHandler(async (req, res) => {
-  const { title, description, tags, categories } = req.body;
+  const { title, description, tags, categories, image } = req.body;
 
   const blog = await Blog.create({
     title,
     description,
     tags,
     categories,
+    image,
     user: req.user._id,
   });
 
@@ -126,6 +127,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
     blog.description = req.body.description || blog.description;
     blog.categories = req.body.categories || blog.categories;
     blog.tags = req.body.tags || blog.tags;
+    blog.image = req.body.image || blog.image;
 
     const updatedBlog = await blog.save();
     res.json(updatedBlog);

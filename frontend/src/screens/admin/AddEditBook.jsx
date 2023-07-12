@@ -11,6 +11,7 @@ import {
   Divider,
   FormControl,
   FormHelperText,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -21,11 +22,13 @@ import { useEffect, useState } from "react";
 import { getAllAuthors } from "../../actions/authorActions";
 import { createBook, getBookById, updateBook } from "../../actions/bookActions";
 import { BOOK_DETAILS_RESET } from "../../constants/book";
+import axios from "axios";
 
 const AddEditBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState([]);
   const [isbn, setIsbn] = useState("");
+  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [genres, setGenres] = useState("");
   const [publisher, setPublisher] = useState("");
@@ -36,6 +39,7 @@ const AddEditBook = () => {
   const [format, setFormat] = useState([
     { format: "", price: 0, countInStock: 0 },
   ]);
+  const [uploading, setUploading] = useState(false);
 
   const [titleError, setTitleError] = useState();
   const [authorError, setAuthorError] = useState();
@@ -171,6 +175,7 @@ const AddEditBook = () => {
             author,
             isbn,
             title,
+            image,
             description,
             genres: genres.split(","),
             format: formatInfo,
@@ -188,24 +193,56 @@ const AddEditBook = () => {
       const formatInfo = format.map((f) => f.format);
       const price = format.map((f) => f.price);
       const countInStock = format.map((f) => f.countInStock);
-      dispatch(
-        updateBook({
-          id,
-          author,
-          isbn,
-          title,
-          description,
-          genres: genres.split(","),
-          format: formatInfo,
-          price,
-          countInStock,
-          publisher,
-          release: new Date(release),
-          pages: Number(pages),
-          offer: Number(offer),
-          numCopySold,
-        })
+
+      if (author.length === 0) setAuthorError("Author is required");
+      else {
+        dispatch(
+          updateBook({
+            id,
+            author,
+            image,
+            isbn,
+            title,
+            description,
+            genres: genres.split(","),
+            format: formatInfo,
+            price,
+            countInStock,
+            publisher,
+            release: new Date(release),
+            pages: Number(pages),
+            offer: Number(offer),
+            numCopySold,
+          })
+        );
+      }
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/upload/book",
+        formData,
+        config
       );
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
     }
   };
 
@@ -282,7 +319,24 @@ const AddEditBook = () => {
               </Select>
               <FormHelperText color="error">{authorError}</FormHelperText>
             </FormControl>
-
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              type="file"
+              // value={image}
+              inputProps={{
+                accept: "image/*", // Specify the allowed file types
+              }}
+              onChange={handleFileChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <span>{uploading && <Loader />}</span>
+                  </InputAdornment>
+                ),
+              }}
+            />
             <TextField
               margin="normal"
               size="medium"

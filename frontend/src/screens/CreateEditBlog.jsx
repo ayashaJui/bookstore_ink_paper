@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Divider,
+  InputAdornment,
   Link as MuiLink,
   TextField,
   Typography,
@@ -15,12 +16,15 @@ import Message from "../layouts/Message";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBlog, getBlogById, updateBlog } from "../actions/blogActions";
+import axios from "axios";
 
 const CreateEditBlog = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState("");
   const [tags, setTags] = useState("");
+  const [image, setImage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const [titleError, setTitleError] = useState();
   const [descriptionError, setDescriptionError] = useState();
@@ -73,6 +77,7 @@ const CreateEditBlog = () => {
             tags,
             description,
             categories,
+            image,
           })
         );
       }
@@ -84,8 +89,36 @@ const CreateEditBlog = () => {
           description,
           categories,
           tags,
+          image,
         })
       );
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/upload/blog",
+        formData,
+        config
+      );
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
     }
   };
 
@@ -181,6 +214,24 @@ const CreateEditBlog = () => {
                 name="tags"
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
+              />
+              <TextField
+                margin="normal"
+                size="medium"
+                fullWidth
+                type="file"
+                // value={image}
+                inputProps={{
+                  accept: "image/*", // Specify the allowed file types
+                }}
+                onChange={handleFileChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <span>{uploading && <Loader />}</span>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 margin="normal"

@@ -127,7 +127,7 @@ const FavouriteAuthors = () => {
             >
               <Avatar
                 alt={authorInfo.name}
-                src={`/${authorInfo.image}`}
+                src={`${process.env.REACT_APP_BASE_URL + authorInfo.image}`}
                 sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
               />
               <Typography

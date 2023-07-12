@@ -296,12 +296,14 @@ export const createBook = asyncHandler(async (req, res) => {
     release,
     offer,
     numCopySold,
+    image,
   } = req.body;
 
   const book = await Book.create({
     author,
     isbn,
     title,
+    image,
     description,
     genres,
     format,
@@ -333,6 +335,7 @@ export const updateBook = asyncHandler(async (req, res) => {
     book.author = req.body.author || book.author;
     book.isbn = req.body.isbn || book.isbn;
     book.title = req.body.title || book.title;
+    book.image = req.body.image || book.image;
     book.description = req.body.description || book.description;
     book.genres = req.body.genres || book.genres;
     book.format = req.body.format || book.format;

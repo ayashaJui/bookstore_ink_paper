@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Divider,
+  InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
@@ -19,6 +20,7 @@ import {
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
 import { formattedDate } from "../../helper/helperFunction";
+import axios from "axios";
 
 const AddEditAuthor = () => {
   const [name, setName] = useState("");
@@ -31,6 +33,8 @@ const AddEditAuthor = () => {
   const [twitter, setTwitter] = useState("");
   const [instagram, setInstagram] = useState("");
   const [youtube, setYoutube] = useState("");
+  const [image, setImage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const [nameError, setNameError] = useState();
   const [emailError, setEmailError] = useState();
@@ -114,6 +118,7 @@ const AddEditAuthor = () => {
           createAuthor({
             name,
             email,
+            image,
             description,
             website,
             dob,
@@ -128,6 +133,7 @@ const AddEditAuthor = () => {
           id,
           name,
           email,
+          image,
           description,
           website,
           dob,
@@ -135,6 +141,33 @@ const AddEditAuthor = () => {
           social,
         })
       );
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/upload/author",
+        formData,
+        config
+      );
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
     }
   };
 
@@ -205,7 +238,24 @@ const AddEditAuthor = () => {
               error={!!descriptionError}
               helperText={descriptionError}
             />
-
+            <TextField
+              margin="normal"
+              size="medium"
+              fullWidth
+              type="file"
+              // value={image}
+              inputProps={{
+                accept: "image/*", // Specify the allowed file types
+              }}
+              onChange={handleFileChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <span>{uploading && <Loader />}</span>
+                  </InputAdornment>
+                ),
+              }}
+            />
             <TextField
               margin="normal"
               size="medium"

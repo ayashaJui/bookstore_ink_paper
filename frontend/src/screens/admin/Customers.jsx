@@ -358,7 +358,9 @@ const Customers = () => {
                         <TableCell>{formattedDate(row.user_created)}</TableCell>
                         <TableCell align="right">{row.orders.length}</TableCell>
                         <TableCell align="right">{row.totalSpend}</TableCell>
-                        <TableCell align="right">{row.avgSpend}</TableCell>
+                        <TableCell align="right">
+                          {row.avgSpend.toFixed(2)}
+                        </TableCell>
                         <TableCell align="right">
                           {" "}
                           {row.orders.reduce(

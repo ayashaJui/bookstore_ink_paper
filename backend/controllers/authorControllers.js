@@ -123,12 +123,14 @@ export const getAuthorsByPopularity = asyncHandler(async (req, res) => {
 // @route   POST /api/authors
 // @access  Private, Admin
 export const createAuthor = asyncHandler(async (req, res) => {
-  const { name, email, description, dob, dod, website, social } = req.body;
+  const { name, email, image, description, dob, dod, website, social } =
+    req.body;
 
   const author = await Author.create({
     name,
     email,
     description,
+    image,
     dob,
     dod,
     website,
@@ -153,6 +155,7 @@ export const updateAuthor = asyncHandler(async (req, res) => {
   if (author) {
     author.name = req.body.name || author.name;
     author.email = req.body.email || author.email;
+    author.image = req.body.image || author.image;
     author.description = req.body.description || author.description;
     author.website = req.body.website || author.website;
     author.dob = req.body.dob || author.dob;

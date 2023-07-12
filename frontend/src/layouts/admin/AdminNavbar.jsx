@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Badge,
   Divider,
   IconButton,
@@ -120,6 +121,21 @@ const AdminNavbar = () => {
           >
             INK & PAPER
           </Typography>
+          <IconButton color="inherit" component={Link} to={`/profile`}>
+            <Tooltip title="profile">
+            <Avatar
+              alt={"admin"}
+              src={`/`}
+              sx={{
+                height: "28px",
+                width: "28px",
+                my: 2,
+                mx: 1,
+                fontSize: 15,
+              }}
+            />
+            </Tooltip>
+          </IconButton>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />

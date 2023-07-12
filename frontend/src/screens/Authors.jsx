@@ -1,13 +1,13 @@
 import {
   Box,
   Breadcrumbs,
-  Card,
-  CardActionArea,
-  CardMedia,
+  // Card,
+  // CardActionArea,
+  // CardMedia,
   Divider,
   Grid,
   Link as MuiLink,
-  Rating,
+  // Rating,
   Typography,
   Tabs,
   Tab,
@@ -88,7 +88,7 @@ const Authors = () => {
 
       <Divider />
 
-      <Box sx={{ maxWidth: 1000, mx: { md: "auto", sm: 3, xs: 1 }, my: 3 }}>
+      {/* <Box sx={{ maxWidth: 1000, mx: { md: "auto", sm: 3, xs: 1 }, my: 3 }}>
         <Typography variant="h3" sx={{ p: 2, mb: 3, fontWeight: "500" }}>
           Author of the Week
         </Typography>
@@ -219,7 +219,7 @@ const Authors = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
 
       <Box sx={{ mt: 8, mb: 5 }}>
         <Tabs
@@ -260,7 +260,9 @@ const Authors = () => {
                   >
                     <Avatar
                       alt={`${authorInfo.name}`}
-                      src={`/${authorInfo.image}`}
+                      src={`${
+                        process.env.REACT_APP_BASE_URL + authorInfo.image
+                      }`}
                       sx={{ width: 180, height: 180, mb: 3, mx: "auto" }}
                     />
                     <Typography
