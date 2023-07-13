@@ -5,14 +5,14 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
+  Link as MuiLink,
   TextField,
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginUser } from "../actions/userActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
@@ -106,14 +106,19 @@ const Signin = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/forgetpassword" variant="body2" sx={{}}>
+                <MuiLink
+                  component={Link}
+                  to="/forgetpassword"
+                  variant="body2"
+                  sx={{}}
+                >
                   Forgot password?
-                </Link>
+                </MuiLink>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <MuiLink component={Link} to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </MuiLink>
               </Grid>
             </Grid>
           </Box>
