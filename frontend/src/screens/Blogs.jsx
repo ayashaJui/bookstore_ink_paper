@@ -19,7 +19,7 @@ import BlogSidebar from "../components/BlogSidebar";
 import HeroImage from "../components/HeroImage";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllBlogs } from "../actions/blogActions";
 import { formattedDate } from "../helper/helperFunction";
 import { Link, useLocation } from "react-router-dom";
@@ -29,8 +29,17 @@ const Blogs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParam = location.search.split("?")[1];
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 10;
 
   const { blogs } = useSelector((state) => state.blogList);
+
+  const filteredBlogs = blogs.filter((blog) => !blog.isHidden);
+
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const endIndex = startIndex + blogsPerPage;
+  const visibleBlogs = filteredBlogs.slice(startIndex, endIndex);
 
   useEffect(() => {
     if (queryParam) {
@@ -39,6 +48,10 @@ const Blogs = () => {
       dispatch(getAllBlogs());
     }
   }, [dispatch, queryParam]);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -54,7 +67,7 @@ const Blogs = () => {
           <Grid container spacing={3}>
             <Grid item md={8} sm={12} xs={12} sx={{ mx: "auto" }}>
               {blogs &&
-                blogs.map(
+                visibleBlogs.map(
                   (
                     {
                       _id,
@@ -150,7 +163,9 @@ const Blogs = () => {
               {blogs && blogs.length > 0 && (
                 <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
                   <Pagination
-                    count={10}
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
                     renderItem={(item) => (
                       <PaginationItem
                         slots={{

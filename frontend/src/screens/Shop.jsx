@@ -24,7 +24,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Button from "@mui/material/Button";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllBooks } from "../actions/bookActions";
 import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 import Loader from "../layouts/Loader";
@@ -36,10 +36,17 @@ const Shop = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParam = location.search.split("?")[1];
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 15;
 
   const { loading, books, error } = useSelector((state) => state.bookList);
   const { cartItems } = useSelector((state) => state.cart);
   const { favoriteItems } = useSelector((state) => state.favorite);
+
+  const totalPages = Math.ceil(books.length / booksPerPage);
+  const startIndex = (currentPage - 1) * booksPerPage;
+  const endIndex = startIndex + booksPerPage;
+  const visibleBooks = books.slice(startIndex, endIndex);
 
   useEffect(() => {
     if (queryParam) {
@@ -48,6 +55,10 @@ const Shop = () => {
       dispatch(getAllBooks());
     }
   }, [dispatch, queryParam]);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <>
@@ -80,7 +91,7 @@ const Shop = () => {
               ) : (
                 <>
                   <Grid container spacing={3}>
-                    {books.map(
+                    {visibleBooks.map(
                       ({
                         _id,
                         title,
@@ -221,7 +232,6 @@ const Shop = () => {
                                     <Button
                                       component={Link}
                                       size="medium"
-                                      // to={`/favorite/${_id}`}
                                       onClick={() =>
                                         dispatch(removeFromFavorite(_id))
                                       }
@@ -239,7 +249,6 @@ const Shop = () => {
                                     <Button
                                       component={Link}
                                       size="medium"
-                                      // to={`/favorite/${_id}`}
                                       onClick={() =>
                                         dispatch(addToFavorite(_id))
                                       }
@@ -281,7 +290,9 @@ const Shop = () => {
                     sx={{ mt: 10, mb: 6, alignItems: "center" }}
                   >
                     <Pagination
-                      count={10}
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
                       renderItem={(item) => (
                         <PaginationItem
                           slots={{

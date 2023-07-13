@@ -9,8 +9,8 @@ import {
   Link as MuiLink,
   // Rating,
   Typography,
-  Tabs,
-  Tab,
+  // Tabs,
+  // Tab,
   Avatar,
   Stack,
   Pagination,
@@ -25,53 +25,65 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { getAllAuthors } from "../actions/authorActions";
 import Navbar from "../layouts/Navbar";
 
-const items = [
-  "all",
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  " r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
+// const items = [
+//   "all",
+//   "a",
+//   "b",
+//   "c",
+//   "d",
+//   "e",
+//   "f",
+//   "g",
+//   "h",
+//   "i",
+//   "j",
+//   "k",
+//   "l",
+//   "m",
+//   "n",
+//   "o",
+//   "p",
+//   "q",
+//   " r",
+//   "s",
+//   "t",
+//   "u",
+//   "v",
+//   "w",
+//   "x",
+//   "y",
+//   "z",
+// ];
+
 const Authors = () => {
-  const [value, setValue] = useState(0);
+  // const [value, setValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const authorsPerPage = 20;
 
   const dispatch = useDispatch();
 
   const { authors } = useSelector((state) => state.authorList);
 
+  const totalPages = Math.ceil(authors.length / authorsPerPage);
+  const startIndex = (currentPage - 1) * authorsPerPage;
+  const endIndex = startIndex + authorsPerPage;
+  const visibleAuthors = authors.slice(startIndex, endIndex);
+
   useEffect(() => {
     dispatch(getAllAuthors());
   }, [dispatch]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
-  const handleItemClick = (event) => {
-    // event.preventDefault()
-    console.log(event.currentTarget.textContent);
+  // const handleItemClick = (event) => {
+  //   // event.preventDefault()
+  //   console.log(event.currentTarget.textContent);
+  // };
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -221,7 +233,7 @@ const Authors = () => {
         </Grid>
       </Box> */}
 
-      <Box sx={{ mt: 8, mb: 5 }}>
+      {/* <Box sx={{ mt: 8, mb: 5 }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -238,7 +250,7 @@ const Authors = () => {
             />
           ))}
         </Tabs>
-      </Box>
+      </Box> */}
 
       <Box
         sx={{
@@ -250,7 +262,7 @@ const Authors = () => {
       >
         <Grid container spacing={3} justifyContent="center">
           {authors &&
-            authors.map(({ _id, authorInfo, totalBooks }, idx) => {
+            visibleAuthors.map(({ _id, authorInfo, totalBooks }, idx) => {
               return (
                 <Grid item key={idx}>
                   <MuiLink
@@ -287,7 +299,9 @@ const Authors = () => {
       {authors && (
         <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
           <Pagination
-            count={10}
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
             renderItem={(item) => (
               <PaginationItem
                 slots={{
