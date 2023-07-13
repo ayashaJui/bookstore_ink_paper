@@ -1,12 +1,14 @@
 # INK & PAPER - An Online Bookstore
 
-## Frontend:
+### Frontend:
   > React Redux, Material Ui
 
-## Backend:
+### Backend:
   > Nodejs, Expressjs
-> 
-## Database
+
+### Database
   > MongoDB
 
-----> Live Demo: https://inkandpaper-frontend.onrender.com/
+
+ 
+ ## Live Demo: https://inkandpaper-frontend.onrender.com/
