@@ -12,7 +12,8 @@
     "data:import": "node backend/seeder",
     "bookdata:import": "node backend/seeder -book",
     "blogdata:import": "node backend/seeder -blog",
-    "data:destroy": "node backend/seeder -d"
+    "data:destroy": "node backend/seeder -d",
+    "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build -- prefix client"
   },
   "repository": {
     "type": "git",
