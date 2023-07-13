@@ -73,7 +73,6 @@ const BookDetails = () => {
 
   const handleCartSubmit = (event) => {
     event.preventDefault();
-    console.log(formatType, quantity);
     navigate(`/cart/${book._id}?quantity=${quantity}&format=${formatType}`);
   };
 

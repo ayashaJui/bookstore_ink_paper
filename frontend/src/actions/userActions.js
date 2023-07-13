@@ -52,7 +52,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/users/login`,
+      `${process.env.REACT_APP_BASE_URL}/api/users/login`,
       { email, password },
       config
     );
@@ -87,7 +87,7 @@ export const registerUser = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/users`,
+      `${process.env.REACT_APP_BASE_URL}/api/users`,
       { name, email, password },
       config
     );
@@ -130,7 +130,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/users/${id}`,
+      `${process.env.REACT_APP_BASE_URL}/api/users/${id}`,
       config
     );
 
@@ -171,7 +171,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:5000/api/users/profile`,
+      `${process.env.REACT_APP_BASE_URL}/api/users/profile`,
       user,
       config
     );
@@ -224,7 +224,10 @@ export const getUserList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`http://localhost:5000/api/users`, config);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/users`,
+      config
+    );
 
     dispatch({
       type: USER_LIST_SUCCESS,
@@ -263,7 +266,7 @@ export const updateIsAdmin = (id, user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:5000/api/users/${id}/isAdmin`,
+      `${process.env.REACT_APP_BASE_URL}/api/users/${id}/isAdmin`,
       user,
       config
     );
@@ -305,7 +308,7 @@ export const createUser = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/users/create`,
+      `${process.env.REACT_APP_BASE_URL}/api/users/create`,
       user,
       config
     );
@@ -347,7 +350,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:5000/api/users/${user.id}`,
+      `${process.env.REACT_APP_BASE_URL}/api/users/${user.id}`,
       user,
       config
     );

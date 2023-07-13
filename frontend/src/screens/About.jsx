@@ -133,7 +133,7 @@ const About = () => {
                     component="img"
                     alt="blog"
                     height="350"
-                    image="/images/authors/14.jpg"
+                    image="/images/random_user.jpg"
                   />
                   <Box
                     component="div"
@@ -247,7 +247,7 @@ const About = () => {
                     component="img"
                     alt="blog"
                     height="350"
-                    image="/images/authors/14.jpg"
+                    image="/images/random_user.jpg"
                   />
                   <Box
                     component="div"
@@ -360,7 +360,7 @@ const About = () => {
                     component="img"
                     alt="blog"
                     height="350"
-                    image="/images/authors/14.jpg"
+                    image="/images/random_user.jpg"
                   />
                   <Box
                     component="div"

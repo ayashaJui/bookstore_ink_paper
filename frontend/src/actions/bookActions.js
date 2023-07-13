@@ -61,9 +61,9 @@ export const getAllBooks =
       let url = "";
 
       if (queryParams !== "") {
-        url = `http://localhost:5000/api/books/search/?${queryParams}`;
+        url = `${process.env.REACT_APP_BASE_URL}/api/books/search/?${queryParams}`;
       } else {
-        url = `http://localhost:5000/api/books/`;
+        url = `${process.env.REACT_APP_BASE_URL}/api/books/`;
       }
 
       const { data } = await axios.get(url);
@@ -89,7 +89,7 @@ export const getBookById = (id) => async (dispatch) => {
       type: BOOK_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books/${id}`);
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/${id}`);
 
     dispatch({
       type: BOOK_DETAILS_SUCCESS,
@@ -112,7 +112,7 @@ export const getAllGenres = () => async (dispatch) => {
       type: BOOK_GENRE_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books/genres`);
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/genres`);
 
     dispatch({
       type: BOOK_GENRE_SUCCESS,
@@ -135,7 +135,7 @@ export const getAllBookAuthors = () => async (dispatch) => {
       type: BOOK_AUTHOR_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books/authors`);
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/authors`);
 
     dispatch({
       type: BOOK_AUTHOR_SUCCESS,
@@ -158,7 +158,7 @@ export const getAllFormats = () => async (dispatch) => {
       type: BOOK_FORMAT_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books/formats`);
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/formats`);
 
     dispatch({
       type: BOOK_FORMAT_SUCCESS,
@@ -182,7 +182,7 @@ export const getAllPublishers = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/books/publishers`
+      `${process.env.REACT_APP_BASE_URL}/api/books/publishers`
     );
 
     dispatch({
@@ -207,7 +207,7 @@ export const getLatestRelease = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/books/latestRelease`
+      `${process.env.REACT_APP_BASE_URL}/api/books/latestRelease`
     );
 
     dispatch({
@@ -231,7 +231,7 @@ export const getPopularBooks = () => async (dispatch) => {
       type: BOOK_POPULAR_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books/popular`);
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/popular`);
 
     dispatch({
       type: BOOK_POPULAR_SUCCESS,
@@ -255,7 +255,7 @@ export const getFeaturedBooks = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/books/featured`
+      `${process.env.REACT_APP_BASE_URL}/api/books/featured`
     );
 
     dispatch({
@@ -279,7 +279,7 @@ export const getSaleBooks = () => async (dispatch) => {
       type: BOOK_SALE_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/books/sale`);
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/sale`);
 
     dispatch({
       type: BOOK_SALE_SUCCESS,
@@ -313,7 +313,7 @@ export const getBookWithOrderList = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/books/orders`,
+      `${process.env.REACT_APP_BASE_URL}/api/books/orders`,
       config
     );
 
@@ -354,7 +354,7 @@ export const createBook = (book) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/books`,
+      `${process.env.REACT_APP_BASE_URL}/api/books`,
       book,
       config
     );
@@ -396,7 +396,7 @@ export const updateBook = (book) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:5000/api/books/${book.id}`,
+      `${process.env.REACT_APP_BASE_URL}/api/books/${book.id}`,
       book,
       config
     );
@@ -442,7 +442,7 @@ export const deleteBook = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/books/${id}`, config);
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/books/${id}`, config);
 
     dispatch({ type: BOOK_DELETE_SUCCESS });
   } catch (error) {

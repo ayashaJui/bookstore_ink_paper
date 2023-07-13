@@ -36,7 +36,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/orders`,
+      `${process.env.REACT_APP_BASE_URL}/api/orders`,
       order,
       config
     );
@@ -85,7 +85,7 @@ export const getOrderById = (id) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/orders/${id}`,
+      `${process.env.REACT_APP_BASE_URL}/api/orders/${id}`,
       config
     );
 
@@ -126,7 +126,7 @@ export const getMyOrderList = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/orders/myorders`,
+      `${process.env.REACT_APP_BASE_URL}/api/orders/myorders`,
       config
     );
 
@@ -167,7 +167,7 @@ export const getOrderCustomerList = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/orders/customers`,
+      `${process.env.REACT_APP_BASE_URL}/api/orders/customers`,
       config
     );
 
@@ -208,7 +208,7 @@ export const getOrderList = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/orders`,
+      `${process.env.REACT_APP_BASE_URL}/api/orders`,
       config
     );
 

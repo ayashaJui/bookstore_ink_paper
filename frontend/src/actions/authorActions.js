@@ -32,7 +32,9 @@ export const getAllAuthors = () => async (dispatch) => {
       type: AUTHOR_LIST_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/authors`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/authors`
+    );
 
     dispatch({
       type: AUTHOR_LIST_SUCCESS,
@@ -56,7 +58,7 @@ export const getFavoriteAuthors = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `http://localhost:5000/api/authors/popular`
+      `${process.env.REACT_APP_BASE_URL}/api/authors/popular`
     );
 
     dispatch({
@@ -80,7 +82,9 @@ export const getAuthorDetails = (id) => async (dispatch) => {
       type: AUTHOR_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/authors/${id}`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/authors/${id}`
+    );
 
     dispatch({
       type: AUTHOR_DETAILS_SUCCESS,
@@ -114,7 +118,7 @@ export const createAuthor = (author) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:5000/api/authors`,
+      `${process.env.REACT_APP_BASE_URL}/api/authors`,
       author,
       config
     );
@@ -156,7 +160,7 @@ export const updateAuthor = (author) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `http://localhost:5000/api/authors/${author.id}`,
+      `${process.env.REACT_APP_BASE_URL}/api/authors/${author.id}`,
       author,
       config
     );
@@ -202,7 +206,10 @@ export const deleteAuthor = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/authors/${id}`, config);
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/authors/${id}`,
+      config
+    );
 
     dispatch({ type: AUTHOR_DELETE_SUCCESS });
   } catch (error) {

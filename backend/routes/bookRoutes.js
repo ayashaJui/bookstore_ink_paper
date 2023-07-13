@@ -29,8 +29,8 @@ router.route("/popular").get(getPopularBooks);
 router.route("/featured").get(getFeaturedBooks);
 router.route("/sale").get(getSaleBooks);
 
-router.route("/search", getAllBooks);
 router.route("/").get(getAllBooks).post(protect, admin, createBook);
+router.route("/search").get(getAllBooks);
 router
   .route("/:id")
   .get(getBookById)

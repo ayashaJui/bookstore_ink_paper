@@ -5,7 +5,9 @@ import {
 } from "../constants/favorite";
 
 export const addToFavorite = (id) => async (dispatch, getState) => {
-  const { data } = await axios.get(`http://localhost:5000/api/books/${id}`);
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_URL}/api/books/${id}`
+  );
 
   dispatch({
     type: ADD_ITEM_TO_FAVORITE,
