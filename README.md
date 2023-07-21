@@ -1,7 +1,7 @@
 # INK & PAPER - An Online Bookstore
 
 ### Frontend:
-  > React Redux, Material Ui
+  > React, Redux, Material Ui
 
 ### Backend:
   > Nodejs, Expressjs
