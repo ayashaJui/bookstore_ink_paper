@@ -1,5 +1,5 @@
 const corsMiddleware = (req, res, next) => {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === "DEVELOPMENT") {
     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   } else {
     res.setHeader(

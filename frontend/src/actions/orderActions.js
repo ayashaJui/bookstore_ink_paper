@@ -19,6 +19,12 @@ import {
 import { REMOVE_ITEM_FROM_CART } from "../constants/cart";
 import { logout } from "./userActions";
 
+const orderUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/orders`;
+
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -35,11 +41,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/orders`,
-      order,
-      config
-    );
+    const { data } = await axios.post(`${orderUrl}`, order, config);
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -84,10 +86,7 @@ export const getOrderById = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/orders/${id}`,
-      config
-    );
+    const { data } = await axios.get(`${orderUrl}/${id}`, config);
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -125,10 +124,7 @@ export const getMyOrderList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/orders/myorders`,
-      config
-    );
+    const { data } = await axios.get(`${orderUrl}/myorders`, config);
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,
@@ -166,10 +162,7 @@ export const getOrderCustomerList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/orders/customers`,
-      config
-    );
+    const { data } = await axios.get(`${orderUrl}/customers`, config);
 
     dispatch({
       type: ORDER_CUSTOMER_LIST_SUCCESS,
@@ -207,10 +200,7 @@ export const getOrderList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/orders`,
-      config
-    );
+    const { data } = await axios.get(`${orderUrl}`, config);
 
     dispatch({
       type: ORDER_LIST_SUCCESS,

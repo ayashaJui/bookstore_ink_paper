@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BookCard from "./BookCard";
+import Loader from "../layouts/Loader";
+import Message from "../layouts/Message";
 import { useDispatch, useSelector } from "react-redux";
 import { getPopularBooks } from "../actions/bookActions";
 import { useEffect } from "react";
@@ -43,7 +45,9 @@ function SamplePrevArrow(props) {
 const PopularBooks = () => {
   const dispatch = useDispatch();
 
-  const { popularBooks } = useSelector((state) => state.popularBookList);
+  const { popularBooks, loading, error } = useSelector(
+    (state) => state.popularBookList
+  );
 
   useEffect(() => {
     dispatch(getPopularBooks());
@@ -101,7 +105,14 @@ const PopularBooks = () => {
 
       <Box component="div">
         <Slider {...settings}>
-          {popularBooks &&
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Message severity="error" title="Error">
+              {error}
+            </Message>
+          ) : (
+            
             popularBooks.map((book, idx) => (
               <BookCard
                 mediaHeight="280"
@@ -110,7 +121,8 @@ const PopularBooks = () => {
                 book={book}
                 key={idx}
               />
-            ))}
+            ))
+          )}
         </Slider>
       </Box>
 

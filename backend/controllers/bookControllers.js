@@ -8,7 +8,7 @@ import User from "../models/User.js";
 // @route       GET     /api/books/
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
-  const { genre, author, format, price, rating, sort, offer } = req.query;
+  const { genre, author, format, price, rating, sort, offer, publisher } = req.query;
   const queryParams = {};
 
   if (genre) {
@@ -45,6 +45,10 @@ export const getAllBooks = asyncHandler(async (req, res) => {
     queryParams.offer = {
       $gt: 0,
     };
+  }
+
+  if(publisher){
+    queryParams.publisher = { $regex: publisher, $options: "i" };
   }
 
   let books;

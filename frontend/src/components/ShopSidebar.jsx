@@ -146,6 +146,12 @@ const ShopSidebar = () => {
   const handlePublisherClick = (event, index, name) => {
     setSelectedPublisherIndex(index);
     console.log(index, name);
+    const params = new URLSearchParams(location.search);
+    params.set("publisher", name);
+    navigate({
+      pathname: location.pathname,
+      search: `?${params.toString()}`,
+    });
   };
 
   useEffect(() => {

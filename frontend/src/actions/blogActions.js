@@ -39,6 +39,12 @@ import {
 } from "../constants/blog";
 import { logout } from "./userActions";
 
+const blogUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/blogs`;
+
 export const getAllBlogs =
   (queryParams = "") =>
   async (dispatch) => {
@@ -48,7 +54,7 @@ export const getAllBlogs =
       });
 
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/blogs?${queryParams}`
+        `${blogUrl}?${queryParams}`
       );
 
       dispatch({
@@ -72,7 +78,7 @@ export const getBlogById = (id) => async (dispatch) => {
       type: BLOG_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/blogs/${id}`);
+    const { data } = await axios.get(`${blogUrl}/${id}`);
 
     dispatch({
       type: BLOG_DETAILS_SUCCESS,
@@ -96,7 +102,7 @@ export const getLatestBlogs = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/blogs?sort=latest`
+      `${blogUrl}?sort=latest`
     );
 
     dispatch({
@@ -121,7 +127,7 @@ export const getAllBlogCategories = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/blogs/categories`
+      `${blogUrl}/categories`
     );
 
     dispatch({
@@ -145,7 +151,7 @@ export const getAllBlogTags = () => async (dispatch) => {
       type: BLOG_TAGS_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/blogs/tags`);
+    const { data } = await axios.get(`${blogUrl}/tags`);
 
     dispatch({
       type: BLOG_TAGS_SUCCESS,
@@ -179,7 +185,7 @@ export const getMyBlogList = () => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/blogs/myblogs`,
+      `${blogUrl}/myblogs`,
       config
     );
 
@@ -220,7 +226,7 @@ export const updateIsHidden = (id, blog) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/blogs/${id}/isHidden`,
+      `${blogUrl}/${id}/isHidden`,
       blog,
       config
     );
@@ -262,7 +268,7 @@ export const createBlog = (blog) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/blogs`,
+      `${blogUrl}`,
       blog,
       config
     );
@@ -304,7 +310,7 @@ export const updateBlog = (blog) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/blogs/${blog.id}`,
+      `${blogUrl}/${blog.id}`,
       blog,
       config
     );
@@ -350,7 +356,7 @@ export const deleteBlog = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/blogs/${id}`, config);
+    await axios.delete(`${blogUrl}/${id}`, config);
 
     dispatch({ type: BLOG_DELETE_SUCCESS });
   } catch (error) {

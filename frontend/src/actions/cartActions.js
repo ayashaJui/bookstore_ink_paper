@@ -6,11 +6,15 @@ import {
   REMOVE_ITEM_FROM_CART,
 } from "../constants/cart";
 
+const bookUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/books`;
+
 export const addToCart =
   (id, quantity, formatType) => async (dispatch, getState) => {
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/books/${id}`
-    );
+    const { data } = await axios.get(`${bookUrl}/${id}`);
 
     dispatch({
       type: ADD_ITEM_TO_CART,

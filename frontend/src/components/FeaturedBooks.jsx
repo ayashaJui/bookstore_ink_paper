@@ -5,11 +5,15 @@ import FeatureCard from "./FeatureCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getFeaturedBooks } from "../actions/bookActions";
+import Loader from "../layouts/Loader";
+import Message from "../layouts/Message";
 
 const FeaturedBooks = () => {
   const dispatch = useDispatch();
 
-  const { featuredBooks } = useSelector((state) => state.featuredBookList);
+  const { featuredBooks, loading, error } = useSelector(
+    (state) => state.featuredBookList
+  );
 
   // console.log(featured);
 
@@ -42,10 +46,18 @@ const FeaturedBooks = () => {
       </Typography>
       <Paper elevation={3}>
         <Slider {...settings}>
-          {featuredBooks &&
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <Message severity="error" title="Error">
+              {error}
+            </Message>
+          ) : (
+            featuredBooks &&
             featuredBooks.map((book) => (
               <FeatureCard book={book} key={book._id} />
-            ))}
+            ))
+          )}
         </Slider>
       </Paper>
     </Box>

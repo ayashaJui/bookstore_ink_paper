@@ -4,9 +4,15 @@ import {
   REMOVE_ITEM_FROM_FAVORITE,
 } from "../constants/favorite";
 
+const bookUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/books`;
+
 export const addToFavorite = (id) => async (dispatch, getState) => {
   const { data } = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/api/books/${id}`
+    `${bookUrl}/${id}`
   );
 
   dispatch({

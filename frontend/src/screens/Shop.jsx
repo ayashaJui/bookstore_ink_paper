@@ -285,25 +285,28 @@ const Shop = () => {
                       )
                     )}
                   </Grid>
-                  <Stack
-                    spacing={2}
-                    sx={{ mt: 10, mb: 6, alignItems: "center" }}
-                  >
-                    <Pagination
-                      count={totalPages}
-                      page={currentPage}
-                      onChange={handlePageChange}
-                      renderItem={(item) => (
-                        <PaginationItem
-                          slots={{
-                            previous: ArrowBackIcon,
-                            next: ArrowForwardIcon,
-                          }}
-                          {...item}
-                        />
-                      )}
-                    />
-                  </Stack>
+
+                  {totalPages > 1 && (
+                    <Stack
+                      spacing={2}
+                      sx={{ mt: 10, mb: 6, alignItems: "center" }}
+                    >
+                      <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        renderItem={(item) => (
+                          <PaginationItem
+                            slots={{
+                              previous: ArrowBackIcon,
+                              next: ArrowForwardIcon,
+                            }}
+                            {...item}
+                          />
+                        )}
+                      />
+                    </Stack>
+                  )}
                 </>
               )}
             </Grid>

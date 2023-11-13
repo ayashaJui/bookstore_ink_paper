@@ -39,6 +39,12 @@ import {
 import { BLOG_LIST_MY_RESET } from "../constants/blog";
 import { ORDER_LIST_MY_RESET } from "../constants/order";
 
+const userUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/users`;
+
 export const loginUser = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -52,7 +58,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/users/login`,
+      `${userUrl}/login`,
       { email, password },
       config
     );
@@ -87,7 +93,7 @@ export const registerUser = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/users`,
+      `${userUrl}`,
       { name, email, password },
       config
     );
@@ -129,10 +135,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/users/${id}`,
-      config
-    );
+    const { data } = await axios.get(`${userUrl}/${id}`, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
@@ -170,11 +173,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/users/profile`,
-      user,
-      config
-    );
+    const { data } = await axios.put(`${userUrl}/profile`, user, config);
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -224,10 +223,7 @@ export const getUserList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/users`,
-      config
-    );
+    const { data } = await axios.get(`${userUrl}/users`, config);
 
     dispatch({
       type: USER_LIST_SUCCESS,
@@ -265,11 +261,7 @@ export const updateIsAdmin = (id, user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/users/${id}/isAdmin`,
-      user,
-      config
-    );
+    const { data } = await axios.put(`${userUrl}/${id}/isAdmin`, user, config);
 
     dispatch({
       type: USER_UPDATE_ISADMIN_SUCCESS,
@@ -307,11 +299,7 @@ export const createUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/users/create`,
-      user,
-      config
-    );
+    const { data } = await axios.post(`${userUrl}/create`, user, config);
 
     dispatch({
       type: USER_CREATE_SUCCESS,
@@ -349,11 +337,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/users/${user.id}`,
-      user,
-      config
-    );
+    const { data } = await axios.put(`${userUrl}/${user.id}`, user, config);
 
     dispatch({
       type: USER_UPDATE_SUCCESS,
@@ -396,7 +380,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/users/${id}`, config);
+    await axios.delete(`${userUrl}/${id}`, config);
 
     dispatch({ type: USER_DELETE_SUCCESS });
   } catch (error) {

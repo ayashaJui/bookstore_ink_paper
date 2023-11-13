@@ -9,11 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getLatestRelease } from "../actions/bookActions";
 import { Link } from "react-router-dom";
+import Loader from "../layouts/Loader";
+import Message from "../layouts/Message";
 
 const NewArrivals = () => {
   const dispatch = useDispatch();
 
-  const { latestReleases } = useSelector((state) => state.latestReleaseList);
+  const { latestReleases, loading, error } = useSelector(
+    (state) => state.latestReleaseList
+  );
   // console.log(latestReleases);
 
   useEffect(() => {
@@ -36,7 +40,14 @@ const NewArrivals = () => {
       </Typography>
       <Grid container spacing={2}>
         <CssBaseline />
-        {latestReleases &&
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message severity="error" title="Error">
+            {error}
+          </Message>
+        ) : (
+          // latestReleases &&
           latestReleases.map((book, idx) => (
             <BookCard
               mediaHeight="250"
@@ -44,7 +55,8 @@ const NewArrivals = () => {
               book={book}
               key={idx}
             />
-          ))}
+          ))
+        )}
       </Grid>
 
       <Button

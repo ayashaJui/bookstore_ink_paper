@@ -12,6 +12,8 @@ import Slider from "react-slick";
 import { getFavoriteAuthors } from "../actions/authorActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Loader from "../layouts/Loader";
+import Message from "../layouts/Message";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -48,7 +50,9 @@ function SamplePrevArrow(props) {
 const FavouriteAuthors = () => {
   const dispatch = useDispatch();
 
-  const { favoriteAuthors } = useSelector((state) => state.favoriteAuthorList);
+  const { favoriteAuthors, loading, error } = useSelector(
+    (state) => state.favoriteAuthorList
+  );
 
   useEffect(() => {
     dispatch(getFavoriteAuthors());
@@ -117,7 +121,14 @@ const FavouriteAuthors = () => {
       </Grid>
 
       <Slider {...settings}>
-        {favoriteAuthors &&
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message severity="error" title="Error">
+            {error}
+          </Message>
+        ) : (
+          // favoriteAuthors &&
           favoriteAuthors.map(({ _id, authorInfo, totalBooks }) => (
             <MuiLink
               key={_id}
@@ -143,7 +154,8 @@ const FavouriteAuthors = () => {
                 {totalBooks} Published Books
               </Typography>
             </MuiLink>
-          ))}
+          ))
+        )}
       </Slider>
     </Box>
   );

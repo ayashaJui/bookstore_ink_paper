@@ -26,15 +26,19 @@ import {
 } from "../constants/author";
 import { logout } from "./userActions";
 
+const authorUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/authors`;
+
 export const getAllAuthors = () => async (dispatch) => {
   try {
     dispatch({
       type: AUTHOR_LIST_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/authors`
-    );
+    const { data } = await axios.get(`${authorUrl}`);
 
     dispatch({
       type: AUTHOR_LIST_SUCCESS,
@@ -58,7 +62,7 @@ export const getFavoriteAuthors = () => async (dispatch) => {
     });
 
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/authors/popular`
+      `${authorUrl}/popular`
     );
 
     dispatch({
@@ -82,9 +86,7 @@ export const getAuthorDetails = (id) => async (dispatch) => {
       type: AUTHOR_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/authors/${id}`
-    );
+    const { data } = await axios.get(`${authorUrl}/${id}`);
 
     dispatch({
       type: AUTHOR_DETAILS_SUCCESS,
@@ -118,7 +120,7 @@ export const createAuthor = (author) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/authors`,
+      `${authorUrl}`,
       author,
       config
     );
@@ -160,7 +162,7 @@ export const updateAuthor = (author) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/authors/${author.id}`,
+      `${authorUrl}/${author.id}`,
       author,
       config
     );
@@ -206,10 +208,7 @@ export const deleteAuthor = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(
-      `${process.env.REACT_APP_BASE_URL}/api/authors/${id}`,
-      config
-    );
+    await axios.delete(`${authorUrl}/${id}`, config);
 
     dispatch({ type: AUTHOR_DELETE_SUCCESS });
   } catch (error) {

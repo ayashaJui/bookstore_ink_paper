@@ -36,6 +36,10 @@ const BookDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:3000";
+
   const { loading, book, error } = useSelector((state) => state.bookDetails);
 
   const { favoriteItems } = useSelector((state) => state.favorite);
@@ -115,7 +119,7 @@ const BookDetails = () => {
                       component="img"
                       src={`${
                         book.image
-                          ? process.env.REACT_APP_BASE_URL + book.image
+                          ? baseUrl + book.image
                           : "/images/sample_book.jpg"
                       }`}
                       alt={`${book.title}`}

@@ -50,6 +50,12 @@ import {
 } from "../constants/book";
 import { logout } from "./userActions";
 
+const bookUrl = `${
+  process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000"
+}/api/books`;
+
 export const getAllBooks =
   (queryParams = "") =>
   async (dispatch) => {
@@ -61,9 +67,9 @@ export const getAllBooks =
       let url = "";
 
       if (queryParams !== "") {
-        url = `${process.env.REACT_APP_BASE_URL}/api/books/search/?${queryParams}`;
+        url = `${bookUrl}/search/?${queryParams}`;
       } else {
-        url = `${process.env.REACT_APP_BASE_URL}/api/books/`;
+        url = `${bookUrl}/`;
       }
 
       const { data } = await axios.get(url);
@@ -89,7 +95,7 @@ export const getBookById = (id) => async (dispatch) => {
       type: BOOK_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/${id}`);
+    const { data } = await axios.get(`${bookUrl}/${id}`);
 
     dispatch({
       type: BOOK_DETAILS_SUCCESS,
@@ -112,7 +118,7 @@ export const getAllGenres = () => async (dispatch) => {
       type: BOOK_GENRE_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/genres`);
+    const { data } = await axios.get(`${bookUrl}/genres`);
 
     dispatch({
       type: BOOK_GENRE_SUCCESS,
@@ -135,7 +141,7 @@ export const getAllBookAuthors = () => async (dispatch) => {
       type: BOOK_AUTHOR_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/authors`);
+    const { data } = await axios.get(`${bookUrl}/authors`);
 
     dispatch({
       type: BOOK_AUTHOR_SUCCESS,
@@ -158,7 +164,7 @@ export const getAllFormats = () => async (dispatch) => {
       type: BOOK_FORMAT_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/formats`);
+    const { data } = await axios.get(`${bookUrl}/formats`);
 
     dispatch({
       type: BOOK_FORMAT_SUCCESS,
@@ -181,9 +187,7 @@ export const getAllPublishers = () => async (dispatch) => {
       type: BOOK_PUBLISHER_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/books/publishers`
-    );
+    const { data } = await axios.get(`${bookUrl}/publishers`);
 
     dispatch({
       type: BOOK_PUBLISHER_SUCCESS,
@@ -206,9 +210,7 @@ export const getLatestRelease = () => async (dispatch) => {
       type: BOOK_LATEST_RELEASE_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/books/latestRelease`
-    );
+    const { data } = await axios.get(`${bookUrl}/latestRelease`);
 
     dispatch({
       type: BOOK_LATEST_RELEASE_SUCCESS,
@@ -231,7 +233,7 @@ export const getPopularBooks = () => async (dispatch) => {
       type: BOOK_POPULAR_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/popular`);
+    const { data } = await axios.get(`${bookUrl}/popular`);
 
     dispatch({
       type: BOOK_POPULAR_SUCCESS,
@@ -254,9 +256,7 @@ export const getFeaturedBooks = () => async (dispatch) => {
       type: BOOK_FEATURED_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/books/featured`
-    );
+    const { data } = await axios.get(`${bookUrl}/featured`);
 
     dispatch({
       type: BOOK_FEATURED_SUCCESS,
@@ -279,7 +279,7 @@ export const getSaleBooks = () => async (dispatch) => {
       type: BOOK_SALE_REQUEST,
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/books/sale`);
+    const { data } = await axios.get(`${bookUrl}/sale`);
 
     dispatch({
       type: BOOK_SALE_SUCCESS,
@@ -312,10 +312,7 @@ export const getBookWithOrderList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/books/orders`,
-      config
-    );
+    const { data } = await axios.get(`${bookUrl}/orders`, config);
 
     dispatch({
       type: BOOK_WITH_ORDERS_SUCCESS,
@@ -353,11 +350,7 @@ export const createBook = (book) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/books`,
-      book,
-      config
-    );
+    const { data } = await axios.post(`${bookUrl}`, book, config);
 
     dispatch({
       type: BOOK_CREATE_SUCCESS,
@@ -395,11 +388,7 @@ export const updateBook = (book) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/books/${book.id}`,
-      book,
-      config
-    );
+    const { data } = await axios.put(`${bookUrl}/${book.id}`, book, config);
 
     dispatch({
       type: BOOK_UPDATE_SUCCESS,
@@ -442,7 +431,7 @@ export const deleteBook = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/books/${id}`, config);
+    await axios.delete(`${bookUrl}/${id}`, config);
 
     dispatch({ type: BOOK_DELETE_SUCCESS });
   } catch (error) {

@@ -34,6 +34,10 @@ const Blogs = () => {
 
   const { blogs } = useSelector((state) => state.blogList);
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:3000";
+
   const filteredBlogs = blogs.filter((blog) => !blog.isHidden);
 
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
@@ -92,7 +96,7 @@ const Blogs = () => {
                               component="img"
                               image={`${
                                 image
-                                  ? process.env.REACT_APP_BASE_URL + image
+                                  ? baseUrl + image
                                   : "/images/sample_blog.png"
                               }`}
                               alt={title}
@@ -160,7 +164,7 @@ const Blogs = () => {
                     )
                 )}
 
-              {blogs && blogs.length > 0 && (
+              {totalPages > 1 && blogs && blogs.length > 0 && (
                 <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
                   <Pagination
                     count={totalPages}

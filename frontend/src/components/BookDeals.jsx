@@ -29,6 +29,10 @@ import { makeOfferPrice } from "../helper/helperFunction";
 const BookDeals = () => {
   const dispatch = useDispatch();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:3000";
+
   const { saleBooks, loading, error } = useSelector(
     (state) => state.saleBookList
   );
@@ -78,7 +82,9 @@ const BookDeals = () => {
                     <CardMedia
                       component="img"
                       height={300}
-                      image={`${image ? process.env.REACT_APP_BASE_URL +image : '/images/sample_book.jpg'}`}
+                      image={`${
+                        image ? baseUrl + image : "/images/sample_book.jpg"
+                      }`}
                       alt={title}
                       sx={{ objectFit: "contain" }}
                     />

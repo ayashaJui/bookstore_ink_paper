@@ -43,6 +43,10 @@ const BlogSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:3000";
+
   const { categories } = useSelector((state) => state.blogCategoryList);
   const uniqueCategories = makeObjectArray(
     sortObject(countOccurances(makeCategoryArray(categories)))
@@ -177,7 +181,7 @@ const BlogSidebar = () => {
                     component="img"
                     image={`${
                       image
-                        ? process.env.REACT_APP_BASE_URL + image
+                        ? baseUrl + image
                         : "/images/sample_blog.png"
                     }`}
                     alt={title}

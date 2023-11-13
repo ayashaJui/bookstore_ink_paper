@@ -27,7 +27,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthorDetails } from "../actions/authorActions";
 import Loader from "../layouts/Loader";
@@ -38,15 +38,28 @@ import Navbar from "../layouts/Navbar";
 const AuthorProfile = () => {
   const { id } = useParams();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const authorsPerPage = 10;
+
   const dispatch = useDispatch();
+
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:3000";
 
   const { loading, error, author } = useSelector(
     (state) => state.authorDetails
   );
 
+  const totalPages = Math.ceil(author?.books?.length / authorsPerPage);
+
   useEffect(() => {
     dispatch(getAuthorDetails(id));
   }, [dispatch, id]);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
@@ -87,9 +100,7 @@ const AuthorProfile = () => {
                   {author.authorInfo?.image ? (
                     <CardMedia
                       component="img"
-                      image={`${
-                        process.env.REACT_APP_BASE_URL + author.authorInfo.image
-                      }`}
+                      image={`${baseUrl + author.authorInfo.image}`}
                       alt={`${author.authorInfo?.name}`}
                       height="300px"
                     />
@@ -367,7 +378,7 @@ const AuthorProfile = () => {
                               component="img"
                               image={`${
                                 book.image
-                                  ? process.env.REACT_APP_BASE_URL + book.image
+                                  ? baseUrl + book.image
                                   : "/images/sample_book.jpg"
                               }`}
                               alt={book.title}
@@ -457,13 +468,15 @@ const AuthorProfile = () => {
                     </div>
                   ))}
 
-                {author.books && (
+                {totalPages > 1 && author.books && (
                   <Stack
                     spacing={2}
                     sx={{ mt: 10, mb: 6, alignItems: "center" }}
                   >
                     <Pagination
-                      count={10}
+                      count={totalPages}
+                      page={currentPage}
+                      onChange={handlePageChange}
                       renderItem={(item) => (
                         <PaginationItem
                           slots={{
