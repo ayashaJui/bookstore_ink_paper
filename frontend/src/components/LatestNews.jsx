@@ -23,6 +23,10 @@ import { formattedDate } from "../helper/helperFunction";
 const LatestNews = () => {
   const dispatch = useDispatch();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { loading, error, latest } = useSelector((state) => state.blogLatest);
 
   useEffect(() => {
@@ -70,7 +74,7 @@ const LatestNews = () => {
                     height="300"
                     image={`${
                       image
-                        ? process.env.REACT_APP_BASE_URL + image
+                        ? baseUrl + image
                         : "/images/sample_blog.png"
                     }`}
                   />

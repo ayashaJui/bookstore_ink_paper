@@ -19,7 +19,7 @@ const FeatureCard = ({ book }) => {
 
   const baseUrl = process.env.REACT_APP_BASE_URL
   ? process.env.REACT_APP_BASE_URL
-  : "http://localhost:3000";
+  : "http://localhost:5000";
 
   return (
     <Card sx={{ bgcolor: "#272643", height: "400px" }}>

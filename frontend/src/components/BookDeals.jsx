@@ -31,7 +31,7 @@ const BookDeals = () => {
 
   const baseUrl = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:3000";
+    : "http://localhost:5000";
 
   const { saleBooks, loading, error } = useSelector(
     (state) => state.saleBookList

@@ -13,10 +13,15 @@ import {
   Typography,
   IconButton,
   Chip,
+  Stack,
+  Pagination,
+  PaginationItem,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,6 +55,13 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 5;
+
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { loading, user, error } = useSelector((state) => state.userDetails);
   const { userInfo } = useSelector((state) => state.userLogin);
   const { success } = useSelector((state) => state.userUpdateProfile);
@@ -70,6 +82,11 @@ const UserProfile = () => {
     error: errorBlogs,
     myBlogs: { blogs, count },
   } = useSelector((state) => state.userBlogList);
+
+  const totalPages = Math.ceil(blogs?.length / blogsPerPage);
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const endIndex = startIndex + blogsPerPage;
+  const visibleBlogs = blogs?.slice(startIndex, endIndex);
 
   useEffect(() => {
     dispatch({ type: BLOG_DETAILS_RESET });
@@ -150,6 +167,11 @@ const UserProfile = () => {
     }
   };
 
+  const handleDelete = (event) => {
+    event.preventDefault();
+    console.log("delete");
+  };
+
   const handleEdit = (event, id) => {
     navigate(`/blog/${id}/edit`);
   };
@@ -159,6 +181,10 @@ const UserProfile = () => {
       dispatch(deleteBlog(id));
     }
     // console.log(id);
+  };
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
   };
   return (
     <>
@@ -217,9 +243,9 @@ const UserProfile = () => {
             ) : (
               <Box
                 component="form"
-                onSubmit={handleSubmit}
                 noValidate
                 sx={{ mt: 3, mx: 2 }}
+                onSubmit={handleSubmit}
               >
                 <TextField
                   margin="normal"
@@ -309,17 +335,31 @@ const UserProfile = () => {
                   onChange={(event) => setPhone(event.target.value)}
                   // autoComplete="name"
                 />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
+                <Grid
+                  container
+                  justifyContent={"space-between"}
+                  spacing="2"
                   sx={{
                     mt: 3,
                     my: 6,
                   }}
                 >
-                  Update Profile
-                </Button>
+                  <Grid item md={5}>
+                    <Button fullWidth variant="contained" type="submit">
+                      Update Profile
+                    </Button>
+                  </Grid>
+                  <Grid item md={5}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={handleDelete}
+                      color="error"
+                    >
+                      Delete Profile
+                    </Button>
+                  </Grid>
+                </Grid>
               </Box>
             )}
           </Grid>
@@ -380,7 +420,7 @@ const UserProfile = () => {
                 </Message>
               ) : (
                 blogs &&
-                blogs.map(
+                visibleBlogs.map(
                   (
                     { _id, title, description, image, createdAt, isHidden },
                     idx
@@ -396,7 +436,7 @@ const UserProfile = () => {
                             component="img"
                             image={`${
                               image
-                                ? process.env.REACT_APP_BASE_URL + image
+                                ? baseUrl + image
                                 : "/images/sample_blog.png"
                             }`}
                             alt={title}
@@ -488,6 +528,25 @@ const UserProfile = () => {
                     </Card>
                   )
                 )
+              )}
+
+              {totalPages > 1 && (
+                <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
+                  <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    renderItem={(item) => (
+                      <PaginationItem
+                        slots={{
+                          previous: ArrowBackIcon,
+                          next: ArrowForwardIcon,
+                        }}
+                        {...item}
+                      />
+                    )}
+                  />
+                </Stack>
               )}
             </Box>
           </Grid>

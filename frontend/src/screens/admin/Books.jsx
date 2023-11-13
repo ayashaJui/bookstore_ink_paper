@@ -106,6 +106,10 @@ const Books = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const { loading, error, bookWithOrder } = useSelector(
@@ -292,7 +296,7 @@ const Books = () => {
                                 image={`${
                                   image
                                     ? `${
-                                        process.env.REACT_APP_BASE_URL + image
+                                        baseUrl + image
                                       }`
                                     : "/images/sample_book.jpg"
                                 }`}

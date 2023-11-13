@@ -33,6 +33,10 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const quantity = location.search
     ? Number(location.search.split("&")[0].split("=")[1])
     : 1;
@@ -123,7 +127,7 @@ const Cart = () => {
                               component="img"
                               image={`${
                                 item.image
-                                  ? process.env.REACT_APP_BASE_URL + item.image
+                                  ? baseUrl + item.image
                                   : "/images/sample_book.jpg"
                               }`}
                               alt={`${item.title}`}

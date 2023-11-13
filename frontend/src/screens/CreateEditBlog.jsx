@@ -35,6 +35,10 @@ const CreateEditBlog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { success: successCreate } = useSelector((state) => state.blogCreate);
   const { loading, error, blog } = useSelector((state) => state.blogDetails);
   const { success: successUpdate } = useSelector((state) => state.blogUpdate);
@@ -109,7 +113,7 @@ const CreateEditBlog = () => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/upload/blog",
+        `${baseUrl}/api/upload/blog`,
         formData,
         config
       );

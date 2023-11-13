@@ -46,6 +46,10 @@ const AddEditAuthor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { success: successCreate } = useSelector((state) => state.authorCreate);
   const { loading, error, author } = useSelector(
     (state) => state.authorDetails
@@ -158,7 +162,7 @@ const AddEditAuthor = () => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/upload/author",
+        `${baseUrl}/api/upload/author`,
         formData,
         config
       );

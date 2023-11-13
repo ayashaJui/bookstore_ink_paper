@@ -28,6 +28,10 @@ const BlogDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { blog, loading, error } = useSelector((state) => state.blogDetails);
 
   useEffect(() => {
@@ -86,7 +90,7 @@ const BlogDetails = () => {
                       alt={blog.title}
                       image={`${
                         blog.image
-                          ? process.env.REACT_APP_BASE_URL + blog.image
+                          ? baseUrl + blog.image
                           : "/images/sample_blog.png"
                       }`}
                       sx={{ objectFit: "cover" }}

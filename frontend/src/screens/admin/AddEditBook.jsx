@@ -54,6 +54,10 @@ const AddEditBook = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { success: successCreate } = useSelector((state) => state.bookCreate);
   const { loading, error, book } = useSelector((state) => state.bookDetails);
 
@@ -233,7 +237,7 @@ const AddEditBook = () => {
       };
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/upload/book",
+        `${baseUrl}/api/upload/book`,
         formData,
         config
       );

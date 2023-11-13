@@ -59,6 +59,10 @@ const AuthorList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { userInfo } = useSelector((state) => state.userLogin);
 
   const { loading, error, authors } = useSelector((state) => state.authorList);
@@ -187,7 +191,7 @@ const AuthorList = () => {
                           <Avatar
                             alt={`${authorInfo.name}`}
                             src={`${
-                              process.env.REACT_APP_BASE_URL + authorInfo.image
+                              baseUrl + authorInfo.image
                             }`}
                             sx={{ width: 50, height: 50 }}
                           />

@@ -65,6 +65,10 @@ const PlaceOrder = () => {
     book: item.book,
   }));
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { success, error, order } = useSelector((state) => state.orderCreate);
 
   useEffect(() => {
@@ -187,7 +191,7 @@ const PlaceOrder = () => {
                                   component="img"
                                   image={`${
                                     item.image
-                                      ? process.env.REACT_APP_BASE_URL +
+                                      ? baseUrl +
                                         item.image
                                       : "/images/sample_book.jpg"
                                   }`}

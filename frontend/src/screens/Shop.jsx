@@ -39,6 +39,10 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 15;
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { loading, books, error } = useSelector((state) => state.bookList);
   const { cartItems } = useSelector((state) => state.cart);
   const { favoriteItems } = useSelector((state) => state.favorite);
@@ -119,7 +123,7 @@ const Shop = () => {
                                 height="330"
                                 image={`${
                                   image
-                                    ? process.env.REACT_APP_BASE_URL + image
+                                    ? baseUrl + image
                                     : "/images/sample_book.jpg"
                                 }`}
                                 sx={{ objectFit: "contain" }}

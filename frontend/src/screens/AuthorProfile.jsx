@@ -39,19 +39,22 @@ const AuthorProfile = () => {
   const { id } = useParams();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const authorsPerPage = 10;
+  const authorBooksPerPage = 5;
 
   const dispatch = useDispatch();
 
   const baseUrl = process.env.REACT_APP_BASE_URL
     ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:3000";
+    : "http://localhost:5000";
 
   const { loading, error, author } = useSelector(
     (state) => state.authorDetails
   );
 
-  const totalPages = Math.ceil(author?.books?.length / authorsPerPage);
+  const totalPages = Math.ceil(author?.books?.length / authorBooksPerPage);
+  const startIndex = (currentPage - 1) * authorBooksPerPage;
+  const endIndex = startIndex + authorBooksPerPage;
+  const visibleBooks = author?.books?.slice(startIndex, endIndex);
 
   useEffect(() => {
     dispatch(getAuthorDetails(id));
@@ -364,7 +367,7 @@ const AuthorProfile = () => {
                 </Typography>
 
                 {author.books &&
-                  author.books.map((book, idx) => (
+                  visibleBooks.map((book, idx) => (
                     <div key={idx}>
                       <Card sx={{ my: 1, boxShadow: "none" }}>
                         <Grid

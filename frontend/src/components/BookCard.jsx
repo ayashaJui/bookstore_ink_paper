@@ -29,7 +29,7 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
 
   const baseUrl = process.env.REACT_APP_BASE_URL
   ? process.env.REACT_APP_BASE_URL
-  : "http://localhost:3000";
+  : "http://localhost:5000";
 
   return (
     <Grid item sm={4} xs={12} md={3}>

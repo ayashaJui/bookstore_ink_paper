@@ -50,6 +50,10 @@ function SamplePrevArrow(props) {
 const FavouriteAuthors = () => {
   const dispatch = useDispatch();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
+
   const { favoriteAuthors, loading, error } = useSelector(
     (state) => state.favoriteAuthorList
   );
@@ -138,7 +142,7 @@ const FavouriteAuthors = () => {
             >
               <Avatar
                 alt={authorInfo.name}
-                src={`${process.env.REACT_APP_BASE_URL + authorInfo.image}`}
+                src={`${baseUrl + authorInfo.image}`}
                 sx={{ width: 150, height: 150, mb: 3, mx: "auto" }}
               />
               <Typography
