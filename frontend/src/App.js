@@ -41,7 +41,7 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <div className="App" style={{ backgroundColor: "#F5F5F5" }}>
-        <main style={{ minHeight: "75vh" }}>
+        {/* <main style={{ minHeight: "75vh" }}> */}
           <Routes>
             <Route exact path="/" Component={Home} />
 
@@ -99,7 +99,7 @@ function App() {
               Component={AddEditAuthor}
             />
           </Routes>
-        </main>
+        {/* </main> */}
         <Footer />
       </div>
     </BrowserRouter>

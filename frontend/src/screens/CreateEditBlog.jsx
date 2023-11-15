@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Divider,
+  Grid,
   InputAdornment,
   Link as MuiLink,
   TextField,
@@ -67,8 +68,8 @@ const CreateEditBlog = () => {
     const data = new FormData(event.currentTarget);
     const title = data.get("title");
     const description = data.get("description");
-    const categories = data.get("categories").split(",");
-    const tags = data.get("tags").split(",");
+    const categories = data.get("categories").trim().split(",");
+    const tags = data.get("tags").trim().split(",");
 
     if (url.includes("create")) {
       if (title === "" || description === "") {
@@ -204,6 +205,7 @@ const CreateEditBlog = () => {
               <TextField
                 margin="normal"
                 size="medium"
+                required
                 fullWidth
                 label="Categories"
                 name="categories"
@@ -213,6 +215,7 @@ const CreateEditBlog = () => {
               <TextField
                 margin="normal"
                 size="medium"
+                required
                 fullWidth
                 label="Tags"
                 name="tags"
@@ -251,22 +254,43 @@ const CreateEditBlog = () => {
                 error={!!descriptionError}
                 helperText={descriptionError}
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{
-                  mt: 2,
-                  bgcolor: "#272643",
-                  letterSpacing: 2,
-                }}
-              >
-                {url.includes("create")
-                  ? "Create"
-                  : url.includes("edit") && id
-                  ? "Update"
-                  : ""}
-              </Button>
+              <Grid container spacing={2} justifyContent="space-between">
+                <Grid item md={5}>
+                  <Button
+                    component={Link}
+                    to={`/profile`}
+                    type="submit"
+                    fullWidth
+                    color="secondary"
+                    variant="contained"
+                    sx={{
+                      mt: 2,
+
+                      letterSpacing: 2,
+                    }}
+                  >
+                    Back
+                  </Button>
+                </Grid>
+                <Grid item md={5}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      mt: 2,
+                      bgcolor: "#272643",
+                      letterSpacing: 2,
+                    }}
+                  >
+                    {url.includes("create")
+                      ? "Create"
+                      : url.includes("edit") && id
+                      ? "Update"
+                      : ""}
+                  </Button>
+                </Grid>
+              </Grid>
             </Box>
           )}
         </Container>

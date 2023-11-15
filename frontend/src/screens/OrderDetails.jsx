@@ -30,6 +30,10 @@ const OrderDetails = () => {
   // const navigate = useNavigate();
   const { id } = useParams();
 
+  const baseUrl = process.env.REACT_APP_BASE_URL
+  ? process.env.REACT_APP_BASE_URL
+  : "http://localhost:5000";
+
   const { loading, error, order } = useSelector((state) => state.orderDetails);
 
   //   Calculate prices
@@ -185,7 +189,7 @@ const OrderDetails = () => {
                                     component="img"
                                     image={`${
                                       item.image
-                                        ? process.env.REACT_APP_BASE_URL +
+                                        ? baseUrl +
                                           item.image
                                         : "/images/sample_book.jpg"
                                     }`}

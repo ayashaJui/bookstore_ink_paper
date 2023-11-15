@@ -43,10 +43,7 @@ const BlogDetails = () => {
     <>
       <Navbar />
       <Box component="div">
-        <HeroImage
-          title={blog && blog.title}
-          imgPath="/images/static/blog.jpg"
-        />
+        <HeroImage title={blog?.title} imgPath="/images/static/blog.jpg" />
 
         <Box
           component="div"
@@ -87,9 +84,9 @@ const BlogDetails = () => {
                   >
                     <CardMedia
                       component="img"
-                      alt={blog.title}
+                      alt={blog?.title}
                       image={`${
-                        blog.image
+                        blog?.image
                           ? baseUrl + blog.image
                           : "/images/sample_blog.png"
                       }`}
@@ -103,8 +100,8 @@ const BlogDetails = () => {
                     color="secondary"
                     fontWeight="bold"
                   >
-                    {blog.categories &&
-                      blog.categories.slice(0, -1).join(", ") +
+                    {blog?.categories &&
+                      blog?.categories.slice(0, -1).join(", ") +
                         (blog.categories && blog.categories.length > 1
                           ? ", "
                           : "") +
@@ -123,9 +120,9 @@ const BlogDetails = () => {
                       color: "#272643",
                     }}
                   >
-                    {blog.title}
+                    {blog?.title}
                   </Typography>
-                  {blog.isHidden && (
+                  {blog?.isHidden && (
                     <Typography textAlign="left" color={"error"}>
                       Some content of your article may cause violence. That's
                       why, it is hidden from anothers.
@@ -138,7 +135,7 @@ const BlogDetails = () => {
                     textAlign="left"
                     sx={{ my: 1, color: "#9B908A", fontWeight: "bold" }}
                   >
-                    {formattedDate(blog.createdAt)}
+                    {formattedDate(blog?.createdAt)}
                   </Typography>
 
                   <Typography
@@ -146,13 +143,13 @@ const BlogDetails = () => {
                     textAlign="justify"
                     sx={{ my: 3 }}
                   >
-                    {blog.description}
+                    {blog?.description}
                   </Typography>
 
                   <Box component="div" sx={{ mx: 1, mt: 6, mb: 3 }}>
                     <Grid container spacing={1}>
-                      {blog.tags &&
-                        blog.tags.map((tag, idx) => (
+                      {blog?.tags &&
+                        blog?.tags.map((tag, idx) => (
                           <Grid item key={idx}>
                             <Typography
                               component="div"
@@ -179,15 +176,13 @@ const BlogDetails = () => {
                         sx={{ px: 2, py: 1.5, textTransform: "capitalize" }}
                       >
                         <FavoriteBorderIcon sx={{ mr: 1 }} />{" "}
-                        {blog.likes && blog.likes.length} people like this
+                        {blog?.likes?.length} people like this
                       </Button>
                     </Grid>
                     <Grid item>
                       <Typography variant="body2" sx={{ py: 1.5, px: 2 }}>
-                        {blog.comments && blog.comments.length}{" "}
-                        {blog.comments && blog.comments.length === 1
-                          ? "Comment"
-                          : "Comments"}
+                        {blog?.comments?.length}{" "}
+                        {blog?.comments?.length === 1 ? "Comment" : "Comments"}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -201,10 +196,9 @@ const BlogDetails = () => {
                       <ForumOutlinedIcon /> Comments
                     </Typography>
 
-                    {blog.comments && blog.comments.length === 0
+                    {blog?.comments?.length === 0
                       ? "No Comment"
-                      : blog.comments &&
-                        blog.comments.map((comment, idx) => (
+                      : blog?.comments?.map((comment, idx) => (
                           <Card
                             sx={{ my: 3, ml: 3, boxShadow: "none" }}
                             key={idx}

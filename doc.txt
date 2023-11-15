@@ -14,5 +14,5 @@ New
 --------------------------------------
 Admin => book (create, delete, update), blogs (delete, hide, archieve), book rating(delete, hide), book review (delete, hide),
         blog comment (delete, hide), user( delete, make admin, remove admin, update), author (add, delete, update)
-user => profile(delete), all orders & transaction, kind of homepage(just an idea), 
-    post blog(create, update, delete), book rating & review (create, delete, update), blog comment(create, update, delete)
+user => profile(delete), order(delete btn when not paid), book rating & review (create, delete, update), 
+        blog comment(create, update, delete)

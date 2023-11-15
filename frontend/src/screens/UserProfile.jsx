@@ -346,7 +346,7 @@ const UserProfile = () => {
                 >
                   <Grid item md={5}>
                     <Button fullWidth variant="contained" type="submit">
-                      Update Profile
+                      Update
                     </Button>
                   </Grid>
                   <Grid item md={5}>
@@ -356,7 +356,7 @@ const UserProfile = () => {
                       onClick={handleDelete}
                       color="error"
                     >
-                      Delete Profile
+                      Delete
                     </Button>
                   </Grid>
                 </Grid>
