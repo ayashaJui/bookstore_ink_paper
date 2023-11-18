@@ -13,11 +13,12 @@ import {
 } from "@mui/material";
 import BlogSidebar from "../components/BlogSidebar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import HeroImage from "../components/HeroImage";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getBlogById } from "../actions/blogActions";
+import { getBlogById, likeUnlikeBlog } from "../actions/blogActions";
 import { useParams } from "react-router-dom";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
@@ -34,10 +35,22 @@ const BlogDetails = () => {
 
   const { blog, loading, error } = useSelector((state) => state.blogDetails);
 
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const loggedInUserInclusion = blog?.likes?.includes(userInfo?._id);
+
+  const { success: likeUnlikeSuccess } = useSelector(
+    (state) => state.blogLikeUnlike
+  );
+
   useEffect(() => {
     dispatch(getBlogById(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, likeUnlikeSuccess]);
+
   const handleSubmit = () => {};
+
+  const handleLikeUnlike = () => {
+    dispatch(likeUnlikeBlog(id));
+  };
 
   return (
     <>
@@ -172,10 +185,15 @@ const BlogDetails = () => {
                   <Grid container spacing={3} justifyContent="space-between">
                     <Grid item>
                       <Button
+                        onClick={handleLikeUnlike}
                         variant="body2"
                         sx={{ px: 2, py: 1.5, textTransform: "capitalize" }}
                       >
-                        <FavoriteBorderIcon sx={{ mr: 1 }} />{" "}
+                        {loggedInUserInclusion ? (
+                          <FavoriteIcon color="error" sx={{ mr: 1 }} />
+                        ) : (
+                          <FavoriteBorderIcon sx={{ mr: 1 }} />
+                        )}
                         {blog?.likes?.length} people like this
                       </Button>
                     </Grid>

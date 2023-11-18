@@ -19,6 +19,9 @@ import {
   BLOG_LATEST_FAIL,
   BLOG_LATEST_REQUEST,
   BLOG_LATEST_SUCCESS,
+  BLOG_LIKEUNLIKE_FAIL,
+  BLOG_LIKEUNLIKE_REQUEST,
+  BLOG_LIKEUNLIKE_SUCCESS,
   BLOG_LIST_FAIL,
   BLOG_LIST_MY_FAIL,
   BLOG_LIST_MY_REQUEST,
@@ -335,6 +338,52 @@ export const updateBlog = (blog) => async (dispatch, getState) => {
 
     dispatch({
       type: BLOG_UPDATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const likeUnlikeBlog = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BLOG_LIKEUNLIKE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${blogUrl}/${id}/like`, [],
+      config
+    );
+
+    dispatch({
+      type: BLOG_LIKEUNLIKE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch({
+      type: BLOG_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BLOG_LIKEUNLIKE_FAIL,
       payload: message,
     });
   }

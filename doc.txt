@@ -13,4 +13,4 @@ Static
 New
 --------------------------------------
 Admin =>book rating(delete, hide), book review (delete, hide), blog comment (delete, hide), order(mark as delivered)
-user => book rating & review (create, delete, update), blog comment(create, update, delete)
+user => book rating & review (create, delete, update), blog comment(create, update, delete, like/unlike)

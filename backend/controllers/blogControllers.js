@@ -153,3 +153,29 @@ export const deleteBlog = asyncHandler(async (req, res) => {
     throw new Error("Blog not found");
   }
 });
+
+// @desc    Like a blog
+// @route   POST /api/blogs/:id/like
+// @access  Private
+export const likeUnlikeBlog = asyncHandler(async (req, res) => {
+  const blogId = req.params.id;
+  const userId = req.user._id;
+
+  const blog = await Blog.findById(blogId);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found" });
+  }
+
+  const isLiked = blog.likes.includes(userId);
+
+  if (isLiked) {
+    blog.likes = blog.likes.filter((id) => id.toString() !== userId.toString());
+  } else {
+    blog.likes.push(userId);
+  }
+
+  await blog.save();
+
+  res.json({ message: isLiked ? "Blog unliked" : "Blog liked" });
+});

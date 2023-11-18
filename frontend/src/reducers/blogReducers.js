@@ -17,6 +17,9 @@ import {
   BLOG_LATEST_FAIL,
   BLOG_LATEST_REQUEST,
   BLOG_LATEST_SUCCESS,
+  BLOG_LIKEUNLIKE_FAIL,
+  BLOG_LIKEUNLIKE_REQUEST,
+  BLOG_LIKEUNLIKE_SUCCESS,
   BLOG_LIST_FAIL,
   BLOG_LIST_MY_FAIL,
   BLOG_LIST_MY_REQUEST,
@@ -275,6 +278,19 @@ export const blogDeleteReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case BLOG_DELETE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const blogLikeUnlikeReducer = (state = { blog: {} }, action) => {
+  switch (action.type) {
+    case BLOG_LIKEUNLIKE_REQUEST:
+      return { loading: true };
+    case BLOG_LIKEUNLIKE_SUCCESS:
+      return { loading: false, success: true, blog: action.payload };
+    case BLOG_LIKEUNLIKE_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

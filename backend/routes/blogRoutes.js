@@ -9,6 +9,7 @@ import {
   getAllBlogs,
   getBlogById,
   getMyBlogs,
+  likeUnlikeBlog,
   updateBlog,
   updateIsHidden,
 } from "../controllers/blogControllers.js";
@@ -27,5 +28,7 @@ router
   .get(getBlogById)
   .put(protect, updateBlog)
   .delete(protect, deleteBlog);
+
+router.route("/:id/like").post(protect, likeUnlikeBlog);
 
 export default router;
