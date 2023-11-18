@@ -20,7 +20,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getMyOrderList } from "../actions/orderActions";
+import { deleteOrderById, getMyOrderList } from "../actions/orderActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { formattedDate } from "../helper/helperFunction";
@@ -55,13 +55,24 @@ const UserOrders = () => {
     (state) => state.userOrderList
   );
 
+  const { success: deleteOrderSuccess } = useSelector(
+    (state) => state.orderDelete
+  );
+
   useEffect(() => {
     if (!userInfo) {
       navigate("/signin");
     } else {
       dispatch(getMyOrderList());
     }
-  }, [dispatch, userInfo, navigate]);
+  }, [dispatch, userInfo, navigate, deleteOrderSuccess]);
+
+  const handleOrderDelete = (event, id) => {
+    if (window.confirm("Are you sure??")) {
+      dispatch(deleteOrderById(id));
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -85,7 +96,7 @@ const UserOrders = () => {
             {error}
           </Message>
         ) : (
-          orders.orders && (
+          orders?.orders && (
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
@@ -137,6 +148,17 @@ const UserOrders = () => {
                           : ""}
                       </StyledTableCell>
                       <StyledTableCell>
+                        {!order.isPaid && (
+                          <Button
+                            color="error"
+                            onClick={(event) =>
+                              handleOrderDelete(event, order._id)
+                            }
+                          >
+                            Delete
+                          </Button>
+                        )}
+
                         <Button component={Link} to={`/order/${order._id}`}>
                           Details
                         </Button>

@@ -55,6 +55,7 @@ import {
 import {
   orderCreateReducers,
   orderCustomerListReducers,
+  orderDeleteReducer,
   orderDetailsReducers,
   orderListMyReducers,
   orderListReducers,
@@ -69,6 +70,7 @@ const reducers = combineReducers({
   userOrderList: orderListMyReducers,
   orderCustomerList: orderCustomerListReducers,
   orderList: orderListReducers,
+  orderDelete: orderDeleteReducer,
 
   bookWithOrderList: bookWithOrderReducers,
 

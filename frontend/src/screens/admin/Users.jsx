@@ -194,7 +194,10 @@ const Users = () => {
                       )
                     : users
                   ).map(
-                    ({ _id, name, email, phone, address, isAdmin }, idx) => (
+                    (
+                      { _id, name, email, phone, address, isAdmin, isDeleted },
+                      idx
+                    ) => (
                       <StyledTableRow key={idx}>
                         <StyledTableCell component="th" scope="row">
                           {idx + 1}
@@ -218,17 +221,9 @@ const Users = () => {
                             {isAdmin ? "Remove" : "Add"}
                           </Button>
                         </StyledTableCell>
-                        {isAdmin ? (
+
+                        {isDeleted || isAdmin ? (
                           <>
-                            <StyledTableCell>
-                              <IconButton
-                                color="secondary"
-                                size="small"
-                                onClick={(event) => handleEdit(event, _id)}
-                              >
-                                <ModeEditIcon fontSize="small" />
-                              </IconButton>
-                            </StyledTableCell>
                             <StyledTableCell>
                               <IconButton
                                 color="error"
@@ -240,6 +235,17 @@ const Users = () => {
                                 <DeleteIcon fontSize="small" />
                               </IconButton>
                             </StyledTableCell>
+                            {isAdmin && (
+                              <StyledTableCell>
+                                <IconButton
+                                  color="secondary"
+                                  size="small"
+                                  onClick={(event) => handleEdit(event, _id)}
+                                >
+                                  <ModeEditIcon fontSize="small" />
+                                </IconButton>
+                              </StyledTableCell>
+                            )}
                           </>
                         ) : (
                           <StyledTableCell colSpan={2}></StyledTableCell>

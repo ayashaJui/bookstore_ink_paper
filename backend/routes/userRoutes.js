@@ -7,6 +7,7 @@ import {
   getUserById,
   getUserProfile,
   registerUser,
+  requestDeleteUserProfile,
   updateIsAdmin,
   updateUser,
   updateUserProfile,
@@ -27,6 +28,8 @@ router
   .get(protect, admin, getUserById)
   .put(protect, admin, updateUser)
   .delete(protect, admin, deleteUser);
+
+router.route("/:id/isDeleted").put(protect, requestDeleteUserProfile);
 
 router.post("/login", authUser);
 

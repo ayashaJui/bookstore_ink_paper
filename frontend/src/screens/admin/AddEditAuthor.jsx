@@ -4,12 +4,13 @@ import {
   Button,
   Container,
   Divider,
+  Grid,
   InputAdornment,
   TextField,
   Typography,
 } from "@mui/material";
 import MainComponent from "../../layouts/admin/MainComponent";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import {
@@ -328,25 +329,48 @@ const AddEditAuthor = () => {
               value={instagram}
               onChange={(event) => setInstagram(event.target.value)}
             />
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 2,
-                py: "14px",
-                fontSize: "15px",
-                letterSpacing: 2,
-                bgcolor: "#272643",
-              }}
+            <Grid
+              container
+              spacing={2}
+              justifyContent="space-between"
+              sx={{ py: "14px" }}
             >
-              {url.includes("add_author")
-                ? "Create"
-                : url.includes("edit") && id
-                ? "Update"
-                : ""}
-            </Button>
+              <Grid item md={5}>
+                <Button
+                  component={Link}
+                  to={`/admin/authors`}
+                  type="submit"
+                  fullWidth
+                  color="secondary"
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+
+                    letterSpacing: 2,
+                  }}
+                >
+                  Back
+                </Button>
+              </Grid>
+              <Grid item md={5}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+                    bgcolor: "#272643",
+                    letterSpacing: 2,
+                  }}
+                >
+                  {url.includes("add_author")
+                    ? "Create"
+                    : url.includes("edit") && id
+                    ? "Update"
+                    : ""}
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         )}
       </Container>

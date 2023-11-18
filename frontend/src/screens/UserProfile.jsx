@@ -28,6 +28,8 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   clearSuccess,
   getUserDetails,
+  logout,
+  requestDeleteProfile,
   updateUserProfile,
 } from "../actions/userActions";
 import Loader from "../layouts/Loader";
@@ -169,6 +171,8 @@ const UserProfile = () => {
 
   const handleDelete = (event) => {
     event.preventDefault();
+    dispatch(requestDeleteProfile(user._id))
+    dispatch(logout())
     console.log("delete");
   };
 

@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import MainComponent from "../../layouts/admin/MainComponent";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -266,24 +266,48 @@ const AddEditUser = () => {
                   onChange={(event) => setCountry(event.target.value)}
                 />
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{
-                    mt: 2,
-                    py: "14px",
-                    fontSize: "15px",
-                    bgcolor: "#272643",
-                    letterSpacing: 2,
-                  }}
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="space-between"
+                  sx={{ py: "14px" }}
                 >
-                  {url.includes("add_user")
-                    ? "Create"
-                    : url.includes("edit") && id
-                    ? "Update"
-                    : ""}
-                </Button>
+                  <Grid item md={5}>
+                    <Button
+                      component={Link}
+                      to={`/admin/users`}
+                      type="submit"
+                      fullWidth
+                      color="secondary"
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+
+                        letterSpacing: 2,
+                      }}
+                    >
+                      Back
+                    </Button>
+                  </Grid>
+                  <Grid item md={5}>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{
+                        mt: 2,
+                        bgcolor: "#272643",
+                        letterSpacing: 2,
+                      }}
+                    >
+                      {url.includes("add_user")
+                        ? "Create"
+                        : url.includes("edit") && id
+                        ? "Update"
+                        : ""}
+                    </Button>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Box>

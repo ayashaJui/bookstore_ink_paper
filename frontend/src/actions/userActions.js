@@ -35,6 +35,9 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_RESET,
+  USER_UPDATE_ISDELETED_FAIL,
+  USER_UPDATE_ISDELETED_SUCCESS,
+  USER_UPDATE_ISDELETED_REQUEST,
 } from "../constants/user";
 import { BLOG_LIST_MY_RESET } from "../constants/blog";
 import { ORDER_LIST_MY_RESET } from "../constants/order";
@@ -223,7 +226,7 @@ export const getUserList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${userUrl}/users`, config);
+    const { data } = await axios.get(`${userUrl}`, config);
 
     dispatch({
       type: USER_LIST_SUCCESS,
@@ -282,6 +285,49 @@ export const updateIsAdmin = (id, user) => async (dispatch, getState) => {
     });
   }
 };
+
+export const requestDeleteProfile =
+  (id, user) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: USER_UPDATE_ISDELETED_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `${userUrl}/${id}/isDeleted`,
+        user,
+        config
+      );
+
+      dispatch({
+        type: USER_UPDATE_ISDELETED_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+
+      dispatch({
+        type: USER_UPDATE_ISDELETED_FAIL,
+        payload: message,
+      });
+    }
+  };
 
 export const createUser = (user) => async (dispatch, getState) => {
   try {

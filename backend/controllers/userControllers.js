@@ -11,7 +11,7 @@ export const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
+  if (user && !user.isDeleted && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       email: user.email,
@@ -21,7 +21,11 @@ export const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error("Invalid email or password");
+    if (user && user.isDeleted) {
+      throw new Error("Account is deleted");
+    } else {
+      throw new Error("Invalid email or password");
+    }
   }
 });
 
@@ -113,6 +117,24 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
       isAdmin: updatedUser.isAdmin,
       token: generateToken(updatedUser._id),
     });
+  } else {
+    res.status(401);
+    throw new Error("User not found");
+  }
+});
+
+// @desc    Update isDeleted
+// @route   PUT /api/users/:id/isDeleted
+// @access  Private
+export const requestDeleteUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    user.isDeleted = !user.isDeleted;
+
+    const updatedUser = await user.save();
+
+    res.json(updatedUser);
   } else {
     res.status(401);
     throw new Error("User not found");

@@ -34,6 +34,10 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_RESET,
+  USER_UPDATE_ISDELETED_REQUEST,
+  USER_UPDATE_ISDELETED_SUCCESS,
+  USER_UPDATE_ISDELETED_FAIL,
+  USER_UPDATE_ISDELETED_RESET,
 } from "../constants/user";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -183,6 +187,32 @@ export const userUpdateIsAdminReducer = (state = { user: {} }, action) => {
         error: payload,
       };
     case USER_UPDATE_ISADMIN_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const userUpdateIsDeletedReducer = (state = { user: {} }, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_UPDATE_ISDELETED_REQUEST:
+      return {
+        loading: true,
+      };
+    case USER_UPDATE_ISDELETED_SUCCESS:
+      return {
+        loading: false,
+        user: payload,
+        success: true,
+      };
+    case USER_UPDATE_ISDELETED_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    case USER_UPDATE_ISDELETED_RESET:
       return {};
     default:
       return state;

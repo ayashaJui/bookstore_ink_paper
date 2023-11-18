@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import MainComponent from "../../layouts/admin/MainComponent";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
@@ -11,6 +11,7 @@ import {
   Divider,
   FormControl,
   FormHelperText,
+  Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -466,7 +467,7 @@ const AddEditBook = () => {
               onChange={(event) => setNumCopySold(event.target.value)}
             />
 
-            <Button
+            {/* <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -483,7 +484,49 @@ const AddEditBook = () => {
                 : url.includes("edit") && id
                 ? "Update"
                 : ""}
-            </Button>
+            </Button> */}
+            <Grid
+              container
+              spacing={2}
+              justifyContent="space-between"
+              sx={{ py: "14px" }}
+            >
+              <Grid item md={5}>
+                <Button
+                  component={Link}
+                  to={`/admin/books`}
+                  type="submit"
+                  fullWidth
+                  color="secondary"
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+
+                    letterSpacing: 2,
+                  }}
+                >
+                  Back
+                </Button>
+              </Grid>
+              <Grid item md={5}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+                    bgcolor: "#272643",
+                    letterSpacing: 2,
+                  }}
+                >
+                  {url.includes("add_book")
+                    ? "Create"
+                    : url.includes("edit") && id
+                    ? "Update"
+                    : ""}
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         )}
       </Container>

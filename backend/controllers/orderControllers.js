@@ -124,3 +124,22 @@ export const getAllOrders = asyncHandler(async (req, res) => {
 
   res.json(orders);
 });
+
+// @desc        Delete order when its not paid or delivered
+// @route       DELETE   /api/orders/:id
+// @access      Private
+export const deleteOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    if (!order.isPaid || !order.isDelivered) {
+      await order.deleteOne();
+      res.json({ message: "Order removed" });
+    } else {
+      return res.json({ message: "Can not delete this order" });
+    }
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
