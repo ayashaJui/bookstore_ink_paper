@@ -3,14 +3,18 @@ const router = express();
 
 import {
   createBlog,
+  createBlogComment,
   deleteBlog,
+  deletelogComment,
   getAllBlogCategories,
   getAllBlogTags,
   getAllBlogs,
   getBlogById,
   getMyBlogs,
   likeUnlikeBlog,
+  likeUnlikeBlogComment,
   updateBlog,
+  updateBlogComment,
   updateIsHidden,
 } from "../controllers/blogControllers.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
@@ -30,5 +34,16 @@ router
   .delete(protect, deleteBlog);
 
 router.route("/:id/like").post(protect, likeUnlikeBlog);
+
+router.route("/:id/comment").post(protect, createBlogComment);
+
+router
+  .route("/:id/comment/:commentId")
+  .put(protect, updateBlogComment)
+  .delete(protect, deletelogComment);
+
+router
+  .route("/:id/comment/:commentId/like")
+  .post(protect, likeUnlikeBlogComment);
 
 export default router;

@@ -179,3 +179,107 @@ export const likeUnlikeBlog = asyncHandler(async (req, res) => {
 
   res.json({ message: isLiked ? "Blog unliked" : "Blog liked" });
 });
+
+// @desc    Create blog comment
+// @route   POST /api/blogs/:id/comment
+// @access  Private
+export const createBlogComment = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found" });
+  }
+
+  const newComment = {
+    details: req.body.details,
+    user: req.user._id,
+  };
+
+  blog.comments.push(newComment);
+  await blog.save();
+
+  res.status(201).json(blog);
+});
+
+// @desc    Update blog comment
+// @route   PUT /api/blogs/:id/comment/:commentId
+// @access  Private
+export const updateBlogComment = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found" });
+  }
+
+  const comment = blog.comments.id(req.params.commentId);
+  if (!comment) {
+    return res.status(404).json({ message: "Comment not found" });
+  }
+
+  if (comment.user._id !== req.user._id) {
+    return res.status(403).json({ message: "You are not owner" });
+  }
+
+  comment.details = req.body.details;
+  await blog.save();
+
+  res.json(blog);
+});
+
+// @desc    Delete blog comment
+// @route   DELETE /api/blogs/:id/comment/:commentId
+// @access  Private
+export const deletelogComment = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found" });
+  }
+
+  const comment = blog.comments.id(req.params.commentId);
+  if (!comment) {
+    return res.status(404).json({ message: "Comment not found" });
+  }
+
+  if (comment.user._id.toString() == req.user._id.toString() || req.user.isAdmin) {
+    blog.comments.pull({ _id: req.params.commentId });
+    await blog.save();
+
+    res.json(blog);
+  } else {
+    return res.status(403).json({ message: "You are not owner or Admin" });
+  }
+});
+
+// @desc    Like a blog comment
+// @route   POST /api/blogs/:id/comment/:commentId/like
+// @access  Private
+export const likeUnlikeBlogComment = asyncHandler(async (req, res) => {
+  const blogId = req.params.id;
+  const userId = req.user._id;
+
+  const blog = await Blog.findById(blogId);
+
+  if (!blog) {
+    return res.status(404).json({ message: "Blog not found" });
+  }
+
+  const comment = blog.comments.id(req.params.commentId);
+  if (!comment) {
+    return res.status(404).json({ message: "Comment not found" });
+  }
+
+  const isLiked = comment.likes.includes(userId);
+
+  if (isLiked) {
+    comment.likes = comment.likes.filter(
+      (id) => id.toString() !== userId.toString()
+    );
+  } else {
+    comment.likes.push(userId);
+  }
+
+  await blog.save();
+
+  res.json(blog);
+});

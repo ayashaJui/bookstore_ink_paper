@@ -4,10 +4,19 @@ import {
   BLOG_CATEGORIES_FAIL,
   BLOG_CATEGORIES_REQUEST,
   BLOG_CATEGORIES_SUCCESS,
+  BLOG_COMMENT_LIKEUNLIKE_FAIL,
+  BLOG_COMMENT_LIKEUNLIKE_REQUEST,
+  BLOG_COMMENT_LIKEUNLIKE_SUCCESS,
+  BLOG_CREATE_COMMENT_FAIL,
+  BLOG_CREATE_COMMENT_REQUEST,
+  BLOG_CREATE_COMMENT_SUCCESS,
   BLOG_CREATE_FAIL,
   BLOG_CREATE_REQUEST,
   BLOG_CREATE_RESET,
   BLOG_CREATE_SUCCESS,
+  BLOG_DELETE_COMMENT_FAIL,
+  BLOG_DELETE_COMMENT_REQUEST,
+  BLOG_DELETE_COMMENT_SUCCESS,
   BLOG_DELETE_FAIL,
   BLOG_DELETE_REQUEST,
   BLOG_DELETE_RESET,
@@ -31,6 +40,9 @@ import {
   BLOG_TAGS_FAIL,
   BLOG_TAGS_REQUEST,
   BLOG_TAGS_SUCCESS,
+  BLOG_UPDATE_COMMENT_FAIL,
+  BLOG_UPDATE_COMMENT_REQUEST,
+  BLOG_UPDATE_COMMENT_SUCCESS,
   BLOG_UPDATE_FAIL,
   BLOG_UPDATE_ISHIDDEN_FAIL,
   BLOG_UPDATE_ISHIDDEN_REQUEST,
@@ -56,9 +68,7 @@ export const getAllBlogs =
         type: BLOG_LIST_REQUEST,
       });
 
-      const { data } = await axios.get(
-        `${blogUrl}?${queryParams}`
-      );
+      const { data } = await axios.get(`${blogUrl}?${queryParams}`);
 
       dispatch({
         type: BLOG_LIST_SUCCESS,
@@ -104,9 +114,7 @@ export const getLatestBlogs = () => async (dispatch) => {
       type: BLOG_LATEST_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${blogUrl}?sort=latest`
-    );
+    const { data } = await axios.get(`${blogUrl}?sort=latest`);
 
     dispatch({
       type: BLOG_LATEST_SUCCESS,
@@ -129,9 +137,7 @@ export const getAllBlogCategories = () => async (dispatch) => {
       type: BLOG_CATEGORIES_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${blogUrl}/categories`
-    );
+    const { data } = await axios.get(`${blogUrl}/categories`);
 
     dispatch({
       type: BLOG_CATEGORIES_SUCCESS,
@@ -187,10 +193,7 @@ export const getMyBlogList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      `${blogUrl}/myblogs`,
-      config
-    );
+    const { data } = await axios.get(`${blogUrl}/myblogs`, config);
 
     dispatch({
       type: BLOG_LIST_MY_SUCCESS,
@@ -228,11 +231,7 @@ export const updateIsHidden = (id, blog) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `${blogUrl}/${id}/isHidden`,
-      blog,
-      config
-    );
+    const { data } = await axios.put(`${blogUrl}/${id}/isHidden`, blog, config);
 
     dispatch({
       type: BLOG_UPDATE_ISHIDDEN_SUCCESS,
@@ -270,11 +269,7 @@ export const createBlog = (blog) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${blogUrl}`,
-      blog,
-      config
-    );
+    const { data } = await axios.post(`${blogUrl}`, blog, config);
 
     dispatch({
       type: BLOG_CREATE_SUCCESS,
@@ -312,11 +307,7 @@ export const updateBlog = (blog) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(
-      `${blogUrl}/${blog.id}`,
-      blog,
-      config
-    );
+    const { data } = await axios.put(`${blogUrl}/${blog.id}`, blog, config);
 
     dispatch({
       type: BLOG_UPDATE_SUCCESS,
@@ -359,10 +350,7 @@ export const likeUnlikeBlog = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${blogUrl}/${id}/like`, [],
-      config
-    );
+    const { data } = await axios.post(`${blogUrl}/${id}/like`, [], config);
 
     dispatch({
       type: BLOG_LIKEUNLIKE_SUCCESS,
@@ -422,6 +410,180 @@ export const deleteBlog = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const postBlogComment =
+  (id, newComment) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: BLOG_CREATE_COMMENT_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${blogUrl}/${id}/comment`,
+        newComment,
+        config
+      );
+
+      dispatch({
+        type: BLOG_CREATE_COMMENT_SUCCESS,
+        payload: data,
+      });
+
+      dispatch({
+        type: BLOG_DETAILS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+
+      dispatch({
+        type: BLOG_CREATE_COMMENT_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const updateBlogComment =
+  (id, comment) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: BLOG_UPDATE_COMMENT_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `${blogUrl}/${id}/comment/${comment.id}`,
+        comment,
+        config
+      );
+
+      dispatch({
+        type: BLOG_UPDATE_COMMENT_SUCCESS,
+        payload: data,
+      });
+
+      dispatch({
+        type: BLOG_DETAILS_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+
+      dispatch({
+        type: BLOG_UPDATE_COMMENT_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const deleteBlogComment =
+  (id, commentId) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: BLOG_DELETE_COMMENT_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.delete(`${blogUrl}/${id}/comment/${commentId}`, config);
+
+      dispatch({ type: BLOG_DELETE_COMMENT_SUCCESS });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: BLOG_DELETE_COMMENT_FAIL,
+        payload: message,
+      });
+    }
+  };
+
+export const likeUnlikeBlogComment =
+  (id, commentId) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: BLOG_COMMENT_LIKEUNLIKE_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${blogUrl}/${id}/comment/${commentId}/like`,
+        [],
+        config
+      );
+
+      dispatch({
+        type: BLOG_COMMENT_LIKEUNLIKE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+
+      dispatch({
+        type: BLOG_COMMENT_LIKEUNLIKE_FAIL,
+        payload: message,
+      });
+    }
+  };
 
 export const blogClearSuccess = () => async (dispatch) => {
   dispatch({ type: BLOG_UPDATE_ISHIDDEN_RESET });

@@ -41,6 +41,10 @@ import {
   blogTagListReducer,
   blogUpdateIsHiddenReducer,
   blogUpdateReducers,
+  blogCreateCommentReducer,
+  blogUpdateCommentReducer,
+  blogDeleteCommentReducer,
+  blogCommentLikeUnlikeReducer,
 } from "./reducers/blogReducers.js";
 import {
   userCreateReducers,
@@ -106,6 +110,10 @@ const reducers = combineReducers({
   blogUpdate: blogUpdateReducers,
   blogDelete: blogDeleteReducer,
   blogLikeUnlike: blogLikeUnlikeReducer,
+  blogCommentCreate: blogCreateCommentReducer,
+  blogCommentUpdate: blogUpdateCommentReducer,
+  blogCommentDelete: blogDeleteCommentReducer,
+  blogCommentLikeUnlike: blogCommentLikeUnlikeReducer,
 
   userBlogList: blogListMyReducer,
 

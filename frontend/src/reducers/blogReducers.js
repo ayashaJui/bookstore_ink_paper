@@ -2,10 +2,21 @@ import {
   BLOG_CATEGORIES_FAIL,
   BLOG_CATEGORIES_REQUEST,
   BLOG_CATEGORIES_SUCCESS,
+  BLOG_COMMENT_LIKEUNLIKE_FAIL,
+  BLOG_COMMENT_LIKEUNLIKE_REQUEST,
+  BLOG_COMMENT_LIKEUNLIKE_SUCCESS,
+  BLOG_CREATE_COMMENT_FAIL,
+  BLOG_CREATE_COMMENT_REQUEST,
+  BLOG_CREATE_COMMENT_RESET,
+  BLOG_CREATE_COMMENT_SUCCESS,
   BLOG_CREATE_FAIL,
   BLOG_CREATE_REQUEST,
   BLOG_CREATE_RESET,
   BLOG_CREATE_SUCCESS,
+  BLOG_DELETE_COMMENT_FAIL,
+  BLOG_DELETE_COMMENT_REQUEST,
+  BLOG_DELETE_COMMENT_RESET,
+  BLOG_DELETE_COMMENT_SUCCESS,
   BLOG_DELETE_FAIL,
   BLOG_DELETE_REQUEST,
   BLOG_DELETE_RESET,
@@ -30,6 +41,10 @@ import {
   BLOG_TAGS_FAIL,
   BLOG_TAGS_REQUEST,
   BLOG_TAGS_SUCCESS,
+  BLOG_UPDATE_COMMENT_FAIL,
+  BLOG_UPDATE_COMMENT_REQUEST,
+  BLOG_UPDATE_COMMENT_RESET,
+  BLOG_UPDATE_COMMENT_SUCCESS,
   BLOG_UPDATE_FAIL,
   BLOG_UPDATE_ISHIDDEN_FAIL,
   BLOG_UPDATE_ISHIDDEN_REQUEST,
@@ -290,6 +305,73 @@ export const blogLikeUnlikeReducer = (state = { blog: {} }, action) => {
     case BLOG_LIKEUNLIKE_SUCCESS:
       return { loading: false, success: true, blog: action.payload };
     case BLOG_LIKEUNLIKE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const blogCreateCommentReducer = (
+  state = { blog: { comments: [] } },
+  action
+) => {
+  switch (action.type) {
+    case BLOG_CREATE_COMMENT_REQUEST:
+      return { loading: true };
+    case BLOG_CREATE_COMMENT_SUCCESS:
+      return { loading: false, success: true, blog: action.payload };
+    case BLOG_CREATE_COMMENT_FAIL:
+      return { loading: false, error: action.payload };
+    case BLOG_CREATE_COMMENT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const blogUpdateCommentReducer = (
+  state = { blog: { comments: [] } },
+  action
+) => {
+  switch (action.type) {
+    case BLOG_UPDATE_COMMENT_REQUEST:
+      return { loading: true };
+    case BLOG_UPDATE_COMMENT_SUCCESS:
+      return { loading: false, success: true, blog: action.payload };
+    case BLOG_UPDATE_COMMENT_FAIL:
+      return { loading: false, error: action.payload };
+    case BLOG_UPDATE_COMMENT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const blogDeleteCommentReducer = (
+  state = { blog: { comments: [] } },
+  action
+) => {
+  switch (action.type) {
+    case BLOG_DELETE_COMMENT_REQUEST:
+      return { loading: true };
+    case BLOG_DELETE_COMMENT_SUCCESS:
+      return { loading: false, success: true, blog: action.payload };
+    case BLOG_DELETE_COMMENT_FAIL:
+      return { loading: false, error: action.payload };
+    case BLOG_DELETE_COMMENT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const blogCommentLikeUnlikeReducer = (state = { blog: {} }, action) => {
+  switch (action.type) {
+    case BLOG_COMMENT_LIKEUNLIKE_REQUEST:
+      return { loading: true };
+    case BLOG_COMMENT_LIKEUNLIKE_SUCCESS:
+      return { loading: false, success: true, blog: action.payload };
+    case BLOG_COMMENT_LIKEUNLIKE_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

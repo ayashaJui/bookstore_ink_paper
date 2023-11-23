@@ -14,11 +14,20 @@ import {
 import BlogSidebar from "../components/BlogSidebar";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import HeroImage from "../components/HeroImage";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getBlogById, likeUnlikeBlog } from "../actions/blogActions";
+import { useEffect, useState } from "react";
+import {
+  deleteBlogComment,
+  getBlogById,
+  likeUnlikeBlog,
+  likeUnlikeBlogComment,
+  postBlogComment,
+  updateBlogComment,
+} from "../actions/blogActions";
 import { useParams } from "react-router-dom";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
@@ -26,6 +35,10 @@ import { formattedDate } from "../helper/helperFunction";
 import Navbar from "../layouts/Navbar";
 
 const BlogDetails = () => {
+  const [details, setDetails] = useState("");
+  const [commentId, setCommentId] = useState("");
+  const [editMode, setEditMode] = useState(false);
+
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -42,14 +55,74 @@ const BlogDetails = () => {
     (state) => state.blogLikeUnlike
   );
 
-  useEffect(() => {
-    dispatch(getBlogById(id));
-  }, [dispatch, id, likeUnlikeSuccess]);
+  const { success: commentCreateSuccess } = useSelector(
+    (state) => state.blogCommentCreate
+  );
+  const { success: commentUpdateSuccess } = useSelector(
+    (state) => state.blogCommentUpdate
+  );
 
-  const handleSubmit = () => {};
+  const { success: commentDeleteSuccess } = useSelector(
+    (state) => state.blogCommentDelete
+  );
+
+  const { success: commentLikeUnlikeSuccess } = useSelector(
+    (state) => state.blogCommentLikeUnlike
+  );
+
+  useEffect(() => {
+    if (
+      commentCreateSuccess ||
+      commentUpdateSuccess ||
+      commentDeleteSuccess ||
+      commentLikeUnlikeSuccess
+    ) {
+      setDetails("");
+      setCommentId("");
+      setEditMode(false);
+    }
+    dispatch(getBlogById(id));
+  }, [
+    dispatch,
+    id,
+    likeUnlikeSuccess,
+    commentCreateSuccess,
+    commentUpdateSuccess,
+    commentDeleteSuccess,
+    commentLikeUnlikeSuccess,
+  ]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    dispatch(postBlogComment(id, { details }));
+  };
 
   const handleLikeUnlike = () => {
     dispatch(likeUnlikeBlog(id));
+  };
+
+  const handleCommentEdit = (event, blogCommentId, commentDetails) => {
+    setEditMode(true);
+    setDetails(commentDetails);
+    setCommentId(blogCommentId);
+  };
+
+  const handleCommentUpdate = (event) => {
+    event.preventDefault();
+    setEditMode(false);
+
+    dispatch(updateBlogComment(id, { id: commentId, details }));
+  };
+
+  const handleCommentDelete = (event, blogCommentId) => {
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteBlogComment(id, blogCommentId));
+    }
+  };
+
+  const handleCommentLikeUnlike = (event, blogCommentId) => {
+    dispatch(likeUnlikeBlogComment(id, blogCommentId));
   };
 
   return (
@@ -148,7 +221,7 @@ const BlogDetails = () => {
                     textAlign="left"
                     sx={{ my: 1, color: "#9B908A", fontWeight: "bold" }}
                   >
-                    {formattedDate(blog?.createdAt)}
+                    {blog?.user?.name}, {formattedDate(blog?.createdAt)}
                   </Typography>
 
                   <Typography
@@ -223,7 +296,7 @@ const BlogDetails = () => {
                           >
                             <CardContent>
                               <Grid container direction={"row"} spacing={2}>
-                                <Grid item md={11}>
+                                <Grid item md={12}>
                                   <Grid container spacing={2}>
                                     <Grid item>
                                       <Avatar
@@ -243,7 +316,7 @@ const BlogDetails = () => {
                                     </Grid>
                                   </Grid>
                                 </Grid>
-                                <Grid item md={11}>
+                                <Grid item md={12}>
                                   <Typography
                                     variant="body1"
                                     sx={{ mt: 1, textAlign: "left" }}
@@ -251,8 +324,11 @@ const BlogDetails = () => {
                                     {comment.details}
                                   </Typography>
                                 </Grid>
-                                <Grid item md={11}>
-                                  <Grid container spacing={2}>
+                                <Grid item md={12}>
+                                  <Grid
+                                    container
+                                    justifyContent={"space-between"}
+                                  >
                                     <Grid item>
                                       <Typography
                                         variant="body2"
@@ -268,16 +344,55 @@ const BlogDetails = () => {
                                         // sx={{ ml: 5 }}
                                       >
                                         <Button
+                                          onClick={(event) =>
+                                            userInfo &&
+                                            handleCommentLikeUnlike(
+                                              event,
+                                              comment?._id
+                                            )
+                                          }
                                           sx={{
                                             textTransform: "capitalize",
-                                            color: "#000",
+                                            // color: "#000",
                                           }}
                                         >
-                                          Like
+                                          Like ({comment?.likes.length})
                                         </Button>
-                                        ({comment.likes.length})
                                       </Typography>
                                     </Grid>
+
+                                    {(comment?.user?._id === userInfo?._id ||
+                                      userInfo?.isAdmin) && (
+                                      <Grid item>
+                                        {!userInfo?.isAdmin && (
+                                          <Button
+                                            title="Click & Scroll Below"
+                                            color="warning"
+                                            onClick={(event) =>
+                                              handleCommentEdit(
+                                                event,
+                                                comment?._id,
+                                                comment?.details
+                                              )
+                                            }
+                                          >
+                                            <EditIcon />
+                                          </Button>
+                                        )}
+
+                                        <Button
+                                          color="error"
+                                          onClick={(event) =>
+                                            handleCommentDelete(
+                                              event,
+                                              comment?._id
+                                            )
+                                          }
+                                        >
+                                          <DeleteIcon />
+                                        </Button>
+                                      </Grid>
+                                    )}
                                   </Grid>
                                 </Grid>
                               </Grid>
@@ -295,25 +410,28 @@ const BlogDetails = () => {
                       sx={{ m: 2 }}
                       fontFamily="Roboto"
                     >
-                      Leave a Comment
+                      {editMode ? "Update Your" : "Leave a"} Comment
                     </Typography>
 
                     <Box
                       component="form"
-                      onSubmit={handleSubmit}
+                      onSubmit={editMode ? handleCommentUpdate : handleSubmit}
                       sx={{ mt: 4, mx: 2 }}
                     >
+                      <input type="hidden" name="commentId" value={commentId} />
                       <TextField
                         margin="normal"
                         required
                         fullWidth
                         multiline
                         rows={8}
+                        value={details}
+                        onChange={(event) => setDetails(event.target.value)}
                         id="comment"
                         label="Comment"
                         name="comment"
                       />
-                      <Grid container spacing={2}>
+                      {/* <Grid container spacing={2}>
                         <Grid item md={6} sm={12} xs={12}>
                           <TextField
                             margin="normal"
@@ -345,7 +463,7 @@ const BlogDetails = () => {
                         label="Subject"
                         name="subject"
                         size="small"
-                      />
+                      /> */}
 
                       <Button
                         type="submit"
