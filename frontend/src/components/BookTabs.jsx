@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
   CardContent,
   Divider,
   Grid,
@@ -18,7 +19,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+// import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createBookRatings, deleteBookRatings } from "../actions/bookActions";
+import { formattedDate } from "../helper/helperFunction";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -48,40 +54,7 @@ function createData(name, value, url) {
   return { name, value, url };
 }
 
-const progressValues = [
-  {
-    type: "5 stars",
-    value: 60,
-    count: 10,
-    color: "success",
-  },
-  {
-    type: "4 stars",
-    value: 70,
-    count: 50,
-    color: "primary",
-  },
-  {
-    type: "3 stars",
-    value: 50,
-    count: 10,
-    color: "secondary",
-  },
-  {
-    type: "2 stars",
-    value: 25,
-    count: 5,
-    color: "error",
-  },
-  {
-    type: "1 stars",
-    value: 30,
-    count: 3,
-    color: "inherit",
-  },
-];
-
-const BookTabs = ({ book }) => {
+const BookTabs = ({ book, bookRatings, ratingDistribution }) => {
   const {
     description,
     genres,
@@ -91,9 +64,13 @@ const BookTabs = ({ book }) => {
     pages,
     release,
     publisher,
-    rating,
+    reviews,
     author,
   } = book;
+
+  const { totalRatings, avgRatings } = bookRatings;
+
+  const bookId = book?._id;
 
   const rows = [
     createData("ISBN", isbn),
@@ -102,9 +79,73 @@ const BookTabs = ({ book }) => {
     createData("Pages", pages),
   ];
 
+  const totalCount =
+    (ratingDistribution?.length > 0 &&
+      Object.values(ratingDistribution[0]).reduce(
+        (total, count) => total + count,
+        0
+      )) ||
+    1;
+
+  const progressValues = [
+    {
+      type: "5 stars",
+      value:
+        (ratingDistribution?.length > 0 &&
+          ratingDistribution[0]["5"] / totalCount) * 100,
+      count: `${
+        ratingDistribution?.length > 0 ? ratingDistribution[0]["5"] : 0
+      }`,
+      color: "success",
+    },
+    {
+      type: "4 stars",
+      value:
+        (ratingDistribution?.length > 0 &&
+          ratingDistribution[0]["4"] / totalCount) * 100,
+      count: `${
+        ratingDistribution?.length > 0 ? ratingDistribution[0]["4"] : 0
+      }`,
+      color: "primary",
+    },
+    {
+      type: "3 stars",
+      value:
+        (ratingDistribution?.length > 0 &&
+          ratingDistribution[0]["3"] / totalCount) * 100,
+      count: `${
+        ratingDistribution?.length > 0 ? ratingDistribution[0]["3"] : 0
+      }`,
+      color: "secondary",
+    },
+    {
+      type: "2 stars",
+      value:
+        (ratingDistribution?.length > 0 &&
+          ratingDistribution[0]["2"] / totalCount) * 100,
+      count: `${
+        ratingDistribution?.length > 0 ? ratingDistribution[0]["2"] : 0
+      }`,
+      color: "error",
+    },
+    {
+      type: "1 stars",
+      value:
+        (ratingDistribution?.length > 0 &&
+          ratingDistribution[0]["1"] / totalCount) * 100,
+      count: `${
+        ratingDistribution?.length > 0 ? ratingDistribution[0]["1"] : 0
+      }`,
+      color: "inherit",
+    },
+  ];
+
   const [value, setValue] = useState(0);
   const [ratingSubmit, setRatingSubmit] = useState(0);
   const [review, setReview] = useState("");
+  const dispatch = useDispatch();
+
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -112,9 +153,19 @@ const BookTabs = ({ book }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(review, ratingSubmit);
-    setRatingSubmit(0);
-    setReview(" ");
+    dispatch(
+      createBookRatings(bookId, { rating: ratingSubmit, comment: review })
+    );
+  };
+
+  // const handleEditSubmit = (event, id) => {
+  //   console.log(id);
+  // };
+
+  const handleDeleteSubmit = (event, ratingId) => {
+    if (window.confirm("Are you sure?")) {
+      dispatch(deleteBookRatings(bookId, ratingId));
+    }
   };
 
   return (
@@ -137,7 +188,7 @@ const BookTabs = ({ book }) => {
         >
           <Tab label="Description" {...a11yProps(0)} />
           <Tab label="Product Details" {...a11yProps(1)} />
-          <Tab label="Reviews (3)" {...a11yProps(2)} />
+          <Tab label={`Reviews (${reviews?.length})`} {...a11yProps(2)} />
         </Tabs>
       </Box>
 
@@ -290,7 +341,7 @@ const BookTabs = ({ book }) => {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="h6">Ratings (30)</Typography>
+                <Typography variant="h6">Ratings ({totalRatings})</Typography>
                 <Typography
                   variant="h4"
                   sx={{
@@ -300,11 +351,11 @@ const BookTabs = ({ book }) => {
                     px: 2,
                   }}
                 >
-                  {rating}
+                  {Number(avgRatings)}
                 </Typography>
                 <Rating
                   name="read-only"
-                  value={rating}
+                  value={Number(avgRatings)}
                   precision={0.5}
                   readOnly
                   sx={{ px: 1 }}
@@ -347,39 +398,64 @@ const BookTabs = ({ book }) => {
 
         <Box sx={{ mt: 3, mb: 5, px: { md: 10, sm: 5, xs: 1 }, minWidth: 200 }}>
           <Typography variant="h5" fontWeight="bold" sx={{ mb: 5 }}>
-            Reviews (15)
+            Reviews
           </Typography>
           <Box>
-            <Card sx={{ my: 2, boxShadow: "none" }}>
-              <CardContent>
-                <Typography
-                  variant="body2"
-                  fontWeight="bold"
-                  sx={{ fontSize: "16px" }}
-                >
-                  John Doe
-                  <Typography component="span" variant="body2" sx={{ ml: 5 }}>
-                    March 20, 2023
-                  </Typography>
-                </Typography>
+            {reviews?.length > 0 ? (
+              reviews?.map(({ rating, comment, user, _id, createdAt }, idx) => (
+                <Card sx={{ my: 2, boxShadow: "none" }} key={idx}>
+                  <CardContent>
+                    <Typography
+                      variant="body2"
+                      fontWeight="bold"
+                      sx={{ fontSize: "16px" }}
+                    >
+                      {user?.name}
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        sx={{ ml: 5 }}
+                      >
+                        {formattedDate(createdAt)}
+                      </Typography>
+                    </Typography>
 
-                <Rating
-                  name="read-only"
-                  value={3}
-                  precision={0.5}
-                  readOnly
-                  sx={{ fontSize: "15px", my: 1 }}
-                />
-                <Typography variant="body2">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Quod, provident! Lorem ipsum dolor sit amet consectetur
-                  adipisicing elit. Fugiat, expedita! Lorem ipsum dolor sit amet
-                  consectetur adipisicing elit. Et, officia.
-                </Typography>
-              </CardContent>
-            </Card>
+                    <Rating
+                      name="read-only"
+                      value={Number(rating)}
+                      precision={0.5}
+                      readOnly
+                      sx={{ fontSize: "15px", my: 1 }}
+                    />
+                    <Typography variant="body2">{comment}</Typography>
+                  </CardContent>
+                  {user?._id === userInfo?._id && (
+                    <CardActions style={{ justifyContent: "flex-end" }}>
+                      {/* <Button
+                        size="small"
+                        color="warning"
+                        onClick={(event) => handleEditSubmit(event, _id)}
+                      >
+                        <EditIcon fontSize="small" />
+                      </Button> */}
+                      <Button
+                        size="small"
+                        color="error"
+                        onClick={(event) => handleDeleteSubmit(event, _id)}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </Button>
+                    </CardActions>
+                  )}
+                </Card>
+              ))
+            ) : (
+              <Typography variant="body2" textAlign={"center"}>
+                No Reviews Found
+              </Typography>
+            )}
 
-            <Card sx={{ my: 2, boxShadow: "none" }}>
+            {/* <Card sx={{ my: 2, boxShadow: "none" }}>
               <CardContent>
                 <Typography
                   variant="body2"
@@ -405,7 +481,7 @@ const BookTabs = ({ book }) => {
                   adipisicing elit. Fugiat, expedita!
                 </Typography>
               </CardContent>
-            </Card>
+            </Card> */}
           </Box>
         </Box>
 
@@ -420,7 +496,7 @@ const BookTabs = ({ book }) => {
             <Rating
               name="rating"
               value={ratingSubmit}
-              precision={0.5}
+              // precision={0.5}
               onChange={(event) => setRatingSubmit(+event.target.value)}
             />
             <TextField

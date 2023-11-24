@@ -5,7 +5,7 @@ import {
   createBlog,
   createBlogComment,
   deleteBlog,
-  deletelogComment,
+  deleteBlogComment,
   getAllBlogCategories,
   getAllBlogTags,
   getAllBlogs,
@@ -40,7 +40,7 @@ router.route("/:id/comment").post(protect, createBlogComment);
 router
   .route("/:id/comment/:commentId")
   .put(protect, updateBlogComment)
-  .delete(protect, deletelogComment);
+  .delete(protect, deleteBlogComment);
 
 router
   .route("/:id/comment/:commentId/like")

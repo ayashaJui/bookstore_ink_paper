@@ -25,7 +25,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import BookTabs from "../components/BookTabs";
-import { getBookById } from "../actions/bookActions";
+import {
+  getBookById,
+  getBookRatingsById,
+  getBookRatingsDistributionById,
+} from "../actions/bookActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
@@ -44,9 +48,27 @@ const BookDetails = () => {
 
   const { favoriteItems } = useSelector((state) => state.favorite);
 
+  const { ratings } = useSelector((state) => state.bookRatings);
+
+  const { distribution } = useSelector(
+    (state) => state.bookRatingsDistribution
+  );
+  
+  const { success: createSuccess } = useSelector(
+    (state) => state.bookRatingsCreate
+  );
+
+  const { success: deleteSuccess } = useSelector(
+    (state) => state.bookRatingsDelete
+  );
   useEffect(() => {
+    if (createSuccess || deleteSuccess) {
+      dispatch(getBookRatingsDistributionById(id));
+    }
     dispatch(getBookById(id));
-  }, [dispatch, id]);
+    dispatch(getBookRatingsById(id));
+    dispatch(getBookRatingsDistributionById(id));
+  }, [dispatch, id, createSuccess, deleteSuccess]);
 
   const [formatType, setFormatType] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -341,7 +363,7 @@ const BookDetails = () => {
             </Box>
           )}
 
-          {book && <BookTabs book={book} />}
+          {book && <BookTabs book={book} bookRatings={ratings} ratingDistribution={distribution} />}
         </div>
       )}
     </div>

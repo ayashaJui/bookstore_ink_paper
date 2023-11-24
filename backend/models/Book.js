@@ -121,17 +121,17 @@ const BookSchema = new mongoose.Schema(
 
     literaryReviews: [literaryReviewSchema],
 
-    rating: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    // rating: {
+    //   type: Number,
+    //   required: true,
+    //   default: 0,
+    // },
 
-    numReviews: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    // numReviews: {
+    //   type: Number,
+    //   required: true,
+    //   default: 0,
+    // },
 
     countInStock: [
       {

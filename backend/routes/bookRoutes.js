@@ -3,7 +3,9 @@ const router = express();
 
 import {
   createBook,
+  createBookRating,
   deleteBook,
+  deleteBookRating,
   getAllAuthorsBooks,
   getAllBooks,
   getAllBooksWithOrder,
@@ -15,6 +17,8 @@ import {
   getLatestRelease,
   getPopularBooks,
   getSaleBooks,
+  getTotalAvgRatings,
+  ratingDistribution,
   updateBook,
 } from "../controllers/bookControllers.js";
 import { admin, protect } from "../middleware/authMiddleware.js";
@@ -36,5 +40,14 @@ router
   .get(getBookById)
   .put(protect, admin, updateBook)
   .delete(protect, admin, deleteBook);
+
+router
+  .route("/:id/ratings")
+  .get(getTotalAvgRatings)
+  .post(protect, createBookRating);
+
+router.route("/:id/ratingsDistribution").get(ratingDistribution);
+
+router.route("/:id/ratings/:ratingId").delete(protect, deleteBookRating);
 
 export default router;

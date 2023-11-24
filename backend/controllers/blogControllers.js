@@ -229,7 +229,7 @@ export const updateBlogComment = asyncHandler(async (req, res) => {
 // @desc    Delete blog comment
 // @route   DELETE /api/blogs/:id/comment/:commentId
 // @access  Private
-export const deletelogComment = asyncHandler(async (req, res) => {
+export const deleteBlogComment = asyncHandler(async (req, res) => {
   const blog = await Blog.findById(req.params.id);
 
   if (!blog) {

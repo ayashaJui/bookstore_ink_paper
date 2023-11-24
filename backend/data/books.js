@@ -13,8 +13,8 @@ const books = [
     release: new Date("1813-01-18"),
     image: "/uploads/books/pride_prejudice.jpg",
     pages: 384,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: [8, 10],
   },
   {
@@ -31,8 +31,8 @@ const books = [
     release: new Date("1996-01-01"),
     image: "/uploads/books/animalFarm.jpg",
     pages: 140,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: 8,
   },
   {
@@ -49,8 +49,8 @@ const books = [
     release: new Date("2014-04-15"),
     image: "/uploads/books/alchemist.jpg",
     pages: 182,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: [5],
   },
   {
@@ -71,8 +71,8 @@ const books = [
     release: new Date("2014-04-15"),
     image: "/uploads/books/crucifixKiller.jpg",
     pages: 448,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: [5, 15],
   },
   {
@@ -93,8 +93,8 @@ const books = [
     release: new Date("2006-09-16"),
     image: "/uploads/books/harry7.jpg",
     pages: 652,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: [5],
   },
   {
@@ -115,8 +115,8 @@ const books = [
     release: new Date("2006-07-17"),
     image: "/uploads/books/theFinalEmpire.jpg",
     pages: 537,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: [2, 0],
   },
   {
@@ -133,8 +133,8 @@ const books = [
     release: new Date("2004-05-03"),
     image: "/uploads/books/thereWereNone.jpg",
     pages: 264,
-    rating: 0,
-    numReviews: 0,
+    // rating: 0,
+    // numReviews: 0,
     countInStock: [25],
   },
   {
@@ -151,8 +151,8 @@ const books = [
     release: new Date("2004-05-25"),
     image: "/uploads/books/thereWereNone.jpg",
     pages: 364,
-    rating: 2,
-    numReviews: 50,
+    // rating: 2,
+    // numReviews: 50,
     countInStock: [25, 2, 10],
     series: [
       {

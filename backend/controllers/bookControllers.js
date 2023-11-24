@@ -1,4 +1,5 @@
 import asyncHandler from "express-async-handler";
+import mongoose from "mongoose";
 
 import Book from "../models/Book.js";
 import Author from "../models/Author.js";
@@ -8,7 +9,8 @@ import User from "../models/User.js";
 // @route       GET     /api/books/
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
-  const { genre, author, format, price, rating, sort, offer, publisher } = req.query;
+  const { genre, author, format, price, rating, sort, offer, publisher } =
+    req.query;
   const queryParams = {};
 
   if (genre) {
@@ -47,7 +49,7 @@ export const getAllBooks = asyncHandler(async (req, res) => {
     };
   }
 
-  if(publisher){
+  if (publisher) {
     queryParams.publisher = { $regex: publisher, $options: "i" };
   }
 
@@ -76,11 +78,9 @@ export const getAllBooks = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/:id
 // @access      Public
 export const getBookById = asyncHandler(async (req, res) => {
-  const book = await Book.findById(req.params.id).populate([
-    "author",
-    "series",
-    "reviews",
-  ]);
+  const book = await Book.findById(req.params.id)
+    .populate(["author", "series", "reviews"])
+    .populate("reviews.user");
 
   if (book) {
     res.json(book);
@@ -371,4 +371,140 @@ export const deleteBook = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Book not found");
   }
+});
+
+// @desc    Get total ratings & average rating
+// @route   GET /api/books/:id/ratings
+// @access  Public
+export const getTotalAvgRatings = asyncHandler(async (req, res) => {
+  const book = await Book.findById(req.params.id);
+
+  if (!book) {
+    res.status(404);
+    throw new Error("Book not found");
+  }
+
+  const totalRatings = book.reviews.length;
+  const avgRatings =
+    totalRatings > 0
+      ? (
+          book.reviews.reduce((acc, cur) => acc + cur.rating, 0) / totalRatings
+        ).toFixed(1)
+      : 0;
+
+  res.json({
+    totalRatings,
+    avgRatings,
+  });
+});
+
+// @desc    Create rating for a book
+// @route   POST /api/books/:id/ratings
+// @access  Private
+export const createBookRating = asyncHandler(async (req, res) => {
+  const book = await Book.findById(req.params.id);
+  const { rating, comment } = req.body;
+
+  if (!book) {
+    res.status(404);
+    throw new Error("Book not found");
+  }
+
+  const newRating = {
+    rating,
+    comment,
+    user: req.user._id,
+  };
+
+  book.reviews.push(newRating);
+
+  await book.save();
+
+  res.status(201).json(book);
+});
+
+// @desc    DELETE rating for a book
+// @route   DELETE /api/books/:id/ratings/:ratingId
+// @access  Private
+export const deleteBookRating = asyncHandler(async (req, res) => {
+  const book = await Book.findById(req.params.id);
+
+  if (!book) {
+    res.status(404);
+    throw new Error("Book not found");
+  }
+
+  const ratingToDelete = book.reviews.id(req.params.ratingId);
+
+  if (!ratingToDelete) {
+    res.status(404);
+    throw new Error("Rating not found");
+  }
+
+  if (ratingToDelete.user.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error("You are not authorized to delete this rating");
+  }
+
+  book.reviews.pull({ _id: req.params.ratingId });
+
+  await book.save();
+
+  res.json(book);
+});
+
+// @desc    GET rating distribution for a book
+// @route   GET /api/books/:id/ratingsDistribution
+// @access  Public
+export const ratingDistribution = asyncHandler(async (req, res) => {
+  const ratingDistribution = await Book.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(req.params.id),
+      },
+    },
+    {
+      $unwind: "$reviews",
+    },
+    {
+      $group: {
+        _id: "$reviews.rating",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        count: 1,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        ratings: {
+          $push: {
+            k: { $toString: "$_id" },
+            v: "$count",
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        ratings: { $arrayToObject: "$ratings" },
+      },
+    },
+    {
+      $project: {
+        1: { $ifNull: ["$ratings.1", 0] },
+        2: { $ifNull: ["$ratings.2", 0] },
+        3: { $ifNull: ["$ratings.3", 0] },
+        4: { $ifNull: ["$ratings.4", 0] },
+        5: { $ifNull: ["$ratings.5", 0] },
+      },
+    },
+  ]);
+
+  res.json(ratingDistribution);
 });

@@ -4,11 +4,10 @@ Static
 ** footer media link
 ** contact us
 ** checkout
-** book review
 ** About member
 
 
 New
 --------------------------------------
-Admin =>book rating(delete, hide), book review (delete, hide), order(mark as delivered)
-user => book rating & review (create, delete, update)
+Admin => order(mark as delivered)
+user => book rating & review (update, update book rating in every page)

@@ -3,10 +3,16 @@ import {
   BOOK_AUTHOR_REQUEST,
   BOOK_AUTHOR_SUCCESS,
   BOOK_CREATE_FAIL,
+  BOOK_CREATE_RATINGS_FAIL,
+  BOOK_CREATE_RATINGS_REQUEST,
+  BOOK_CREATE_RATINGS_SUCCESS,
   BOOK_CREATE_REQUEST,
   BOOK_CREATE_RESET,
   BOOK_CREATE_SUCCESS,
   BOOK_DELETE_FAIL,
+  BOOK_DELETE_RATINGS_FAIL,
+  BOOK_DELETE_RATINGS_REQUEST,
+  BOOK_DELETE_RATINGS_SUCCESS,
   BOOK_DELETE_REQUEST,
   BOOK_DELETE_RESET,
   BOOK_DELETE_SUCCESS,
@@ -35,6 +41,12 @@ import {
   BOOK_PUBLISHER_FAIL,
   BOOK_PUBLISHER_REQUEST,
   BOOK_PUBLISHER_SUCCESS,
+  BOOK_RATINGS_DISTRIBUTION_FAIL,
+  BOOK_RATINGS_DISTRIBUTION_REQUEST,
+  BOOK_RATINGS_DISTRIBUTION_SUCCESS,
+  BOOK_RATINGS_FAIL,
+  BOOK_RATINGS_REQUEST,
+  BOOK_RATINGS_SUCCESS,
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
@@ -390,6 +402,85 @@ export const bookDeleteReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case BOOK_DELETE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const bookRatingsReducer = (state = { ratings: {} }, action) => {
+  switch (action.type) {
+    case BOOK_RATINGS_REQUEST:
+      return { loading: true };
+    case BOOK_RATINGS_SUCCESS:
+      return { loading: false, success: true, ratings: action.payload };
+    case BOOK_RATINGS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const bookRatingCreateReducers = (
+  state = { book: { reviews: [] } },
+  action
+) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_CREATE_RATINGS_REQUEST:
+      return {
+        loading: true,
+      };
+    case BOOK_CREATE_RATINGS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        book: action.payload,
+      };
+    case BOOK_CREATE_RATINGS_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const bookRatingDeleteReducers = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case BOOK_DELETE_RATINGS_REQUEST:
+      return {
+        loading: true,
+      };
+    case BOOK_DELETE_RATINGS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case BOOK_DELETE_RATINGS_FAIL:
+      return {
+        loading: false,
+        error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const bookRatingsDistributionReducer = (
+  state = { distribution: {} },
+  action
+) => {
+  switch (action.type) {
+    case BOOK_RATINGS_DISTRIBUTION_REQUEST:
+      return { loading: true };
+    case BOOK_RATINGS_DISTRIBUTION_SUCCESS:
+      return { loading: false, success: true, distribution: action.payload };
+    case BOOK_RATINGS_DISTRIBUTION_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
