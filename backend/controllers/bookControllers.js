@@ -5,6 +5,25 @@ import Book from "../models/Book.js";
 import Author from "../models/Author.js";
 import User from "../models/User.js";
 
+const getRatingForEveryBook = (books) => {
+  return books.map((book) => {
+    const totalRatings = book.reviews.length;
+    const avgRatings =
+      totalRatings > 0
+        ? (
+            book.reviews.reduce((acc, cur) => acc + cur.rating, 0) /
+            totalRatings
+          ).toFixed(1)
+        : 0;
+
+    return {
+      ...book.toJSON(),
+      totalRatings,
+      avgRatings,
+    };
+  });
+};
+
 // @desc        get all books
 // @route       GET     /api/books/
 // @access      Public
@@ -59,17 +78,22 @@ export const getAllBooks = asyncHandler(async (req, res) => {
     if (sort === "release") {
       books = await Book.find(queryParams)
         .sort({ release: -1 })
-        .populate("author");
+        .populate("author")
+        .populate("reviews", "rating");
     } else if (sort === "popular") {
       books = await Book.find(queryParams)
         .sort({ rating: -1 })
-        .populate("author");
+        .populate("author")
+        .populate("reviews", "rating");
     }
   } else {
     books = await Book.find(queryParams)
       .populate("author", "name")
-      .populate("user", "name");
+      .populate("user", "name")
+      .populate("reviews", "rating");
   }
+
+  books = getRatingForEveryBook(books);
 
   res.json(books);
 });
@@ -164,10 +188,12 @@ export const getAllPublishers = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/latestRelease/
 // @access      Public
 export const getLatestRelease = asyncHandler(async (req, res) => {
-  const latestReleases = await Book.find({})
+  let latestReleases = await Book.find({})
     .sort({ release: -1 })
     .populate("author")
     .limit(8);
+
+  latestReleases = getRatingForEveryBook(latestReleases);
   res.json(latestReleases);
 });
 
@@ -175,10 +201,13 @@ export const getLatestRelease = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/popular/
 // @access      Public
 export const getPopularBooks = asyncHandler(async (req, res) => {
-  const popular = await Book.find({})
+  let popular = await Book.find({})
     .sort({ rating: -1 })
     .populate("author")
     .limit(7);
+
+  popular = getRatingForEveryBook(popular);
+
   res.json(popular);
 });
 
@@ -186,7 +215,9 @@ export const getPopularBooks = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/featured/
 // @access      Public
 export const getFeaturedBooks = asyncHandler(async (req, res) => {
-  const featured = await Book.find({ isFeatured: true }).populate("author");
+  let featured = await Book.find({ isFeatured: true }).populate("author");
+
+  featured = getRatingForEveryBook(featured);
 
   res.json(featured);
 });
@@ -195,7 +226,7 @@ export const getFeaturedBooks = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/sale/
 // @access      Public
 export const getSaleBooks = asyncHandler(async (req, res) => {
-  const sales = await Book.find({ offer: { $gt: 0 } })
+  let sales = await Book.find({ offer: { $gt: 0 } })
     .populate("author")
     .limit(4);
 

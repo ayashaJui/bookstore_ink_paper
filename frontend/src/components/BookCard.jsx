@@ -22,14 +22,15 @@ import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
 const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
   const dispatch = useDispatch();
 
-  const { _id, image, format, title, author, rating, numReviews, price } = book;
+  const { _id, image, format, title, author, totalRatings, avgRatings, price } =
+    book;
 
   const { cartItems } = useSelector((state) => state.cart);
   const { favoriteItems } = useSelector((state) => state.favorite);
 
   const baseUrl = process.env.REACT_APP_BASE_URL
-  ? process.env.REACT_APP_BASE_URL
-  : "http://localhost:5000";
+    ? process.env.REACT_APP_BASE_URL
+    : "http://localhost:5000";
 
   return (
     <Grid item sm={4} xs={12} md={3}>
@@ -47,11 +48,7 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
           <CardMedia
             component="img"
             height={mediaHeight}
-            image={`${
-              image
-                ? baseUrl + image
-                : "/images/sample_book.jpg"
-            }`}
+            image={`${image ? baseUrl + image : "/images/sample_book.jpg"}`}
             alt={`${title}`}
             sx={{ objectFit: "contain" }}
           />
@@ -71,7 +68,7 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
               <Grid item md={8} sx={{ mt: 0.5 }}>
                 <Rating
                   name="half-rating-read"
-                  value={rating}
+                  value={Number(avgRatings)}
                   precision={0.5}
                   readOnly
                 />
@@ -79,7 +76,7 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
                   variant="subtitle2"
                   sx={{ color: "#FF9529", fontSize: 10 }}
                 >
-                  ({numReviews} Reviews)
+                  ({totalRatings} Reviews)
                 </Typography>
               </Grid>
               <Grid item md={4}>

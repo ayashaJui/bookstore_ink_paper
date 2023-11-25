@@ -15,7 +15,7 @@ import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
 
 const FeatureCard = ({ book }) => {
-  const { _id, title, image, author, rating, numReviews, price } = book;
+  const { _id, title, image, author, totalRatings, avgRatings, price } = book;
 
   const baseUrl = process.env.REACT_APP_BASE_URL
   ? process.env.REACT_APP_BASE_URL
@@ -59,7 +59,7 @@ const FeatureCard = ({ book }) => {
               <Rating
                 readOnly
                 name="customized"
-                value={rating}
+                value={Number(avgRatings)}
                 precision={0.5}
                 icon={<StarIcon fontSize="inherit" sx={{ color: "#fff" }} />}
                 emptyIcon={
@@ -70,7 +70,7 @@ const FeatureCard = ({ book }) => {
                 variant="subtitle2"
                 sx={{ fontSize: 10, color: "#fff" }}
               >
-                ({numReviews} Reviews)
+                ({totalRatings} Reviews)
               </Typography>
             </Box>
           </CardContent>

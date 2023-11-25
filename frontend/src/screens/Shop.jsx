@@ -31,6 +31,7 @@ import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../layouts/Navbar";
+import SearchBar from "../components/SearchBar";
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -69,6 +70,8 @@ const Shop = () => {
       <Navbar />
       <Box component="div">
         <HeroImage title="Shop" imgPath="/images/static/shop.jpg" />
+        <SearchBar />
+
         <Box component="div" sx={{ mx: { md: 10, sm: 5, xs: 1 }, mb: 8 }}>
           <Grid container spacing={4}>
             <Grid item md={3} sm={9} xs={12}>
@@ -103,7 +106,7 @@ const Shop = () => {
                         author,
                         format,
                         offer,
-                        rating,
+                        avgRatings,
                         image,
                       }) => (
                         <Grid item md={4} sm={6} xs={12} key={_id}>
@@ -196,7 +199,7 @@ const Shop = () => {
                                 <Box component={"div"}>
                                   <Rating
                                     name="half-rating-read"
-                                    value={rating}
+                                    value={Number(avgRatings)}
                                     precision={0.5}
                                     readOnly
                                   />

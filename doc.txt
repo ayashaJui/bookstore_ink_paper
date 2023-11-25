@@ -7,7 +7,3 @@ Static
 ** About member
 
 
-New
---------------------------------------
-Admin => order(mark as delivered)
-user => book rating & review (update, update book rating in every page)
