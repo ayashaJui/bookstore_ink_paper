@@ -48,10 +48,10 @@ const Shop = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { favoriteItems } = useSelector((state) => state.favorite);
 
-  const totalPages = Math.ceil(books.length / booksPerPage);
+  const totalPages = Math.ceil(books?.length / booksPerPage);
   const startIndex = (currentPage - 1) * booksPerPage;
   const endIndex = startIndex + booksPerPage;
-  const visibleBooks = books.slice(startIndex, endIndex);
+  const visibleBooks = books?.slice(startIndex, endIndex);
 
   useEffect(() => {
     if (queryParam) {
@@ -70,9 +70,9 @@ const Shop = () => {
       <Navbar />
       <Box component="div">
         <HeroImage title="Shop" imgPath="/images/static/shop.jpg" />
-        <SearchBar />
 
         <Box component="div" sx={{ mx: { md: 10, sm: 5, xs: 1 }, mb: 8 }}>
+          <SearchBar />
           <Grid container spacing={4}>
             <Grid item md={3} sm={9} xs={12}>
               <Card

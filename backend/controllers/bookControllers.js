@@ -28,9 +28,22 @@ const getRatingForEveryBook = (books) => {
 // @route       GET     /api/books/
 // @access      Public
 export const getAllBooks = asyncHandler(async (req, res) => {
-  const { genre, author, format, price, rating, sort, offer, publisher } =
-    req.query;
+  const {
+    genre,
+    author,
+    format,
+    price,
+    rating,
+    sort,
+    offer,
+    publisher,
+    title,
+  } = req.query;
   const queryParams = {};
+
+  if (title) {
+    queryParams.title = { $regex: title, $options: "i" };
+  }
 
   if (genre) {
     const genreRegex = genre.split(",").map((g) => new RegExp(g, "i"));

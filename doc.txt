@@ -1,9 +1,8 @@
 Static
 ----------------------------------------
-** no search bar works
 ** footer media link
 ** contact us
-** checkout
+** checkout is not implemented
 ** About member
 
 
