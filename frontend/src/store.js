@@ -70,7 +70,10 @@ import {
   orderListMyReducers,
   orderListReducers,
 } from "./reducers/orderReducers.js";
-import { contactCreateReducers } from "./reducers/contactReducers.js";
+import {
+  contactCreateReducers,
+  contactListReducers,
+} from "./reducers/contactReducers.js";
 
 const reducers = combineReducers({
   cart: cartReducers,
@@ -139,6 +142,7 @@ const reducers = combineReducers({
   userDelete: userDeleteReducer,
 
   contactCreate: contactCreateReducers,
+  contactList: contactListReducers,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

@@ -23,3 +23,12 @@ export const createContact = asyncHandler(async (req, res) => {
     throw new Error("Invalid contact data");
   }
 });
+
+// @desc        Get all contact messages
+// @route       GET     /api/contacts/
+// @access      Private, Admin
+export const getAllContact = asyncHandler(async (req, res) => {
+  const contacts = await Contact.find({});
+
+  res.json(contacts);
+});

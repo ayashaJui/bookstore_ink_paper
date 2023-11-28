@@ -34,6 +34,7 @@ import AddEditUser from "./screens/admin/AddEditUser";
 import AddEditBook from "./screens/admin/AddEditBook";
 import Reviews from "./screens/admin/Reviews";
 import CreateEditBlog from "./screens/CreateEditBlog";
+import Messages from "./screens/admin/Messages";
 
 axios.defaults.withCredentials = true;
 
@@ -82,6 +83,7 @@ function App() {
             <Route exact path="/admin/customers" Component={Customers} />
             <Route exact path="/admin/blogs" Component={BlogList} />
             <Route exact path="/admin/reviews" Component={Reviews} />
+            <Route exact path="/admin/messages" Component={Messages} />
 
             <Route exact path="/admin/users" Component={Users} />
             <Route exact path="/admin/add_user" Component={AddEditUser} />
