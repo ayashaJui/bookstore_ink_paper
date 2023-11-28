@@ -1,8 +1,7 @@
 Static
 ----------------------------------------
 ** footer media link
-** contact us
-** checkout is not implemented
+** checkout payment method is not implemented
 ** About member
 
 

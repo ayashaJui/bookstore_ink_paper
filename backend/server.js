@@ -9,6 +9,7 @@ import authorRoutes from "./routes/authorRoutes.js";
 import blogRoutes from "./routes/blogRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import corsMiddleware from "./middleware/corsMiddleware.js";
@@ -34,6 +35,7 @@ app.use("/api/authors", authorRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/contact", contactRoutes);
 app.use("/api/upload", uploadRoutes);
 
 const __dirname = path.resolve();

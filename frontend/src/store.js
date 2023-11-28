@@ -12,6 +12,7 @@ import {
   bookRatingDeleteReducers,
   bookRatingsDistributionReducer,
   bookRatingsReducer,
+  bookReviewListReducer,
   bookUpdateReducers,
   bookWithOrderReducers,
   featuredBookListReducer,
@@ -69,6 +70,7 @@ import {
   orderListMyReducers,
   orderListReducers,
 } from "./reducers/orderReducers.js";
+import { contactCreateReducers } from "./reducers/contactReducers.js";
 
 const reducers = combineReducers({
   cart: cartReducers,
@@ -100,6 +102,7 @@ const reducers = combineReducers({
   bookRatingsDistribution: bookRatingsDistributionReducer,
   bookRatingsCreate: bookRatingCreateReducers,
   bookRatingsDelete: bookRatingDeleteReducers,
+  bookReviewList: bookReviewListReducer,
 
   authorList: authorListReducer,
   favoriteAuthorList: favoriteAuthorListReducer,
@@ -134,6 +137,8 @@ const reducers = combineReducers({
   userCreate: userCreateReducers,
   userUpdate: userUpdateReducers,
   userDelete: userDeleteReducer,
+
+  contactCreate: contactCreateReducers,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

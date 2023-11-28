@@ -5,9 +5,34 @@ import SmartphoneIcon from "@mui/icons-material/Smartphone";
 import EmailIcon from "@mui/icons-material/Email";
 import HeroImage from "../components/HeroImage";
 import Navbar from "../layouts/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { createContact } from "../actions/contactActions";
+import { useEffect, useState } from "react";
 
 const Contact = () => {
-  const handleSubmit = () => {};
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+
+  const { success } = useSelector((state) => state.contactCreate);
+
+  useEffect(() => {
+    if (success) {
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+    }
+  }, [success]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    dispatch(createContact({ name, email, subject, message }));
+  };
+
   return (
     <>
       <Navbar />
@@ -29,7 +54,9 @@ const Contact = () => {
                       fullWidth
                       id="name"
                       label="Name"
+                      value={name}
                       name="name"
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </Grid>
                   <Grid item md={6} sm={12} xs={12}>
@@ -39,7 +66,9 @@ const Contact = () => {
                       fullWidth
                       id="email"
                       label="Email"
+                      value={email}
                       name="email"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </Grid>
                 </Grid>
@@ -49,7 +78,9 @@ const Contact = () => {
                   fullWidth
                   id="subject"
                   label="Subject"
+                  value={subject}
                   name="subject"
+                  onChange={(e) => setSubject(e.target.value)}
                 />
                 <TextField
                   margin="normal"
@@ -59,6 +90,8 @@ const Contact = () => {
                   rows={8}
                   id="message"
                   label="Message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   name="message"
                 />
                 <Button

@@ -552,3 +552,27 @@ export const ratingDistribution = asyncHandler(async (req, res) => {
 
   res.json(ratingDistribution);
 });
+
+// @desc    GET All Reviews
+// @route   GET /api/books/reviews
+// @access  Private, Admin
+export const getAllReviews = asyncHandler(async (req, res) => {
+  const allReviews = await Book.aggregate([
+    {
+      $unwind: "$reviews",
+    },
+    {
+      $sort: { "reviews.createdAt": -1 },
+    },
+    {
+      $project: {
+        _id: 0,
+        bookId: "$_id",
+        bookName: "$title", 
+        review: "$reviews",
+      },
+    },
+  ]);
+
+  res.json(allReviews);
+});

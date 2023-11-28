@@ -265,49 +265,48 @@ const AddEditUser = () => {
                   value={country}
                   onChange={(event) => setCountry(event.target.value)}
                 />
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="space-between"
+              sx={{ py: "14px" }}
+            >
+              <Grid item md={5}>
+                <Button
+                  component={Link}
+                  to={`/admin/users`}
+                  type="submit"
+                  fullWidth
+                  color="secondary"
+                  variant="contained"
+                  sx={{
+                    mt: 2,
 
-                <Grid
-                  container
-                  spacing={2}
-                  justifyContent="space-between"
-                  sx={{ py: "14px" }}
+                    letterSpacing: 2,
+                  }}
                 >
-                  <Grid item md={5}>
-                    <Button
-                      component={Link}
-                      to={`/admin/users`}
-                      type="submit"
-                      fullWidth
-                      color="secondary"
-                      variant="contained"
-                      sx={{
-                        mt: 2,
-
-                        letterSpacing: 2,
-                      }}
-                    >
-                      Back
-                    </Button>
-                  </Grid>
-                  <Grid item md={5}>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{
-                        mt: 2,
-                        bgcolor: "#272643",
-                        letterSpacing: 2,
-                      }}
-                    >
-                      {url.includes("add_user")
-                        ? "Create"
-                        : url.includes("edit") && id
-                        ? "Update"
-                        : ""}
-                    </Button>
-                  </Grid>
-                </Grid>
+                  Back
+                </Button>
+              </Grid>
+              <Grid item md={5}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{
+                    mt: 2,
+                    bgcolor: "#272643",
+                    letterSpacing: 2,
+                  }}
+                >
+                  {url.includes("add_user")
+                    ? "Create"
+                    : url.includes("edit") && id
+                    ? "Update"
+                    : ""}
+                </Button>
               </Grid>
             </Grid>
           </Box>

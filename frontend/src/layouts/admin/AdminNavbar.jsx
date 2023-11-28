@@ -4,6 +4,8 @@ import {
   Divider,
   IconButton,
   List,
+  Menu,
+  MenuItem,
   Toolbar,
   Tooltip,
   Typography,
@@ -15,6 +17,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import EmailIcon from "@mui/icons-material/Email";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useState } from "react";
 import {
@@ -73,11 +76,20 @@ const Drawer = styled(MuiDrawer, {
 
 const AdminNavbar = () => {
   const [open, setOpen] = useState(true);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const dispatch = useDispatch();
 
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const handleLogout = () => {
@@ -121,7 +133,7 @@ const AdminNavbar = () => {
           >
             INK & PAPER
           </Typography>
-          <IconButton color="inherit" component={Link} to={`/profile`}>
+          {/* <IconButton color="inherit" component={Link} to={`/profile`}>
             <Tooltip title="profile">
             <Avatar
               alt={"admin"}
@@ -135,15 +147,69 @@ const AdminNavbar = () => {
               }}
             />
             </Tooltip>
-          </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Tooltip title="Sign Out">
-            <IconButton color="inherit" sx={{ ml: 3 }} onClick={handleLogout}>
-              <LogoutIcon />
+          </IconButton> */}
+          <Tooltip title={"ADMIN"}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar
+                alt={"admin"}
+                src={`/`}
+                sx={{
+                  height: "28px",
+                  width: "28px",
+                  my: 2,
+                  mx: 1,
+                  fontSize: 15,
+                }}
+              />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            <MenuItem
+              component={Link}
+              to={`/profile`}
+              onClick={handleCloseUserMenu}
+            >
+              <Typography textAlign="center">Profile</Typography>
+            </MenuItem>
+
+            <MenuItem
+              // to="/logout"
+              onClick={() => {
+                handleCloseUserMenu();
+                handleLogout();
+              }}
+            >
+              <Typography textAlign="center">Logout</Typography>
+            </MenuItem>
+          </Menu>
+
+          <Tooltip title="Nofications">
+            <IconButton color="inherit" sx={{ ml: 2 }}>
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+          
+          <Tooltip title="Messages">
+            <IconButton color="inherit" sx={{ ml: 2 }}>
+              {/* <LogoutIcon /> */}
+              <EmailIcon />
             </IconButton>
           </Tooltip>
         </Toolbar>

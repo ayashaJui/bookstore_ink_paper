@@ -49,6 +49,9 @@ import {
   BOOK_RATINGS_FAIL,
   BOOK_RATINGS_REQUEST,
   BOOK_RATINGS_SUCCESS,
+  BOOK_REVIEW_LIST_FAIL,
+  BOOK_REVIEW_LIST_REQUEST,
+  BOOK_REVIEW_LIST_SUCCESS,
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
@@ -600,6 +603,44 @@ export const deleteBookRatings =
       });
     }
   };
+
+export const getAllBookReviews = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BOOK_REVIEW_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`${bookUrl}/reviews`, config);
+
+    dispatch({
+      type: BOOK_REVIEW_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+
+    dispatch({
+      type: BOOK_REVIEW_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
 
 export const bookClearSuccess = () => async (dispatch) => {
   dispatch({ type: BOOK_CREATE_RESET });

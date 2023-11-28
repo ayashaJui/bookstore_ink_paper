@@ -47,6 +47,9 @@ import {
   BOOK_RATINGS_FAIL,
   BOOK_RATINGS_REQUEST,
   BOOK_RATINGS_SUCCESS,
+  BOOK_REVIEW_LIST_FAIL,
+  BOOK_REVIEW_LIST_REQUEST,
+  BOOK_REVIEW_LIST_SUCCESS,
   BOOK_SALE_FAIL,
   BOOK_SALE_REQUEST,
   BOOK_SALE_SUCCESS,
@@ -480,6 +483,19 @@ export const bookRatingsDistributionReducer = (
     case BOOK_RATINGS_DISTRIBUTION_SUCCESS:
       return { loading: false, success: true, distribution: action.payload };
     case BOOK_RATINGS_DISTRIBUTION_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const bookReviewListReducer = (state = { reviews: [] }, action) => {
+  switch (action.type) {
+    case BOOK_REVIEW_LIST_REQUEST:
+      return { loading: true };
+    case BOOK_REVIEW_LIST_SUCCESS:
+      return { loading: false, success: true, reviews: action.payload };
+    case BOOK_REVIEW_LIST_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

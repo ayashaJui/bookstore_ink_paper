@@ -12,6 +12,7 @@ import {
   getAllFormats,
   getAllGenres,
   getAllPublishers,
+  getAllReviews,
   getBookById,
   getFeaturedBooks,
   getLatestRelease,
@@ -35,6 +36,7 @@ router.route("/sale").get(getSaleBooks);
 
 router.route("/").get(getAllBooks).post(protect, admin, createBook);
 router.route("/search").get(getAllBooks);
+router.route("/reviews").get(protect, admin, getAllReviews);
 router
   .route("/:id")
   .get(getBookById)
