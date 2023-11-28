@@ -195,6 +195,11 @@ const Dashboard = () => {
                     New Customers
                   </Typography>
                   <Divider />
+                  {customerOrders.length === 0 && (
+                    <Typography variant="body2" sx={{ mt: 2 }}>
+                      No New Customers.{" "}
+                    </Typography>
+                  )}
                   <List sx={{ width: "100%", maxWidth: 360 }}>
                     {customerOrders &&
                       (rowsPerPageCustomer > 0
@@ -230,6 +235,7 @@ const Dashboard = () => {
                 </Paper>
               )}
             </Grid>
+
             <Grid item md={9}>
               {loading ? (
                 <Loader />
@@ -254,7 +260,14 @@ const Dashboard = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {orders &&
+                        {orders.length === 0 && (
+                          <TableRow>
+                            <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                              No Order Found
+                            </TableCell>
+                          </TableRow>
+                        )}
+                        {orders.length > 0 &&
                           (rowsPerPageOrder > 0
                             ? orders.slice(
                                 page * rowsPerPageOrder,

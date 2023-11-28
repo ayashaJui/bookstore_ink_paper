@@ -263,6 +263,14 @@ const Books = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {bookWithOrder.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Customer Order Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {visibleRows.map(
                     (
                       {
@@ -295,9 +303,7 @@ const Books = () => {
                                 component="img"
                                 image={`${
                                   image
-                                    ? `${
-                                        baseUrl + image
-                                      }`
+                                    ? `${baseUrl + image}`
                                     : "/images/sample_book.jpg"
                                 }`}
                                 alt={`${title}`}
@@ -432,15 +438,17 @@ const Books = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={bookWithOrder.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {bookWithOrder.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={bookWithOrder.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
       </Box>

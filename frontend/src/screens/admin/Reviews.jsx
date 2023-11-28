@@ -57,7 +57,7 @@ const Reviews = () => {
   return (
     <MainComponent>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
-        <Typography color="text.primary">All Orders</Typography>
+        <Typography color="text.primary">All Reviews</Typography>
       </Breadcrumbs>
 
       <Divider />
@@ -83,6 +83,14 @@ const Reviews = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {reviews.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Review Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {(rowsPerPage > 0
                     ? reviews?.slice(
                         page * rowsPerPage,
@@ -140,15 +148,18 @@ const Reviews = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={reviews.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+
+            {reviews.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={reviews.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
       </Box>

@@ -46,7 +46,7 @@ const Messages = () => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getContactList());
     } else {
-      navigate("/signin");
+      navigate("../signin");
     }
   }, [dispatch, userInfo, navigate]);
 
@@ -98,6 +98,14 @@ const Messages = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {contacts.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Message Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {(rowsPerPage > 0
                     ? contacts?.slice(
                         page * rowsPerPage,
@@ -138,15 +146,18 @@ const Messages = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={contacts.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+
+            {contacts.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={contacts.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
 

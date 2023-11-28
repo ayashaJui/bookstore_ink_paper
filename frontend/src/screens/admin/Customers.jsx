@@ -322,6 +322,14 @@ const Customers = () => {
                   rowCount={customerOrders.length}
                 />
                 <TableBody>
+                  {customerOrders.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Customer Order Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {visibleRows.map((row, index) => {
                     const isItemSelected = isSelected(row.name);
                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -383,15 +391,17 @@ const Customers = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={customerOrders.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {customerOrders.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={customerOrders.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Paper>
         )}
       </Box>

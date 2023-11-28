@@ -187,6 +187,14 @@ const Users = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {users.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No User Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {(rowsPerPage > 0
                     ? users.slice(
                         page * rowsPerPage,
@@ -256,15 +264,18 @@ const Users = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={users.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+
+            {users.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={users.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
       </Box>

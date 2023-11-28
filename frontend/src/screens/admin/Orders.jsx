@@ -88,6 +88,14 @@ const Orders = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {orders.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Order Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {(rowsPerPage > 0
                     ? orders.slice(
                         page * rowsPerPage,
@@ -156,15 +164,17 @@ const Orders = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={orders.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {orders.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={orders.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
       </Box>

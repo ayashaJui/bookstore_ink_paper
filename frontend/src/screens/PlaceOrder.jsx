@@ -129,7 +129,7 @@ const PlaceOrder = () => {
 
       <Divider />
 
-      <Box sx={{ maxWidth: 1000, mx: { md: "auto", sm: 4, xs: 2 }, my: 6 }}>
+      <Box sx={{ maxWidth: 1000, mx: { md: "auto", sm: 4, xs: 2 }, mt: 6, mb: 12 }}>
         <Grid container spacing={2}>
           <Grid item md={7} sm={12} xs={12}>
             <List>

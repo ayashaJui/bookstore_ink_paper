@@ -112,6 +112,14 @@ const BlogList = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {blogs.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Blog Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {(rowsPerPage > 0
                     ? blogs.slice(
                         page * rowsPerPage,
@@ -181,15 +189,18 @@ const BlogList = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={blogs.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+
+            {blogs.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={blogs.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
       </Box>

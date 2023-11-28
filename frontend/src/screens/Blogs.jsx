@@ -66,7 +66,7 @@ const Blogs = () => {
         <Box
           component="div"
           maxWidth={"1150px"}
-          sx={{ mx: { md: "auto", sm: 3, xs: 2 } }}
+          sx={{ mx: { md: "auto", sm: 3, xs: 2 }, mb: 12 }}
         >
           <Grid container spacing={3}>
             <Grid item md={8} sm={12} xs={12} sx={{ mx: "auto" }}>

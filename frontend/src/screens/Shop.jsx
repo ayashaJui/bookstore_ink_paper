@@ -68,10 +68,10 @@ const Shop = () => {
   return (
     <>
       <Navbar />
-      <Box component="div">
+      <Box component="div" >
         <HeroImage title="Shop" imgPath="/images/static/shop.jpg" />
 
-        <Box component="div" sx={{ mx: { md: 10, sm: 5, xs: 1 }, mb: 8 }}>
+        <Box component="div" sx={{ mx: { md: 10, sm: 5, xs: 1 }, mb: 12 }}>
           <SearchBar />
           <Grid container spacing={4}>
             <Grid item md={3} sm={9} xs={12}>

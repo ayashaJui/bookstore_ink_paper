@@ -158,7 +158,7 @@ const CreateEditBlog = () => {
 
       <Box
         align="center"
-        sx={{ maxWidth: 1000, minWidth: 250, mx: { md: "auto", sm: 4 }, my: 6 }}
+        sx={{ maxWidth: 1000, minWidth: 250, mt: 6, mb: 12, mx: { md: "auto", sm: 4 } }}
       >
         <Typography
           variant="h4"

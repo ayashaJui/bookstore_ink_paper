@@ -62,7 +62,7 @@ const Cart = () => {
   }, [dispatch, id, quantity, formatChosen]);
 
   return (
-    <div>
+    <div style={{paddingBottom: '5rem'}}>
       <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">
@@ -92,7 +92,7 @@ const Cart = () => {
             Your cart is empty. <Link to="/shop">Go to shop</Link>
           </Message>
         ) : (
-          <Box sx={{ mx: { md: 10, sm: 4, xs: 2 }, my: 6 }}>
+          <Box sx={{ mx: { md: 10, sm: 4, xs: 2 } }}>
             <TableContainer component="div">
               <Table sx={{ minWidth: 200 }} aria-label="simple table">
                 <TableHead>

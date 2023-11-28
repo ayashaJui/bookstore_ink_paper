@@ -171,6 +171,14 @@ const AuthorList = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  {authors.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} sx={{ textAlign: "center" }}>
+                        {" "}
+                        No Author Found{" "}
+                      </TableCell>
+                    </TableRow>
+                  )}
                   {(rowsPerPage > 0
                     ? authors.slice(
                         page * rowsPerPage,
@@ -190,9 +198,7 @@ const AuthorList = () => {
                         >
                           <Avatar
                             alt={`${authorInfo.name}`}
-                            src={`${
-                              baseUrl + authorInfo.image
-                            }`}
+                            src={`${baseUrl + authorInfo.image}`}
                             sx={{ width: 50, height: 50 }}
                           />
                         </MuiLink>
@@ -236,15 +242,18 @@ const AuthorList = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={authors.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+
+            {authors.length > 0 && (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={authors.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            )}
           </Box>
         )}
       </Box>

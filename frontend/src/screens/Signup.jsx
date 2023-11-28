@@ -4,13 +4,13 @@ import {
   Container,
   CssBaseline,
   Grid,
-  Link,
+  Link as MuiLink,
   TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { registerUser } from "../actions/userActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
@@ -136,14 +136,14 @@ const Signup = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/forgetpassword" variant="body2" sx={{}}>
+                <MuiLink to="/forgetpassword" variant="body2" sx={{}} component={Link}>
                   Forgot password?
-                </Link>
+                </MuiLink>
               </Grid>
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <MuiLink to="/signin" variant="body2" component={Link}>
                   {"Already have an account? Sign in"}
-                </Link>
+                </MuiLink>
               </Grid>
             </Grid>
           </Box>
