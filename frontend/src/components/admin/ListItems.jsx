@@ -14,7 +14,6 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import ArticleIcon from "@mui/icons-material/Article";
 import PersonIcon from "@mui/icons-material/Person";
-import EmailIcon from "@mui/icons-material/Email";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { Link } from "react-router-dom";
 
@@ -67,12 +66,6 @@ export const mainListItems = (
         <PersonIcon />
       </ListItemIcon>
       <ListItemText primary="Users" />
-    </ListItemButton>
-    <ListItemButton component={Link} to={`/admin/messages`}>
-      <ListItemIcon>
-        <EmailIcon />
-      </ListItemIcon>
-      <ListItemText primary="Messages" />
     </ListItemButton>
     {/* <ListItemButton>
       <ListItemIcon>

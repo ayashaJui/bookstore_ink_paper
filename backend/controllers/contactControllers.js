@@ -28,7 +28,7 @@ export const createContact = asyncHandler(async (req, res) => {
 // @route       GET     /api/contacts/
 // @access      Private, Admin
 export const getAllContact = asyncHandler(async (req, res) => {
-  const contacts = await Contact.find({});
+  const contacts = await Contact.find({}).sort({ createdAt: -1 });
 
   res.json(contacts);
 });

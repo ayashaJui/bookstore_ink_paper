@@ -4,7 +4,6 @@ import {
   Divider,
   Paper,
   Table,
-  Link as MuiLink,
   TableBody,
   TableCell,
   TableContainer,
@@ -23,7 +22,7 @@ import MainComponent from "../../layouts/admin/MainComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getContactList } from "../../actions/contactActions";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { formattedDate } from "../../helper/helperFunction";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
@@ -32,6 +31,7 @@ const Messages = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useLocation();
@@ -41,8 +41,6 @@ const Messages = () => {
   const { loading, contacts, error } = useSelector(
     (state) => state.contactList
   );
-
-  console.log(contacts);
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -61,9 +59,9 @@ const Messages = () => {
     setPage(0);
   };
 
-  const handleClickOpen = (event, id) => {
+  const handleClickOpen = (event, contact) => {
+    setSelectedItem(contact);
     setOpen(true);
-    console.log("open", id);
   };
 
   const handleClose = () => {
@@ -95,8 +93,8 @@ const Messages = () => {
                     <TableCell>Name</TableCell>
                     <TableCell>Email</TableCell>
                     <TableCell>Subject</TableCell>
-                    <TableCell>Message</TableCell>
                     <TableCell>Send At</TableCell>
+                    <TableCell>Details</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -106,67 +104,37 @@ const Messages = () => {
                         page * rowsPerPage + rowsPerPage
                       )
                     : contacts
-                  ).map(
-                    (
-                      { _id, email, message, name, subject, createdAt },
-                      idx
-                    ) => (
-                      <TableRow
-                        key={idx}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          <MuiLink
-                            onClick={(event) => handleClickOpen(event, _id)}
-                            sx={{ textDecoration: "none", cursor: "pointer" }}
-                            //   to={`/book/${_id}/details`}
-                          >
-                            {name}
-                          </MuiLink>
-                          <Dialog
-                            open={open}
-                            onClose={handleClose}
-                            // scroll={scroll}
-                            aria-labelledby="scroll-dialog-title"
-                            aria-describedby="scroll-dialog-description"
-                          >
-                            <DialogTitle id="scroll-dialog-title">
-                              Subscribe
-                            </DialogTitle>
-                            <DialogContent dividers={true}>
-                              <DialogContentText
-                                id="scroll-dialog-description"
-                                // ref={descriptionElementRef}
-                                tabIndex={-1}
-                              >
-                                {[...new Array(50)]
-                                  .map(
-                                    () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-                                  )
-                                  .join("\n")}
-                              </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose}>Cancel</Button>
-                              <Button onClick={handleClose}>Subscribe</Button>
-                            </DialogActions>
-                          </Dialog>
-                        </TableCell>
-                        <TableCell>{email}</TableCell>
+                  ).map((contact, idx) => (
+                    <TableRow
+                      key={idx}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {/* <MuiLink
+                          onClick={(event) => handleClickOpen(event, contact)}
+                          sx={{ textDecoration: "none", cursor: "pointer" }}
+                          //   to={`/book/${_id}/details`}
+                        >
+                          {contact.name}
+                        </MuiLink> */}{" "}
+                        {contact.name}
+                      </TableCell>
+                      <TableCell>{contact.email}</TableCell>
 
-                        <TableCell>{subject}</TableCell>
-                        <TableCell>
-                          {message.split(" ").slice(0, 20).join(" ")}........
-                        </TableCell>
-                        <TableCell>{formattedDate(createdAt)}</TableCell>
-                      </TableRow>
-                    )
-                  )}
+                      <TableCell>{contact.subject}</TableCell>
+
+                      <TableCell>{formattedDate(contact.createdAt)}</TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={(event) => handleClickOpen(event, contact)}
+                        >
+                          Details
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>
@@ -180,6 +148,32 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </Box>
+        )}
+
+        {selectedItem && (
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            // scroll={scroll}
+            aria-labelledby="scroll-dialog-title"
+            aria-describedby="scroll-dialog-description"
+          >
+            <DialogTitle id="scroll-dialog-title">
+              Subject: {selectedItem.subject}
+            </DialogTitle>
+            <DialogContent dividers={true}>
+              <DialogContentText
+                id="scroll-dialog-description"
+                // ref={descriptionElementRef}
+                tabIndex={-1}
+              >
+                {selectedItem.message}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Cancel</Button>
+            </DialogActions>
+          </Dialog>
         )}
       </Box>
     </MainComponent>

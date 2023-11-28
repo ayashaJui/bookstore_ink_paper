@@ -207,7 +207,7 @@ const AdminNavbar = () => {
           </Tooltip>
           
           <Tooltip title="Messages">
-            <IconButton color="inherit" sx={{ ml: 2 }}>
+            <IconButton color="inherit" sx={{ ml: 2 }} component={Link} to={`/admin/messages`}>
               {/* <LogoutIcon /> */}
               <EmailIcon />
             </IconButton>
