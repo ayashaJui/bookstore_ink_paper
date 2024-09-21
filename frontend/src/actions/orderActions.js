@@ -22,11 +22,7 @@ import {
 import { REMOVE_ITEM_FROM_CART } from "../constants/cart";
 import { logout } from "./userActions";
 
-const orderUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/orders`;
+const orderUrl = `${process.env.REACT_APP_BASE_URL}/api/orders`;
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {

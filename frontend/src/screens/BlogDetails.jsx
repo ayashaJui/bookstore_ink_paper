@@ -42,9 +42,7 @@ const BlogDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { blog, loading, error } = useSelector((state) => state.blogDetails);
 

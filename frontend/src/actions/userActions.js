@@ -42,11 +42,7 @@ import {
 import { BLOG_LIST_MY_RESET } from "../constants/blog";
 import { ORDER_LIST_MY_RESET } from "../constants/order";
 
-const userUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/users`;
+const userUrl = `${process.env.REACT_APP_BASE_URL}/api/users`;
 
 export const loginUser = (email, password) => async (dispatch) => {
   try {

@@ -33,9 +33,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const quantity = location.search
     ? Number(location.search.split("&")[0].split("=")[1])
@@ -62,7 +60,7 @@ const Cart = () => {
   }, [dispatch, id, quantity, formatChosen]);
 
   return (
-    <div style={{paddingBottom: '5rem'}}>
+    <div style={{ paddingBottom: "5rem" }}>
       <Navbar />
       <Box role="presentation" sx={{ p: 3 }}>
         <Breadcrumbs aria-label="breadcrumb">

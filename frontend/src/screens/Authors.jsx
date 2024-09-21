@@ -25,7 +25,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { getAllAuthors } from "../actions/authorActions";
 import Navbar from "../layouts/Navbar";
 
-
 const Authors = () => {
   // const [value, setValue] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,9 +32,7 @@ const Authors = () => {
 
   const dispatch = useDispatch();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { authors } = useSelector((state) => state.authorList);
 

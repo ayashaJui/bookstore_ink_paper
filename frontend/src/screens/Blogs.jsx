@@ -34,9 +34,7 @@ const Blogs = () => {
 
   const { blogs } = useSelector((state) => state.blogList);
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const filteredBlogs = blogs.filter((blog) => !blog.isHidden);
 

@@ -40,9 +40,7 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 15;
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { loading, books, error } = useSelector((state) => state.bookList);
   const { cartItems } = useSelector((state) => state.cart);
@@ -68,7 +66,7 @@ const Shop = () => {
   return (
     <>
       <Navbar />
-      <Box component="div" >
+      <Box component="div">
         <HeroImage title="Shop" imgPath="/images/static/shop.jpg" />
 
         <Box component="div" sx={{ mx: { md: 10, sm: 5, xs: 1 }, mb: 12 }}>

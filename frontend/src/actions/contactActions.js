@@ -10,11 +10,7 @@ import {
 } from "../constants/contact";
 import { logout } from "./userActions";
 
-const contactUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/contact`;
+const contactUrl = `${process.env.REACT_APP_BASE_URL}/api/contact`;
 
 export const createContact = (contactInfo) => async (dispatch, getState) => {
   try {

@@ -65,9 +65,7 @@ const PlaceOrder = () => {
     book: item.book,
   }));
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { success, error, order } = useSelector((state) => state.orderCreate);
 
@@ -129,7 +127,9 @@ const PlaceOrder = () => {
 
       <Divider />
 
-      <Box sx={{ maxWidth: 1000, mx: { md: "auto", sm: 4, xs: 2 }, mt: 6, mb: 12 }}>
+      <Box
+        sx={{ maxWidth: 1000, mx: { md: "auto", sm: 4, xs: 2 }, mt: 6, mb: 12 }}
+      >
         <Grid container spacing={2}>
           <Grid item md={7} sm={12} xs={12}>
             <List>
@@ -191,8 +191,7 @@ const PlaceOrder = () => {
                                   component="img"
                                   image={`${
                                     item.image
-                                      ? baseUrl +
-                                        item.image
+                                      ? baseUrl + item.image
                                       : "/images/sample_book.jpg"
                                   }`}
                                   alt={`${item.title}`}

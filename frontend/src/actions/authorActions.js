@@ -26,11 +26,7 @@ import {
 } from "../constants/author";
 import { logout } from "./userActions";
 
-const authorUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/authors`;
+const authorUrl = `${process.env.REACT_APP_BASE_URL}/api/authors`;
 
 export const getAllAuthors = () => async (dispatch) => {
   try {
@@ -61,9 +57,7 @@ export const getFavoriteAuthors = () => async (dispatch) => {
       type: AUTHOR_POPULAR_REQUEST,
     });
 
-    const { data } = await axios.get(
-      `${authorUrl}/popular`
-    );
+    const { data } = await axios.get(`${authorUrl}/popular`);
 
     dispatch({
       type: AUTHOR_POPULAR_SUCCESS,
@@ -119,11 +113,7 @@ export const createAuthor = (author) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${authorUrl}`,
-      author,
-      config
-    );
+    const { data } = await axios.post(`${authorUrl}`, author, config);
 
     dispatch({
       type: AUTHOR_CREATE_SUCCESS,

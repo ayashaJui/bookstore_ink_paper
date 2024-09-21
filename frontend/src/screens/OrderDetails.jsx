@@ -30,9 +30,7 @@ const OrderDetails = () => {
   // const navigate = useNavigate();
   const { id } = useParams();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-  ? process.env.REACT_APP_BASE_URL
-  : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { loading, error, order } = useSelector((state) => state.orderDetails);
 
@@ -189,8 +187,7 @@ const OrderDetails = () => {
                                     component="img"
                                     image={`${
                                       item.image
-                                        ? baseUrl +
-                                          item.image
+                                        ? baseUrl + item.image
                                         : "/images/sample_book.jpg"
                                     }`}
                                     alt={`${item.title}`}

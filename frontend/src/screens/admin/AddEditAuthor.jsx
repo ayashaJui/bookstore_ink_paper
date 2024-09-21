@@ -47,9 +47,7 @@ const AddEditAuthor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { success: successCreate } = useSelector((state) => state.authorCreate);
   const { loading, error, author } = useSelector(

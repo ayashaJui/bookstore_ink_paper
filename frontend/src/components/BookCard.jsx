@@ -28,9 +28,7 @@ const BookCard = ({ mediaHeight, cardColor, cardMargin, book }) => {
   const { cartItems } = useSelector((state) => state.cart);
   const { favoriteItems } = useSelector((state) => state.favorite);
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   return (
     <Grid item sm={4} xs={12} md={3}>

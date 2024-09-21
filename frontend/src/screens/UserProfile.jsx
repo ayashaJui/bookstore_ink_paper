@@ -60,9 +60,7 @@ const UserProfile = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 5;
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { loading, user, error } = useSelector((state) => state.userDetails);
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -171,8 +169,8 @@ const UserProfile = () => {
 
   const handleDelete = (event) => {
     event.preventDefault();
-    dispatch(requestDeleteProfile(user._id))
-    dispatch(logout())
+    dispatch(requestDeleteProfile(user._id));
+    dispatch(logout());
     console.log("delete");
   };
 

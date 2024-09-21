@@ -43,10 +43,8 @@ const BlogSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
-
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  
   const { categories } = useSelector((state) => state.blogCategoryList);
   const uniqueCategories = makeObjectArray(
     sortObject(countOccurances(makeCategoryArray(categories)))
@@ -180,9 +178,7 @@ const BlogSidebar = () => {
                   <CardMedia
                     component="img"
                     image={`${
-                      image
-                        ? baseUrl + image
-                        : "/images/sample_blog.png"
+                      image ? baseUrl + image : "/images/sample_blog.png"
                     }`}
                     alt={title}
                     height="60px"

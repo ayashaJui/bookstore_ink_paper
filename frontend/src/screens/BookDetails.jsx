@@ -40,9 +40,7 @@ const BookDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { loading, book, error } = useSelector((state) => state.bookDetails);
 
@@ -53,7 +51,7 @@ const BookDetails = () => {
   const { distribution } = useSelector(
     (state) => state.bookRatingsDistribution
   );
-  
+
   const { success: createSuccess } = useSelector(
     (state) => state.bookRatingsCreate
   );
@@ -363,7 +361,13 @@ const BookDetails = () => {
             </Box>
           )}
 
-          {book && <BookTabs book={book} bookRatings={ratings} ratingDistribution={distribution} />}
+          {book && (
+            <BookTabs
+              book={book}
+              bookRatings={ratings}
+              ratingDistribution={distribution}
+            />
+          )}
         </div>
       )}
     </div>

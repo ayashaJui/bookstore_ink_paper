@@ -54,11 +54,7 @@ import {
 } from "../constants/blog";
 import { logout } from "./userActions";
 
-const blogUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/blogs`;
+const blogUrl = `${process.env.REACT_APP_BASE_URL}/api/blogs`;
 
 export const getAllBlogs =
   (queryParams = "") =>

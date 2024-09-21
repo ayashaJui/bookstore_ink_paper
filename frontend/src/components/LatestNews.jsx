@@ -23,9 +23,7 @@ import { formattedDate } from "../helper/helperFunction";
 const LatestNews = () => {
   const dispatch = useDispatch();
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { loading, error, latest } = useSelector((state) => state.blogLatest);
 
@@ -73,9 +71,7 @@ const LatestNews = () => {
                     alt={title}
                     height="300"
                     image={`${
-                      image
-                        ? baseUrl + image
-                        : "/images/sample_blog.png"
+                      image ? baseUrl + image : "/images/sample_blog.png"
                     }`}
                   />
                   <CardContent sx={{ mx: 1 }}>

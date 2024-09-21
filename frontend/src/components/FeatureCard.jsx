@@ -17,9 +17,7 @@ import { Link } from "react-router-dom";
 const FeatureCard = ({ book }) => {
   const { _id, title, image, author, totalRatings, avgRatings, price } = book;
 
-  const baseUrl = process.env.REACT_APP_BASE_URL
-  ? process.env.REACT_APP_BASE_URL
-  : "http://localhost:5000";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   return (
     <Card sx={{ bgcolor: "#272643", height: "400px" }}>
@@ -27,7 +25,7 @@ const FeatureCard = ({ book }) => {
         <Grid item xs={12} sm={4}>
           <CardMedia
             component="img"
-            image={`${image ? baseUrl +image : "/images/sample_book.jpg"}`}
+            image={`${image ? baseUrl + image : "/images/sample_book.jpg"}`}
             alt={title}
             height="100%"
             sx={{ objectFit: "contain" }}

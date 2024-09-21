@@ -4,16 +4,10 @@ import {
   REMOVE_ITEM_FROM_FAVORITE,
 } from "../constants/favorite";
 
-const bookUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/books`;
+const bookUrl = `${process.env.REACT_APP_BASE_URL}/api/books`;
 
 export const addToFavorite = (id) => async (dispatch, getState) => {
-  const { data } = await axios.get(
-    `${bookUrl}/${id}`
-  );
+  const { data } = await axios.get(`${bookUrl}/${id}`);
 
   dispatch({
     type: ADD_ITEM_TO_FAVORITE,
