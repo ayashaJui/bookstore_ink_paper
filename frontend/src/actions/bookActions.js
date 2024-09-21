@@ -65,11 +65,7 @@ import {
 } from "../constants/book";
 import { logout } from "./userActions";
 
-const bookUrl = `${
-  process.env.REACT_APP_BASE_URL
-    ? process.env.REACT_APP_BASE_URL
-    : "http://localhost:5000"
-}/api/books`;
+const bookUrl = `${process.env.REACT_APP_BASE_URL}/api/books`;
 
 export const getAllBooks =
   (queryParams = "") =>

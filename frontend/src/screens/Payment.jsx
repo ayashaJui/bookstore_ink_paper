@@ -96,9 +96,9 @@ const Payment = () => {
                   label="Stripe"
                 />
                 <FormControlLabel
-                  value="credit_card"
+                  value="sslcommerz"
                   control={<Radio />}
-                  label="Credit Card"
+                  label="SSLCOMMERZ"
                 />
                 <FormControlLabel
                   value="bkash"
