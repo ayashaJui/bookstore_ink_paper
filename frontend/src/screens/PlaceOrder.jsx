@@ -162,8 +162,8 @@ const PlaceOrder = () => {
                       ? "PayPal"
                       : paymentMethod === "stripe"
                       ? "Stripe"
-                      : paymentMethod === "credit_card"
-                      ? "Credit Card"
+                      : paymentMethod === "sslcommerz"
+                      ? "SSLCommerz"
                       : paymentMethod === "bkash"
                       ? "Bkash"
                       : ""}

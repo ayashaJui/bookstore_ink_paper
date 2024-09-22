@@ -1,7 +1,0 @@
-Static
-----------------------------------------
-** footer media link
-** checkout payment method is not implemented
-** About member
-
-

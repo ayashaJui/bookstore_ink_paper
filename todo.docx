@@ -1,0 +1,23 @@
+Static
+----------------------------------------
+** footer media link
+** About member
+
+
+@TODO
+---------------------------------------------
+1. Implement payment gateways (sslcommerz, stripe)
+2. admin notification with socket
+3. user dashboard to show newly added books(followed author's books) & articles
+4. place order  -> add processing fee;
+                -> need to tax percentage
+5. create transaction history table to process payment
+6. make it cashon or paid
+7. redesign delivery status col & give option to change delivery status(admin)
+8. add a status to indicate cashon
+9. remove "manage article" from admin
+10. remove "cart & fav" btn from admin
+11. add pay btn to customer. after payment order cannot be deleted
+12. in blog details -> on hover or popup show name of people who likes
+                    -> show people who liked the comment
+13. let customers follow authors
