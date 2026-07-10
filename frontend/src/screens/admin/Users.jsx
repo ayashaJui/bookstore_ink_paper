@@ -61,7 +61,7 @@ const Users = () => {
 
   const { userInfo } = useSelector((state) => state.userLogin);
 
-  const { loading, error, users } = useSelector((state) => state.userList);
+  const { loading, error, users, total } = useSelector((state) => state.userList);
 
   const { success: updateAdminSuccess } = useSelector(
     (state) => state.userUpdateIsAdmin
@@ -108,11 +108,14 @@ const Users = () => {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    dispatch(getUserList(newPage + 1, rowsPerPage));
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const newLimit = parseInt(event.target.value, 10);
+    setRowsPerPage(newLimit);
     setPage(0);
+    dispatch(getUserList(1, newLimit));
   };
 
   const handleAdminSubmit = (event, id, isAdmin) => {
@@ -195,13 +198,7 @@ const Users = () => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {(rowsPerPage > 0
-                    ? users.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : users
-                  ).map(
+                  {(users || []).map(
                     (
                       { _id, name, email, phone, address, isAdmin, isDeleted },
                       idx
@@ -265,11 +262,11 @@ const Users = () => {
               </Table>
             </TableContainer>
 
-            {users.length > 0 && (
+            {total > 0 && (
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={users.length}
+                count={total || 0}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

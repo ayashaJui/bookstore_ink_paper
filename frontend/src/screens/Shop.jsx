@@ -42,22 +42,17 @@ const Shop = () => {
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  const { loading, books, error } = useSelector((state) => state.bookList);
+  const { loading, books, pages, error } = useSelector((state) => state.bookList);
   const { cartItems } = useSelector((state) => state.cart);
   const { favoriteItems } = useSelector((state) => state.favorite);
 
-  const totalPages = Math.ceil(books?.length / booksPerPage);
-  const startIndex = (currentPage - 1) * booksPerPage;
-  const endIndex = startIndex + booksPerPage;
-  const visibleBooks = books?.slice(startIndex, endIndex);
-
   useEffect(() => {
     if (queryParam) {
-      dispatch(getAllBooks(queryParam));
+      dispatch(getAllBooks(queryParam, currentPage, booksPerPage));
     } else {
-      dispatch(getAllBooks());
+      dispatch(getAllBooks("", currentPage, booksPerPage));
     }
-  }, [dispatch, queryParam]);
+  }, [dispatch, queryParam, currentPage]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -96,7 +91,7 @@ const Shop = () => {
               ) : (
                 <>
                   <Grid container spacing={3}>
-                    {visibleBooks.map(
+                    {books?.map(
                       ({
                         _id,
                         title,
@@ -291,13 +286,13 @@ const Shop = () => {
                     )}
                   </Grid>
 
-                  {totalPages > 1 && (
+                  {pages > 1 && (
                     <Stack
                       spacing={2}
                       sx={{ mt: 10, mb: 6, alignItems: "center" }}
                     >
                       <Pagination
-                        count={totalPages}
+                        count={pages}
                         page={currentPage}
                         onChange={handlePageChange}
                         renderItem={(item) => (

@@ -153,7 +153,10 @@ export const userListReducer = (state = { users: [] }, action) => {
     case USER_LIST_SUCCESS:
       return {
         loading: false,
-        users: payload,
+        users: payload.users,
+        pages: payload.pages,
+        page: payload.page,
+        total: payload.total,
       };
     case USER_LIST_FAIL:
       return {

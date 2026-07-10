@@ -127,6 +127,11 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id/isDeleted
 // @access  Private
 export const requestDeleteUserProfile = asyncHandler(async (req, res) => {
+  if (req.user._id.toString() !== req.params.id && !req.user.isAdmin) {
+    res.status(403);
+    throw new Error("Not authorized");
+  }
+
   const user = await User.findById(req.params.id);
 
   if (user) {
@@ -145,9 +150,14 @@ export const requestDeleteUserProfile = asyncHandler(async (req, res) => {
 // @route   GET /api/users/
 // @access  Private, Admin
 export const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
+  const pageNum = Number(req.query.page) || 1;
+  const limitNum = Number(req.query.limit) || 20;
+  const skip = (pageNum - 1) * limitNum;
 
-  res.json(users);
+  const total = await User.countDocuments({});
+  const users = await User.find({}).skip(skip).limit(limitNum);
+
+  res.json({ users, page: pageNum, pages: Math.ceil(total / limitNum), total });
 });
 
 // @desc    Update isAdmin

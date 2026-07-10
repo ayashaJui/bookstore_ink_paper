@@ -68,7 +68,7 @@ import { logout } from "./userActions";
 const bookUrl = `${process.env.REACT_APP_BASE_URL}/api/books`;
 
 export const getAllBooks =
-  (queryParams = "") =>
+  (queryParams = "", page = 1, limit = 15) =>
   async (dispatch) => {
     try {
       dispatch({
@@ -78,9 +78,9 @@ export const getAllBooks =
       let url = "";
 
       if (queryParams !== "") {
-        url = `${bookUrl}/search/?${queryParams}`;
+        url = `${bookUrl}/search/?${queryParams}&page=${page}&limit=${limit}`;
       } else {
-        url = `${bookUrl}/`;
+        url = `${bookUrl}/?page=${page}&limit=${limit}`;
       }
 
       const { data } = await axios.get(url);

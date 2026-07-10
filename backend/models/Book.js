@@ -16,7 +16,7 @@ const reviewSchema = new mongoose.Schema(
 );
 
 const literaryReviewSchema = new mongoose.Schema({
-  literar: { type: String, required: true },
+  literary: { type: String, required: true },
   comment: { type: String, required: true },
 });
 
@@ -114,7 +114,7 @@ const BookSchema = new mongoose.Schema(
     },
 
     numCopySold: {
-      type: String,
+      type: Number,
     },
 
     reviews: [reviewSchema],

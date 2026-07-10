@@ -206,7 +206,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
   }
 };
 
-export const getUserList = () => async (dispatch, getState) => {
+export const getUserList = (page = 1, limit = 20) => async (dispatch, getState) => {
   try {
     dispatch({
       type: USER_LIST_REQUEST,
@@ -222,7 +222,7 @@ export const getUserList = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${userUrl}`, config);
+    const { data } = await axios.get(`${userUrl}?page=${page}&limit=${limit}`, config);
 
     dispatch({
       type: USER_LIST_SUCCESS,

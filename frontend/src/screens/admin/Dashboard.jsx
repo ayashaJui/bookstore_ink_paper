@@ -279,10 +279,10 @@ const Dashboard = () => {
                               {
                                 _id,
                                 user,
-                                paymentStatus,
+                                isPaid,
                                 paymentMethod,
                                 totalPrice,
-                                deliveryStatus,
+                                isDelivered,
                                 createdAt,
                               },
                               idx
@@ -310,11 +310,11 @@ const Dashboard = () => {
                                 <TableCell>
                                   <Chip
                                     label={`${
-                                      paymentStatus ? "Paid" : "Not Paid"
+                                      isPaid ? "Paid" : "Not Paid"
                                     }`}
                                     variant={`outlined`}
                                     color={`${
-                                      paymentStatus ? "sucess" : "error"
+                                      isPaid ? "success" : "error"
                                     }`}
                                   />
                                 </TableCell>
@@ -332,10 +332,10 @@ const Dashboard = () => {
                                   >
                                     <Chip
                                       label={`${
-                                        deliveryStatus ? "Delivered" : "Deliver"
+                                        isDelivered ? "Delivered" : "Deliver"
                                       }`}
                                       color={`${
-                                        deliveryStatus ? "sucess" : "secondary"
+                                        isDelivered ? "success" : "secondary"
                                       }`}
                                     />
                                   </Button>

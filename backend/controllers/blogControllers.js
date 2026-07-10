@@ -216,7 +216,7 @@ export const updateBlogComment = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: "Comment not found" });
   }
 
-  if (comment.user._id !== req.user._id) {
+  if (comment.user._id.toString() !== req.user._id.toString()) {
     return res.status(403).json({ message: "You are not owner" });
   }
 

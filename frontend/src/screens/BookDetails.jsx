@@ -208,9 +208,9 @@ const BookDetails = () => {
                     {book.literaryReviews && (
                       <Box component="div" sx={{ my: 3, color: "#505350" }}>
                         {book.literaryReviews.map(
-                          ({ _id, literar, comment }) => (
+                          ({ _id, literary, comment }) => (
                             <Typography variant="body2" key={_id}>
-                              '{comment}' - {literar}
+                              '{comment}' - {literary}
                             </Typography>
                           )
                         )}

@@ -170,19 +170,19 @@ const books = [
     numCopySold: "multi-million",
     literaryReviews: [
       {
-        literar: "New York Times",
+        literary: "New York Times",
         comment: "Painfully beautiful",
       },
       {
-        literar: "The Times",
+        literary: "The Times",
         comment: "A Rare Achievement",
       },
       {
-        literar: "Daily Mail",
+        literary: "Daily Mail",
         comment: "Unforgettable . . . as engrossing as it is moving",
       },
       {
-        literar: "Reese Witherspoon",
+        literary: "Reese Witherspoon",
         comment: "I can't even express how much I love this book!",
       },
     ],

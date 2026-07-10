@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 
 import Order from "../models/Order.js";
 import User from "../models/User.js";
+import Book from "../models/Book.js";
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -33,6 +34,20 @@ export const addOrderItems = asyncHandler(async (req, res) => {
     });
 
     const createdOrder = await order.save();
+
+    for (const item of orderItems) {
+      const book = await Book.findById(item.book);
+      if (book) {
+        const formatIndex = book.format.indexOf(item.format);
+        if (formatIndex !== -1) {
+          book.countInStock[formatIndex] = Math.max(
+            0,
+            book.countInStock[formatIndex] - item.qty
+          );
+          await book.save();
+        }
+      }
+    }
 
     res.status(201).json(createdOrder);
   }
@@ -133,6 +148,17 @@ export const deleteOrder = asyncHandler(async (req, res) => {
 
   if (order) {
     if (!order.isPaid || !order.isDelivered) {
+      for (const item of order.orderItems) {
+        const book = await Book.findById(item.book);
+        if (book) {
+          const formatIndex = book.format.indexOf(item.format);
+          if (formatIndex !== -1) {
+            book.countInStock[formatIndex] += item.qty;
+            await book.save();
+          }
+        }
+      }
+
       await order.deleteOne();
       res.json({ message: "Order removed" });
     } else {

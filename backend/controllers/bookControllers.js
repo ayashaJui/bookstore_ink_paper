@@ -38,6 +38,8 @@ export const getAllBooks = asyncHandler(async (req, res) => {
     offer,
     publisher,
     title,
+    page,
+    limit,
   } = req.query;
   const queryParams = {};
 
@@ -85,30 +87,43 @@ export const getAllBooks = asyncHandler(async (req, res) => {
     queryParams.publisher = { $regex: publisher, $options: "i" };
   }
 
-  let books;
+  const pageNum = Number(page) || 1;
+  const limitNum = Number(limit) || 15;
+  const skip = (pageNum - 1) * limitNum;
 
-  if (sort) {
-    if (sort === "release") {
-      books = await Book.find(queryParams)
-        .sort({ release: -1 })
-        .populate("author")
-        .populate("reviews", "rating");
-    } else if (sort === "popular") {
-      books = await Book.find(queryParams)
-        .sort({ rating: -1 })
-        .populate("author")
-        .populate("reviews", "rating");
-    }
-  } else {
+  let books;
+  let total;
+
+  if (sort === "release") {
+    total = await Book.countDocuments(queryParams);
     books = await Book.find(queryParams)
+      .sort({ release: -1 })
+      .skip(skip)
+      .limit(limitNum)
+      .populate("author")
+      .populate("reviews", "rating");
+    books = getRatingForEveryBook(books);
+  } else if (sort === "popular") {
+    let allBooks = await Book.find(queryParams)
+      .populate("author")
+      .populate("reviews", "rating");
+    allBooks = getRatingForEveryBook(allBooks).sort(
+      (a, b) => b.avgRatings - a.avgRatings
+    );
+    total = allBooks.length;
+    books = allBooks.slice(skip, skip + limitNum);
+  } else {
+    total = await Book.countDocuments(queryParams);
+    books = await Book.find(queryParams)
+      .skip(skip)
+      .limit(limitNum)
       .populate("author", "name")
       .populate("user", "name")
       .populate("reviews", "rating");
+    books = getRatingForEveryBook(books);
   }
 
-  books = getRatingForEveryBook(books);
-
-  res.json(books);
+  res.json({ books, page: pageNum, pages: Math.ceil(total / limitNum), total });
 });
 
 // @desc        get a book by id
@@ -214,12 +229,11 @@ export const getLatestRelease = asyncHandler(async (req, res) => {
 // @route       GET     /api/books/popular/
 // @access      Public
 export const getPopularBooks = asyncHandler(async (req, res) => {
-  let popular = await Book.find({})
-    .sort({ rating: -1 })
-    .populate("author")
-    .limit(7);
+  let popular = await Book.find({}).populate("author");
 
-  popular = getRatingForEveryBook(popular);
+  popular = getRatingForEveryBook(popular)
+    .sort((a, b) => b.avgRatings - a.avgRatings)
+    .slice(0, 7);
 
   res.json(popular);
 });
