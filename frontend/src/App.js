@@ -34,6 +34,8 @@ import AddEditUser from "./screens/admin/AddEditUser";
 import AddEditBook from "./screens/admin/AddEditBook";
 import Reviews from "./screens/admin/Reviews";
 import CreateEditBlog from "./screens/CreateEditBlog";
+import ForgotPassword from "./screens/ForgotPassword";
+import ResetPassword from "./screens/ResetPassword";
 import Messages from "./screens/admin/Messages";
 
 axios.defaults.withCredentials = true;
@@ -62,6 +64,8 @@ function App() {
 
             <Route exact path="/signin" Component={Signin} />
             <Route exact path="/signup" Component={Signup} />
+            <Route exact path="/forgetpassword" Component={ForgotPassword} />
+            <Route exact path="/resetpassword/:token" Component={ResetPassword} />
 
             <Route exact path="/favorite/:id?" Component={Favorite} />
             <Route exact path="/cart/:id?" Component={Cart} />

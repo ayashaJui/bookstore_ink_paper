@@ -58,6 +58,8 @@ const BlogSchema = mongoose.Schema(
       },
     ],
 
+    books: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+
     isHidden: {
       type: Boolean,
       required: true,

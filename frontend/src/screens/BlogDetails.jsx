@@ -10,8 +10,10 @@ import {
   TextField,
   Typography,
   CardMedia,
+  CardActionArea,
 } from "@mui/material";
 import BlogSidebar from "../components/BlogSidebar";
+import { Link } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
@@ -250,6 +252,61 @@ const BlogDetails = () => {
                         ))}
                     </Grid>
                   </Box>
+
+                  {blog?.books?.length > 0 && (
+                    <Box component="div" sx={{ mx: 1, mt: 5, mb: 2 }}>
+                      <Typography
+                        variant="h6"
+                        textAlign="left"
+                        fontWeight="bold"
+                        sx={{ mb: 2, color: "#272643" }}
+                      >
+                        Related Books
+                      </Typography>
+                      <Grid container spacing={2}>
+                        {blog.books.map((book) => (
+                          <Grid item xs={6} sm={4} md={3} key={book._id}>
+                            <Card
+                              sx={{
+                                boxShadow: "none",
+                                border: "1px solid #eee",
+                                borderRadius: 1,
+                              }}
+                            >
+                              <CardActionArea component={Link} to={`/book/${book._id}/details`}>
+                                <CardMedia
+                                  component="img"
+                                  height="140"
+                                  image={
+                                    book.image
+                                      ? `${process.env.REACT_APP_BASE_URL}${book.image}`
+                                      : "/images/sample_book.jpg"
+                                  }
+                                  alt={book.title}
+                                  sx={{ objectFit: "contain", bgcolor: "#f5f5f5" }}
+                                />
+                                <CardContent sx={{ p: 1.5 }}>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                    sx={{
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      display: "-webkit-box",
+                                      WebkitLineClamp: 2,
+                                      WebkitBoxOrient: "vertical",
+                                    }}
+                                  >
+                                    {book.title}
+                                  </Typography>
+                                </CardContent>
+                              </CardActionArea>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Box>
+                  )}
 
                   <Divider />
 

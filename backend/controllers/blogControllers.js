@@ -8,7 +8,7 @@ import Blog from "../models/Blog.js";
 // @route       GET     /api/blogs/
 // @access      Public
 export const getAllBlogs = asyncHandler(async (req, res) => {
-  const { sort, category, tag } = req.query;
+  const { sort, category, tag, book } = req.query;
 
   let blogs;
 
@@ -20,6 +20,10 @@ export const getAllBlogs = asyncHandler(async (req, res) => {
 
   if (tag) {
     queryParams.tags = { $regex: tag, $options: "i" };
+  }
+
+  if (book) {
+    queryParams.books = book;
   }
 
   if (sort === "latest") {
@@ -42,7 +46,8 @@ export const getBlogById = asyncHandler(async (req, res) => {
 
   const blog = await Blog.findById(id)
     .populate("user")
-    .populate("comments.user");
+    .populate("comments.user")
+    .populate("books", "_id title image author");
 
   res.json(blog);
 });
@@ -97,7 +102,7 @@ export const updateIsHidden = asyncHandler(async (req, res) => {
 // @route   POST /api/blogs
 // @access  Private
 export const createBlog = asyncHandler(async (req, res) => {
-  const { title, description, tags, categories, image } = req.body;
+  const { title, description, tags, categories, image, books } = req.body;
 
   const blog = await Blog.create({
     title,
@@ -105,6 +110,7 @@ export const createBlog = asyncHandler(async (req, res) => {
     tags,
     categories,
     image,
+    books: books || [],
     user: req.user._id,
   });
 
@@ -128,6 +134,7 @@ export const updateBlog = asyncHandler(async (req, res) => {
     blog.categories = req.body.categories || blog.categories;
     blog.tags = req.body.tags || blog.tags;
     blog.image = req.body.image || blog.image;
+    blog.books = req.body.books !== undefined ? req.body.books : blog.books;
 
     const updatedBlog = await blog.save();
     res.json(updatedBlog);

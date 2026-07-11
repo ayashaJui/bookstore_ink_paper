@@ -30,6 +30,7 @@ import {
   getBookRatingsById,
   getBookRatingsDistributionById,
 } from "../actions/bookActions";
+import { getBlogsByBook } from "../actions/blogActions";
 import Loader from "../layouts/Loader";
 import Message from "../layouts/Message";
 import { addToFavorite, removeFromFavorite } from "../actions/favoriteActions";
@@ -45,6 +46,10 @@ const BookDetails = () => {
   const { loading, book, error } = useSelector((state) => state.bookDetails);
 
   const { favoriteItems } = useSelector((state) => state.favorite);
+
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const { blogs: relatedBlogs = [] } = useSelector((state) => state.bookBlogs);
 
   const { ratings } = useSelector((state) => state.bookRatings);
 
@@ -66,6 +71,7 @@ const BookDetails = () => {
     dispatch(getBookById(id));
     dispatch(getBookRatingsById(id));
     dispatch(getBookRatingsDistributionById(id));
+    dispatch(getBlogsByBook(id));
   }, [dispatch, id, createSuccess, deleteSuccess]);
 
   const [formatType, setFormatType] = useState("");
@@ -367,6 +373,97 @@ const BookDetails = () => {
               bookRatings={ratings}
               ratingDistribution={distribution}
             />
+          )}
+
+          {book && (
+            <Box component="div" sx={{ mx: 10, my: 6 }}>
+              <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+                <Grid item>
+                  <Typography variant="h5" fontWeight="bold" sx={{ color: "#272643", fontFamily: "Roboto" }}>
+                    Related Articles
+                  </Typography>
+                </Grid>
+                {userInfo && (
+                  <Grid item>
+                    <Button
+                      component={Link}
+                      to={`/blog/create?bookId=${id}`}
+                      variant="outlined"
+                      sx={{ borderColor: "#272643", color: "#272643" }}
+                    >
+                      Write about this book
+                    </Button>
+                  </Grid>
+                )}
+              </Grid>
+
+              {relatedBlogs.length === 0 ? (
+                <Typography variant="body2" color="text.secondary">
+                  No articles yet.{" "}
+                  {userInfo ? (
+                    <MuiLink component={Link} to={`/blog/create?bookId=${id}`}>
+                      Be the first to write one.
+                    </MuiLink>
+                  ) : (
+                    "Sign in to write the first article about this book."
+                  )}
+                </Typography>
+              ) : (
+                <Grid container spacing={3}>
+                  {relatedBlogs.map((blog) => (
+                    <Grid item xs={12} sm={6} md={4} key={blog._id}>
+                      <Card
+                        component={Link}
+                        to={`/blog/${blog._id}/details`}
+                        sx={{
+                          textDecoration: "none",
+                          display: "block",
+                          boxShadow: "none",
+                          border: "1px solid #eee",
+                          borderRadius: 1,
+                          "&:hover": { boxShadow: 2 },
+                          transition: "box-shadow 0.2s",
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="160"
+                          image={
+                            blog.image
+                              ? `${baseUrl}${blog.image}`
+                              : "/images/sample_blog.png"
+                          }
+                          alt={blog.title}
+                          sx={{ objectFit: "cover" }}
+                        />
+                        <CardContent>
+                          <Typography variant="subtitle2" color="secondary" gutterBottom>
+                            {blog.categories?.[0]}
+                          </Typography>
+                          <Typography
+                            variant="h6"
+                            fontWeight="bold"
+                            sx={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              display: "-webkit-box",
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: "vertical",
+                              color: "#272643",
+                            }}
+                          >
+                            {blog.title}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                            by {blog.user?.name}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
+            </Box>
           )}
         </div>
       )}

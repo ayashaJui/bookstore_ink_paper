@@ -35,6 +35,7 @@ import {
 } from "./reducers/authorReducers.js";
 
 import {
+  blogByBookReducer,
   blogCategoyListReducer,
   blogCreateReducers,
   blogDeatilsReducer,
@@ -55,9 +56,11 @@ import {
   userCreateReducers,
   userDeleteReducer,
   userDetailsReducer,
+  userForgotPasswordReducer,
   userListReducer,
   userLoginReducer,
   userRegisterReducer,
+  userResetPasswordReducer,
   userUpdateIsAdminReducer,
   userUpdateProfileReducer,
   userUpdateReducers,
@@ -130,6 +133,7 @@ const reducers = combineReducers({
   blogCommentLikeUnlike: blogCommentLikeUnlikeReducer,
 
   userBlogList: blogListMyReducer,
+  bookBlogs: blogByBookReducer,
 
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
@@ -143,6 +147,9 @@ const reducers = combineReducers({
 
   contactCreate: contactCreateReducers,
   contactList: contactListReducers,
+
+  userForgotPassword: userForgotPasswordReducer,
+  userResetPassword: userResetPasswordReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

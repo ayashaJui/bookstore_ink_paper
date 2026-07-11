@@ -1,6 +1,9 @@
 import axios from "axios";
 
 import {
+  BLOG_BY_BOOK_FAIL,
+  BLOG_BY_BOOK_REQUEST,
+  BLOG_BY_BOOK_SUCCESS,
   BLOG_CATEGORIES_FAIL,
   BLOG_CATEGORIES_REQUEST,
   BLOG_CATEGORIES_SUCCESS,
@@ -580,6 +583,22 @@ export const likeUnlikeBlogComment =
       });
     }
   };
+
+export const getBlogsByBook = (bookId) => async (dispatch) => {
+  try {
+    dispatch({ type: BLOG_BY_BOOK_REQUEST });
+    const { data } = await axios.get(`${blogUrl}?book=${bookId}`);
+    dispatch({ type: BLOG_BY_BOOK_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: BLOG_BY_BOOK_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const blogClearSuccess = () => async (dispatch) => {
   dispatch({ type: BLOG_UPDATE_ISHIDDEN_RESET });

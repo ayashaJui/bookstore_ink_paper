@@ -38,6 +38,12 @@ import {
   USER_UPDATE_ISDELETED_FAIL,
   USER_UPDATE_ISDELETED_SUCCESS,
   USER_UPDATE_ISDELETED_REQUEST,
+  USER_FORGOT_PASSWORD_REQUEST,
+  USER_FORGOT_PASSWORD_SUCCESS,
+  USER_FORGOT_PASSWORD_FAIL,
+  USER_RESET_PASSWORD_REQUEST,
+  USER_RESET_PASSWORD_SUCCESS,
+  USER_RESET_PASSWORD_FAIL,
 } from "../constants/user";
 import { BLOG_LIST_MY_RESET } from "../constants/blog";
 import { ORDER_LIST_MY_RESET } from "../constants/order";
@@ -451,6 +457,38 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: ORDER_LIST_MY_RESET });
 
   // document.location.href = "/signin";
+};
+
+export const forgotPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_FORGOT_PASSWORD_REQUEST });
+    const { data } = await axios.post(`${userUrl}/forgotpassword`, { email });
+    dispatch({ type: USER_FORGOT_PASSWORD_SUCCESS, payload: data.message });
+  } catch (error) {
+    dispatch({
+      type: USER_FORGOT_PASSWORD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const resetPassword = (token, password) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_RESET_PASSWORD_REQUEST });
+    await axios.put(`${userUrl}/resetpassword/${token}`, { password });
+    dispatch({ type: USER_RESET_PASSWORD_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: USER_RESET_PASSWORD_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
 };
 
 export const clearSuccess = () => async (dispatch) => {

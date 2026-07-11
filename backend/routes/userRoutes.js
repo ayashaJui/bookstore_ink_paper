@@ -4,11 +4,13 @@ import {
   authUser,
   createUser,
   deleteUser,
+  forgotPassword,
   getAllUsers,
   getUserById,
   getUserProfile,
   registerUser,
   requestDeleteUserProfile,
+  resetPassword,
   updateIsAdmin,
   updateUser,
   updateUserProfile,
@@ -54,5 +56,8 @@ router.post(
   validate,
   authUser
 );
+
+router.post("/forgotpassword", forgotPassword);
+router.put("/resetpassword/:token", resetPassword);
 
 export default router;

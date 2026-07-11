@@ -2,26 +2,6 @@
 
 ---
 
-## Feature Relevance Review
-
-### Reviews — Keep, fully relevant
-Book reviews are a core feature of any bookstore (Amazon, Goodreads). They are directly tied to a specific book, feed into the rating and sorting system, and help users decide what to buy. Tightly integrated and adds real value.
-
-### Blogs — Feels disconnected, needs integration
-The blog system works as a standalone social platform (likes, comment likes, categories, tags) sitting next to the bookstore, but it is not connected to the book catalog at all.
-
-**Why it feels forced:**
-- Any user can write a blog about anything — no link to a specific book
-- No "write a blog about this book" flow from the book detail page
-- Feels like a generic blog engine dropped into the app
-
-**How to make it feel natural:**
-- Allow tagging a blog post with specific books from the catalog
-- Show related blog posts on a book's detail page
-- This one connection would tie both features together meaningfully
-
----
-
 ## Implementation Backlog
 
 ### Critical — Core functionality is broken without these
@@ -41,9 +21,6 @@ The blog system works as a standalone social platform (likes, comment likes, cat
 ---
 
 ### Bugs / Broken things
-
-- [ ] **Forgot password page missing**
-  `Signup.jsx` has a "Forgot password?" link pointing to `/forgetpassword` but no route or screen exists for it. Clicking it leads nowhere. Needs both a frontend screen and a backend reset flow (generate token, send email, allow password update).
 
 - [ ] **`isFeatured` and `isBestSeller` not manageable from admin UI**
   Both fields exist on the Book model and are used on the frontend (featured section, bestseller badge), but the AddEditBook form has no toggle for them. Admin has no way to set or change these flags.
@@ -67,9 +44,6 @@ The blog system works as a standalone social platform (likes, comment likes, cat
 - [ ] **Redesign delivery status column + allow admin to update it**
   The current delivery chip in the dashboard is display-only with no reliable update flow. Admin should be able to mark an order as delivered directly from the order list or detail page.
 
-- [x] **Remove cart and favorites buttons from admin view**
-  Admin accounts see customer-facing UI (cart, favorites) that makes no sense for them. These should be hidden when `isAdmin` is true.
-
 ---
 
 ### Good to have — Improves engagement and UX
@@ -86,9 +60,6 @@ The blog system works as a standalone social platform (likes, comment likes, cat
 ---
 
 ### Cleanup
-
-- [ ] **Remove "Manage Article" from admin sidebar**
-  Given that the blog feature feels disconnected from the bookstore, removing it from the admin panel reduces clutter. Reconsider if blogs are better integrated with the book catalog later.
 
 - [ ] **Blog: show who liked on hover / popup**
   On blog detail page, hovering the like count shows names of users who liked the post or a comment. Nice social touch, low effort.

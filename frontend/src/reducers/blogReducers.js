@@ -1,4 +1,7 @@
 import {
+  BLOG_BY_BOOK_FAIL,
+  BLOG_BY_BOOK_REQUEST,
+  BLOG_BY_BOOK_SUCCESS,
   BLOG_CATEGORIES_FAIL,
   BLOG_CATEGORIES_REQUEST,
   BLOG_CATEGORIES_SUCCESS,
@@ -373,6 +376,20 @@ export const blogCommentLikeUnlikeReducer = (state = { blog: {} }, action) => {
       return { loading: false, success: true, blog: action.payload };
     case BLOG_COMMENT_LIKEUNLIKE_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const blogByBookReducer = (state = { blogs: [] }, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case BLOG_BY_BOOK_REQUEST:
+      return { loading: true, blogs: [] };
+    case BLOG_BY_BOOK_SUCCESS:
+      return { loading: false, blogs: payload };
+    case BLOG_BY_BOOK_FAIL:
+      return { loading: false, error: payload, blogs: [] };
     default:
       return state;
   }

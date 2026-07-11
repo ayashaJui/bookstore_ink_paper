@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Breadcrumbs,
   Button,
@@ -26,6 +27,8 @@ const CreateEditBlog = () => {
   const [tags, setTags] = useState("");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [selectedBooks, setSelectedBooks] = useState([]);
+  const [bookOptions, setBookOptions] = useState([]);
 
   const [titleError, setTitleError] = useState();
   const [descriptionError, setDescriptionError] = useState();
@@ -37,10 +40,28 @@ const CreateEditBlog = () => {
   const navigate = useNavigate();
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
+  const preselectedBookId = new URLSearchParams(location.search).get("bookId");
 
   const { success: successCreate } = useSelector((state) => state.blogCreate);
   const { loading, error, blog } = useSelector((state) => state.blogDetails);
   const { success: successUpdate } = useSelector((state) => state.blogUpdate);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const { data } = await axios.get(`${baseUrl}/api/books?limit=200`);
+        const books = data.books || [];
+        setBookOptions(books);
+        if (preselectedBookId && url.includes("create")) {
+          const match = books.find((b) => b._id === preselectedBookId);
+          if (match) setSelectedBooks([match]);
+        }
+      } catch {
+        // book selector is optional — fail silently
+      }
+    };
+    fetchBooks();
+  }, [baseUrl, preselectedBookId, url]);
 
   useEffect(() => {
     if (url.includes("create")) {
@@ -57,6 +78,7 @@ const CreateEditBlog = () => {
         setDescription(blog.description || "");
         setCategories(blog.categories || "");
         setTags(blog.tags || "");
+        setSelectedBooks(blog.books || []);
       }
     }
   }, [navigate, successCreate, dispatch, id, url, successUpdate, blog]);
@@ -68,33 +90,17 @@ const CreateEditBlog = () => {
     const description = data.get("description");
     const categories = data.get("categories").trim().split(",");
     const tags = data.get("tags").trim().split(",");
+    const books = selectedBooks.map((b) => b._id);
 
     if (url.includes("create")) {
       if (title === "" || description === "") {
         if (title === "") setTitleError("Title is required");
         if (description === "") setDescriptionError("Description is required");
       } else {
-        dispatch(
-          createBlog({
-            title,
-            tags,
-            description,
-            categories,
-            image,
-          })
-        );
+        dispatch(createBlog({ title, tags, description, categories, image, books }));
       }
     } else if (url.includes("edit") && id) {
-      dispatch(
-        updateBlog({
-          id,
-          title,
-          description,
-          categories,
-          tags,
-          image,
-        })
-      );
+      dispatch(updateBlog({ id, title, description, categories, tags, image, books }));
     }
   };
 
@@ -226,6 +232,24 @@ const CreateEditBlog = () => {
                 value={tags}
                 onChange={(event) => setTags(event.target.value)}
               />
+
+              <Autocomplete
+                multiple
+                options={bookOptions}
+                getOptionLabel={(option) => option.title || ""}
+                isOptionEqualToValue={(option, value) => option._id === value._id}
+                value={selectedBooks}
+                onChange={(event, newValue) => setSelectedBooks(newValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Tag Related Books (optional)"
+                    margin="normal"
+                    placeholder="Search books…"
+                  />
+                )}
+              />
+
               <TextField
                 margin="normal"
                 size="medium"
@@ -263,15 +287,11 @@ const CreateEditBlog = () => {
                   <Button
                     component={Link}
                     to={`/profile`}
-                    type="submit"
+                    type="button"
                     fullWidth
                     color="secondary"
                     variant="contained"
-                    sx={{
-                      mt: 2,
-
-                      letterSpacing: 2,
-                    }}
+                    sx={{ mt: 2, letterSpacing: 2 }}
                   >
                     Back
                   </Button>

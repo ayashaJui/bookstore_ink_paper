@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
+import crypto from "crypto";
 
 import generateToken from "../utils/generateToken.js";
+import sendEmail from "../utils/sendEmail.js";
 import User from "../models/User.js";
 
 // @desc    Auth user & get token
@@ -258,4 +260,70 @@ export const deleteUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User not found");
   }
+});
+
+// @desc    Send password reset email
+// @route   POST /api/users/forgotpassword
+// @access  Public
+export const forgotPassword = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    res.status(404);
+    throw new Error("No account found with that email");
+  }
+
+  const rawToken = user.getResetPasswordToken();
+  await user.save({ validateBeforeSave: false });
+
+  const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  const resetUrl = `${frontendUrl}/resetpassword/${rawToken}`;
+
+  const html = `
+    <h2>Password Reset — Ink & Paper</h2>
+    <p>You requested a password reset. Click the link below to set a new password.</p>
+    <p>This link expires in <strong>30 minutes</strong>.</p>
+    <a href="${resetUrl}" style="display:inline-block;padding:12px 24px;background:#272643;color:#fff;text-decoration:none;border-radius:4px;">
+      Reset Password
+    </a>
+    <p>If you did not request this, you can safely ignore this email.</p>
+  `;
+
+  try {
+    await sendEmail({ to: user.email, subject: "Password Reset — Ink & Paper", html });
+    res.json({ message: "Reset email sent" });
+  } catch {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    res.status(500);
+    throw new Error("Email could not be sent");
+  }
+});
+
+// @desc    Reset password using token
+// @route   PUT /api/users/resetpassword/:token
+// @access  Public
+export const resetPassword = asyncHandler(async (req, res) => {
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    res.status(400);
+    throw new Error("Invalid or expired reset token");
+  }
+
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+  await user.save();
+
+  res.json({ message: "Password reset successful" });
 });
