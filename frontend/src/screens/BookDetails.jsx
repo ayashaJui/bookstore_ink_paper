@@ -137,7 +137,7 @@ const BookDetails = () => {
       ) : (
         <div>
           {book && (
-            <Box component="div" sx={{ mx: 10, my: 8 }}>
+            <Box component="div" sx={{ mx: { xs: 2, sm: 4, md: 10 }, my: 8 }}>
               <Grid container spacing={2}>
                 <Grid item md={3} sm={4} xs={12}>
                   <Card sx={{ borderRadius: 0, boxShadow: 0 }}>
@@ -296,7 +296,16 @@ const BookDetails = () => {
                         value={quantity}
                       />
 
-                      {book.countInStock?.[formatType] > 0 ? (
+                      {formatType === "" ? (
+                        <Button
+                          disabled
+                          size="large"
+                          variant="contained"
+                          sx={{ mt: 2, borderRadius: 0, width: "100%" }}
+                        >
+                          Select a format to continue
+                        </Button>
+                      ) : book.countInStock?.[formatType] > 0 ? (
                         <Button
                           size="large"
                           onClick={handleCartSubmit}
@@ -314,16 +323,10 @@ const BookDetails = () => {
                         <Button
                           disabled
                           size="large"
-                          onClick={handleCartSubmit}
                           variant="contained"
-                          sx={{
-                            bgcolor: "#272643",
-                            mt: 2,
-                            borderRadius: 0,
-                            width: "100%",
-                          }}
+                          sx={{ mt: 2, borderRadius: 0, width: "100%" }}
                         >
-                          Add to Cart
+                          Out of Stock
                         </Button>
                       )}
 
@@ -376,7 +379,7 @@ const BookDetails = () => {
           )}
 
           {book && (
-            <Box component="div" sx={{ mx: 10, my: 6 }}>
+            <Box component="div" sx={{ mx: { xs: 2, sm: 4, md: 10 }, my: 6 }}>
               <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
                 <Grid item>
                   <Typography variant="h5" fontWeight="bold" sx={{ color: "#272643", fontFamily: "Roboto" }}>

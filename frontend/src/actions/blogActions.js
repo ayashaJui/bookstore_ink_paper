@@ -60,14 +60,16 @@ import { logout } from "./userActions";
 const blogUrl = `${process.env.REACT_APP_BASE_URL}/api/blogs`;
 
 export const getAllBlogs =
-  (queryParams = "") =>
+  (queryParams = "", page = 1, limit = 10) =>
   async (dispatch) => {
     try {
       dispatch({
         type: BLOG_LIST_REQUEST,
       });
 
-      const { data } = await axios.get(`${blogUrl}?${queryParams}`);
+      const { data } = await axios.get(
+        `${blogUrl}?${queryParams}&page=${page}&limit=${limit}`
+      );
 
       dispatch({
         type: BLOG_LIST_SUCCESS,

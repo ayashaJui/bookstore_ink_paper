@@ -8,9 +8,7 @@ import Blog from "../models/Blog.js";
 // @route       GET     /api/blogs/
 // @access      Public
 export const getAllBlogs = asyncHandler(async (req, res) => {
-  const { sort, category, tag, book } = req.query;
-
-  let blogs;
+  const { sort, category, tag, book, page, limit } = req.query;
 
   const queryParams = {};
 
@@ -27,15 +25,25 @@ export const getAllBlogs = asyncHandler(async (req, res) => {
   }
 
   if (sort === "latest") {
-    blogs = await Blog.find(queryParams)
+    const blogs = await Blog.find(queryParams)
       .populate("user")
       .sort({ createdAt: -1 })
       .limit(3);
-  } else {
-    blogs = await Blog.find(queryParams).populate("user");
+    return res.json(blogs);
   }
 
-  res.json(blogs);
+  const pageNum = Number(page) || 1;
+  const limitNum = Number(limit) || 10;
+  const skip = (pageNum - 1) * limitNum;
+
+  const total = await Blog.countDocuments(queryParams);
+  const blogs = await Blog.find(queryParams)
+    .populate("user")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limitNum);
+
+  res.json({ blogs, page: pageNum, pages: Math.ceil(total / limitNum), total });
 });
 
 // @desc        get blog by id

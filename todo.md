@@ -73,3 +73,6 @@
 
 - [ ] **About page — team / member section**
   Add member info to the About page. Good for portfolio presentation.
+
+---
+

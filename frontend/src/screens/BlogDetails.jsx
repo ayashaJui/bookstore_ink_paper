@@ -161,13 +161,7 @@ const BlogDetails = () => {
                       borderRadius: 0,
                     }}
                   /> */}
-                  <Card
-                    sx={{
-                      height: "500px",
-                      borderRadius: 0,
-                      marginBottom: "25px",
-                    }}
-                  >
+                  <Card sx={{ borderRadius: 0, marginBottom: "25px" }}>
                     <CardMedia
                       component="img"
                       alt={blog?.title}
@@ -176,7 +170,10 @@ const BlogDetails = () => {
                           ? baseUrl + blog.image
                           : "/images/sample_blog.png"
                       }`}
-                      sx={{ objectFit: "cover" }}
+                      sx={{
+                        height: { xs: 220, sm: 360, md: 500 },
+                        objectFit: "cover",
+                      }}
                     />
                   </Card>
 
@@ -459,77 +456,60 @@ const BlogDetails = () => {
                   <Divider />
 
                   <Box component="div" sx={{ mt: 2, mb: 15 }}>
-                    <Typography
-                      variant="h5"
-                      textAlign="left"
-                      sx={{ m: 2 }}
-                      fontFamily="Roboto"
-                    >
-                      {editMode ? "Update Your" : "Leave a"} Comment
-                    </Typography>
+                    {userInfo ? (
+                      <>
+                        <Typography
+                          variant="h5"
+                          textAlign="left"
+                          sx={{ m: 2 }}
+                          fontFamily="Roboto"
+                        >
+                          {editMode ? "Update Your" : "Leave a"} Comment
+                        </Typography>
 
-                    <Box
-                      component="form"
-                      onSubmit={editMode ? handleCommentUpdate : handleSubmit}
-                      sx={{ mt: 4, mx: 2 }}
-                    >
-                      <input type="hidden" name="commentId" value={commentId} />
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        multiline
-                        rows={8}
-                        value={details}
-                        onChange={(event) => setDetails(event.target.value)}
-                        id="comment"
-                        label="Comment"
-                        name="comment"
-                      />
-                      {/* <Grid container spacing={2}>
-                        <Grid item md={6} sm={12} xs={12}>
+                        <Box
+                          component="form"
+                          onSubmit={editMode ? handleCommentUpdate : handleSubmit}
+                          sx={{ mt: 4, mx: 2 }}
+                        >
+                          <input type="hidden" name="commentId" value={commentId} />
                           <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="name"
-                            label="Name"
-                            name="name"
-                            size="small"
+                            multiline
+                            rows={8}
+                            value={details}
+                            onChange={(event) => setDetails(event.target.value)}
+                            id="comment"
+                            label="Comment"
+                            name="comment"
                           />
-                        </Grid>
-                        <Grid item md={6} sm={12} xs={12}>
-                          <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email (won't be published)"
-                            name="email"
-                            size="small"
-                          />
-                        </Grid>
-                      </Grid>
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="subject"
-                        label="Subject"
-                        name="subject"
-                        size="small"
-                      /> */}
 
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{ mt: 2, bgcolor: "#272643" }}
-                        size="large"
-                        fullWidth
-                      >
-                        Send
-                      </Button>
-                    </Box>
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{ mt: 2, bgcolor: "#272643" }}
+                            size="large"
+                            fullWidth
+                          >
+                            Send
+                          </Button>
+                        </Box>
+                      </>
+                    ) : (
+                      <Box sx={{ textAlign: "center", py: 4, mx: 2 }}>
+                        <Typography variant="body1" color="text.secondary">
+                          <Link
+                            to="/signin"
+                            style={{ color: "#272643", fontWeight: "bold" }}
+                          >
+                            Sign in
+                          </Link>{" "}
+                          to leave a comment.
+                        </Typography>
+                      </Box>
+                    )}
                   </Box>
                 </Box>
               </Grid>

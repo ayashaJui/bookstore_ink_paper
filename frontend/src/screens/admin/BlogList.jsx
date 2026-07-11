@@ -47,7 +47,7 @@ const BlogList = () => {
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(getAllBlogs());
+      dispatch(getAllBlogs("", 1, 100));
 
       if (updateHiddenSuccess) {
         const timer = setTimeout(() => {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
+import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -32,6 +33,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { cartItems = [] } = useSelector((state) => state.cart);
+  const { favoriteItems = [] } = useSelector((state) => state.favorite);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -94,7 +97,6 @@ const Navbar = () => {
                 vertical: "bottom",
                 horizontal: "left",
               }}
-              keepMounted
               transformOrigin={{
                 vertical: "top",
                 horizontal: "left",
@@ -196,7 +198,6 @@ const Navbar = () => {
                     vertical: "top",
                     horizontal: "right",
                   }}
-                  keepMounted
                   transformOrigin={{
                     vertical: "top",
                     horizontal: "right",
@@ -252,7 +253,9 @@ const Navbar = () => {
                   }}
                   to="/cart"
                 >
-                  <ShoppingCartIcon sx={{ fontSize: 22, pt: 0.5 }} />
+                  <Badge badgeContent={cartItems.length} color="error">
+                    <ShoppingCartIcon sx={{ fontSize: 22, pt: 0.5 }} />
+                  </Badge>
                 </Button>
                 <Button
                   component={Link}
@@ -264,7 +267,9 @@ const Navbar = () => {
                     display: "inline",
                   }}
                 >
-                  <FavoriteIcon sx={{ fontSize: 22, pt: 0.5 }} />
+                  <Badge badgeContent={favoriteItems.length} color="error">
+                    <FavoriteIcon sx={{ fontSize: 22, pt: 0.5 }} />
+                  </Badge>
                 </Button>
               </>
             )}

@@ -43,8 +43,8 @@ axios.defaults.withCredentials = true;
 function App() {
   return (
     <BrowserRouter basename="/">
-      <div className="App" style={{ backgroundColor: "#F5F5F5" }}>
-        <main style={{ minHeight: "75vh" }}>
+      <div className="App" style={{ backgroundColor: "#F5F5F5", display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <main style={{ flex: 1 }}>
           <Routes>
             <Route exact path="/" Component={Home} />
 

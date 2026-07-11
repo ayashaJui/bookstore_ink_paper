@@ -70,7 +70,10 @@ export const blogListReducer = (state = { blogs: [] }, action) => {
     case BLOG_LIST_SUCCESS:
       return {
         loading: false,
-        blogs: payload,
+        blogs: Array.isArray(payload) ? payload : payload.blogs,
+        pages: payload.pages,
+        page: payload.page,
+        total: payload.total,
       };
     case BLOG_LIST_FAIL:
       return {

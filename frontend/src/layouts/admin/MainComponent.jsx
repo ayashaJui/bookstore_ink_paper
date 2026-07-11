@@ -10,7 +10,7 @@ const defaultTheme = createTheme();
 const MainComponent = ({ children }) => {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <AdminNavbar />
         <Box
           component="main"

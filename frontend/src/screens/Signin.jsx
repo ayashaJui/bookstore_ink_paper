@@ -54,7 +54,7 @@ const Signin = () => {
   return (
     <>
       <Navbar />
-      <Container component="main" maxWidth="xs" sx={{ minHeight: "70vh" }}>
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{

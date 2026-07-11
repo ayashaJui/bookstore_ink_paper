@@ -15,7 +15,7 @@ const Footer = () => {
         // left: 0,
         // bottom: 0,
         // width: "100%",
-        py: 4,
+        py: 1.5,
         px: 2,
         backgroundColor: "#e3f6f5",
       }}
@@ -27,7 +27,7 @@ const Footer = () => {
             sx={{
               fontStyle: "italic",
               color: "#272643",
-              my: 1,
+              my: 0.5,
               fontSize: "13px",
             }}
           >
@@ -38,12 +38,12 @@ const Footer = () => {
         <Grid item>
           <Grid container spacing={1}>
             <Grid item>
-              <Typography variant="body2" sx={{ my: 1, color: "#272643" }}>
+              <Typography variant="body2" sx={{ my: 0.5, color: "#272643" }}>
                 <CopyrightIcon sx={{ fontSize: "20px" }} />
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body2" sx={{ my: 1, color: "#272643" }}>
+              <Typography variant="body2" sx={{ my: 0.5, color: "#272643" }}>
                 2023 | Ink & Paper. All Rights Reserved
               </Typography>
             </Grid>
@@ -51,19 +51,19 @@ const Footer = () => {
         </Grid>
 
         <Grid item>
-          <Button href="#">
+          <Button>
             <FacebookOutlinedIcon sx={{ color: "#272643" }} />
           </Button>
-          <Button href="#">
+          <Button>
             <InstagramIcon sx={{ color: "#272643" }} />
           </Button>
-          <Button href="#">
+          <Button>
             <TwitterIcon sx={{ color: "#272643" }} />
           </Button>
-          <Button href="#">
+          <Button>
             <YouTubeIcon sx={{ color: "#272643" }} />
           </Button>
-          <Button href="#">
+          <Button>
             <PinterestIcon sx={{ color: "#272643" }} />
           </Button>
         </Grid>

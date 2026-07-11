@@ -30,29 +30,18 @@ const Blogs = () => {
   const location = useLocation();
   const queryParam = location.search.split("?")[1];
   const [currentPage, setCurrentPage] = useState(1);
-  const blogsPerPage = 10;
 
-  const { blogs } = useSelector((state) => state.blogList);
+  const { blogs = [], pages = 1 } = useSelector((state) => state.blogList);
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  const filteredBlogs = blogs.filter((blog) => !blog.isHidden);
-
-  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
-  const startIndex = (currentPage - 1) * blogsPerPage;
-  const endIndex = startIndex + blogsPerPage;
-  const visibleBlogs = filteredBlogs.slice(startIndex, endIndex);
-
   useEffect(() => {
-    if (queryParam) {
-      dispatch(getAllBlogs(queryParam));
-    } else {
-      dispatch(getAllBlogs());
-    }
-  }, [dispatch, queryParam]);
+    dispatch(getAllBlogs(queryParam || "", currentPage, 10));
+  }, [dispatch, queryParam, currentPage]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -69,7 +58,7 @@ const Blogs = () => {
           <Grid container spacing={3}>
             <Grid item md={8} sm={12} xs={12} sx={{ mx: "auto" }}>
               {blogs &&
-                visibleBlogs.map(
+                blogs.map(
                   (
                     {
                       _id,
@@ -162,10 +151,10 @@ const Blogs = () => {
                     )
                 )}
 
-              {totalPages > 1 && blogs && blogs.length > 0 && (
+              {pages > 1 && blogs && blogs.length > 0 && (
                 <Stack spacing={2} sx={{ mt: 10, mb: 6, alignItems: "center" }}>
                   <Pagination
-                    count={totalPages}
+                    count={pages}
                     page={currentPage}
                     onChange={handlePageChange}
                     renderItem={(item) => (
