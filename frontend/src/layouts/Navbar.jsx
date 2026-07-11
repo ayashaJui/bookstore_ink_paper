@@ -240,31 +240,34 @@ const Navbar = () => {
               </Button>
             )}
 
-            <Button
-              component={Link}
-              key="cart"
-              sx={{
-                my: 2,
-                color: location.pathname === "/cart" ? "#2c698d" : "white",
-                display: "inline",
-              }}
-              to="/cart"
-            >
-              <ShoppingCartIcon sx={{ fontSize: 22, pt: 0.5 }} />
-            </Button>
-            <Button
-              component={Link}
-              to="/favorite"
-              // onClick={handleLogout}
-              key="favorite"
-              sx={{
-                my: 2,
-                color: location.pathname === "/favorite" ? "#2c698d" : "white",
-                display: "inline",
-              }}
-            >
-              <FavoriteIcon sx={{ fontSize: 22, pt: 0.5 }} />
-            </Button>
+            {!userInfo?.isAdmin && (
+              <>
+                <Button
+                  component={Link}
+                  key="cart"
+                  sx={{
+                    my: 2,
+                    color: location.pathname === "/cart" ? "#2c698d" : "white",
+                    display: "inline",
+                  }}
+                  to="/cart"
+                >
+                  <ShoppingCartIcon sx={{ fontSize: 22, pt: 0.5 }} />
+                </Button>
+                <Button
+                  component={Link}
+                  to="/favorite"
+                  key="favorite"
+                  sx={{
+                    my: 2,
+                    color: location.pathname === "/favorite" ? "#2c698d" : "white",
+                    display: "inline",
+                  }}
+                >
+                  <FavoriteIcon sx={{ fontSize: 22, pt: 0.5 }} />
+                </Button>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>

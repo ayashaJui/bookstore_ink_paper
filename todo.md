@@ -40,6 +40,22 @@ The blog system works as a standalone social platform (likes, comment likes, cat
 
 ---
 
+### Bugs / Broken things
+
+- [ ] **Forgot password page missing**
+  `Signup.jsx` has a "Forgot password?" link pointing to `/forgetpassword` but no route or screen exists for it. Clicking it leads nowhere. Needs both a frontend screen and a backend reset flow (generate token, send email, allow password update).
+
+- [ ] **`isFeatured` and `isBestSeller` not manageable from admin UI**
+  Both fields exist on the Book model and are used on the frontend (featured section, bestseller badge), but the AddEditBook form has no toggle for them. Admin has no way to set or change these flags.
+
+- [ ] **Messages missing from admin sidebar**
+  The `/admin/messages` route and screen exist and work, but there is no link to it in the admin sidebar (`ListItems.jsx`). Admin can only reach it by typing the URL directly.
+
+- [ ] **Debug `console.log` left in UserProfile**
+  `UserProfile.jsx:174` — `console.log("delete")` is left inside the account deletion handler. Should be removed before production.
+
+---
+
 ### Important — Needed for real-world use
 
 - [ ] **Processing fee + tax percentage on order total**
@@ -51,7 +67,7 @@ The blog system works as a standalone social platform (likes, comment likes, cat
 - [ ] **Redesign delivery status column + allow admin to update it**
   The current delivery chip in the dashboard is display-only with no reliable update flow. Admin should be able to mark an order as delivered directly from the order list or detail page.
 
-- [ ] **Remove cart and favorites buttons from admin view**
+- [x] **Remove cart and favorites buttons from admin view**
   Admin accounts see customer-facing UI (cart, favorites) that makes no sense for them. These should be hidden when `isAdmin` is true.
 
 ---
