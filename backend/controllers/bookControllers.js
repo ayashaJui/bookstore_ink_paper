@@ -408,6 +408,12 @@ export const updateBook = asyncHandler(async (req, res) => {
     book.offer = req.body.offer || book.offer;
     book.pages = req.body.pages || book.pages;
     book.numCopySold = req.body.numCopySold || book.numCopySold;
+    book.isFeatured =
+      req.body.isFeatured !== undefined ? req.body.isFeatured : book.isFeatured;
+    book.isBestSeller =
+      req.body.isBestSeller !== undefined
+        ? req.body.isBestSeller
+        : book.isBestSeller;
 
     const updatedBook = await book.save();
     res.json(updatedBook);

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showSnackbar } from "./snackbarActions";
 import {
   CONTACT_CREATE_FAIL,
   CONTACT_CREATE_REQUEST,
@@ -34,6 +35,7 @@ export const createContact = (contactInfo) => async (dispatch, getState) => {
       type: CONTACT_CREATE_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Message sent! We'll get back to you soon."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -47,6 +49,7 @@ export const createContact = (contactInfo) => async (dispatch, getState) => {
       type: CONTACT_CREATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 

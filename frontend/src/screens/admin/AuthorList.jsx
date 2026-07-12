@@ -129,21 +129,6 @@ const AuthorList = () => {
       <Divider />
 
       <Box sx={{ width: "100%", mt: 5 }}>
-        {createAuthorSuccess && (
-          <Message severity={"success"} title={"Created"} marginY={3}>
-            New author has been created
-          </Message>
-        )}
-        {updateAuthorSuccess && (
-          <Message severity={"success"} title={"Updated"} marginY={3}>
-            Author Info has been updated
-          </Message>
-        )}
-        {deleteAuthorSuccess && (
-          <Message severity={"success"} title={"Deleted"} marginY={3}>
-            Author Info has been deleted
-          </Message>
-        )}
         {loading ? (
           <Loader />
         ) : error ? (

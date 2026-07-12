@@ -83,12 +83,6 @@ const BlogList = () => {
       <Divider />
 
       <Box sx={{ width: "100%", mt: 5 }}>
-        {updateHiddenSuccess && (
-          <Message severity={"success"} title={"Updated"} marginY={3}>
-            {" "}
-            Blog has been {blog.isHidden ? "hidden" : "unhidden"}
-          </Message>
-        )}
         {loading ? (
           <Loader />
         ) : error ? (

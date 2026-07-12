@@ -22,11 +22,7 @@
 
 ### Bugs / Broken things
 
-- [ ] **`isFeatured` and `isBestSeller` not manageable from admin UI**
-  Both fields exist on the Book model and are used on the frontend (featured section, bestseller badge), but the AddEditBook form has no toggle for them. Admin has no way to set or change these flags.
 
-- [ ] **Messages missing from admin sidebar**
-  The `/admin/messages` route and screen exist and work, but there is no link to it in the admin sidebar (`ListItems.jsx`). Admin can only reach it by typing the URL directly.
 
 - [ ] **Debug `console.log` left in UserProfile**
   `UserProfile.jsx:174` — `console.log("delete")` is left inside the account deletion handler. Should be removed before production.

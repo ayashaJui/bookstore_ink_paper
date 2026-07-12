@@ -7,6 +7,7 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  CircularProgress,
   Container,
   Divider,
   FormControl,
@@ -57,11 +58,15 @@ const AddEditBook = () => {
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  const { success: successCreate } = useSelector((state) => state.bookCreate);
+  const { success: successCreate, loading: creating } = useSelector(
+    (state) => state.bookCreate
+  );
   const { loading, error, book } = useSelector((state) => state.bookDetails);
 
   const { userInfo } = useSelector((state) => state.userLogin);
-  const { success: successUpdate } = useSelector((state) => state.bookUpdate);
+  const { success: successUpdate, loading: updating } = useSelector(
+    (state) => state.bookUpdate
+  );
 
   const { authors } = useSelector((state) => state.authorList);
 
@@ -511,6 +516,12 @@ const AddEditBook = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
+                  disabled={creating || updating}
+                  endIcon={
+                    (creating || updating) ? (
+                      <CircularProgress size={16} color="inherit" />
+                    ) : null
+                  }
                   sx={{
                     mt: 2,
                     bgcolor: "#272643",

@@ -33,6 +33,7 @@ import {
   bookClearSuccess,
   deleteBook,
   getBookWithOrderList,
+  updateBook,
 } from "../../actions/bookActions";
 import Loader from "../../layouts/Loader";
 import Message from "../../layouts/Message";
@@ -130,32 +131,27 @@ const Books = () => {
     dispatch({ type: BOOK_DETAILS_RESET });
     if (userInfo && userInfo.isAdmin) {
       dispatch(getBookWithOrderList());
-
-      if (createBookSuccess || updateBookSuccess || deleteBookSuccess) {
-        const timer = setTimeout(() => {
-          dispatch(bookClearSuccess());
-        }, 6000);
-
-        return () => clearTimeout(timer);
-      }
     } else {
       navigate("/signin");
     }
-  }, [
-    dispatch,
-    navigate,
-    userInfo,
-    createBookSuccess,
-    updateBookSuccess,
-    deleteBookSuccess,
-  ]);
+  }, [dispatch, navigate, userInfo]);
+
+  useEffect(() => {
+    if (createBookSuccess || updateBookSuccess || deleteBookSuccess) {
+      dispatch(getBookWithOrderList());
+      const timer = setTimeout(() => {
+        dispatch(bookClearSuccess());
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [dispatch, createBookSuccess, updateBookSuccess, deleteBookSuccess]);
 
   const handleFeatureSubmit = (event, id, isFeatured) => {
-    console.log(id, isFeatured);
+    dispatch(updateBook({ id, isFeatured: !isFeatured }));
   };
 
   const handleBestSellerSubmit = (event, id, isBestSeller) => {
-    console.log(id, isBestSeller);
+    dispatch(updateBook({ id, isBestSeller: !isBestSeller }));
   };
 
   const handleEdit = (event, id) => {
@@ -201,21 +197,6 @@ const Books = () => {
       <Divider />
 
       <Box sx={{ mt: 5 }}>
-        {createBookSuccess && (
-          <Message severity={"success"} title={"Created"} marginY={3}>
-            New book has been created
-          </Message>
-        )}
-        {updateBookSuccess && (
-          <Message severity={"success"} title={"Updated"} marginY={3}>
-            Book Info has been updated
-          </Message>
-        )}
-        {deleteBookSuccess && (
-          <Message severity={"success"} title={"Deleted"} marginY={3}>
-            Book Info has been deleted
-          </Message>
-        )}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -394,7 +375,7 @@ const Books = () => {
                               size="small"
                               variant="contained"
                               onClick={(event) =>
-                                handleBestSellerSubmit(event, _id, isFeatured)
+                                handleBestSellerSubmit(event, _id, isBestSeller)
                               }
                             >
                               {isBestSeller ? (

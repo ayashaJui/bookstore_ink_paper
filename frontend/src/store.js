@@ -77,6 +77,7 @@ import {
   contactCreateReducers,
   contactListReducers,
 } from "./reducers/contactReducers.js";
+import { snackbarReducer } from "./reducers/snackbarReducer.js";
 
 const reducers = combineReducers({
   cart: cartReducers,
@@ -150,6 +151,8 @@ const reducers = combineReducers({
 
   userForgotPassword: userForgotPasswordReducer,
   userResetPassword: userResetPasswordReducer,
+
+  snackbar: snackbarReducer,
 });
 
 const cartFromStorage = localStorage.getItem("cartItems")

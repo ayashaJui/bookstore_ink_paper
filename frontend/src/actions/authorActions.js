@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showSnackbar } from "./snackbarActions";
 
 import {
   AUTHOR_CREATE_FAIL,
@@ -119,6 +120,7 @@ export const createAuthor = (author) => async (dispatch, getState) => {
       type: AUTHOR_CREATE_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Author created successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -132,6 +134,7 @@ export const createAuthor = (author) => async (dispatch, getState) => {
       type: AUTHOR_CREATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -161,11 +164,11 @@ export const updateAuthor = (author) => async (dispatch, getState) => {
       type: AUTHOR_UPDATE_SUCCESS,
       payload: data,
     });
-
     dispatch({
       type: AUTHOR_DETAILS_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Author updated successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -179,6 +182,7 @@ export const updateAuthor = (author) => async (dispatch, getState) => {
       type: AUTHOR_UPDATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -201,6 +205,7 @@ export const deleteAuthor = (id) => async (dispatch, getState) => {
     await axios.delete(`${authorUrl}/${id}`, config);
 
     dispatch({ type: AUTHOR_DELETE_SUCCESS });
+    dispatch(showSnackbar("Author deleted."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -213,6 +218,7 @@ export const deleteAuthor = (id) => async (dispatch, getState) => {
       type: AUTHOR_DELETE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 

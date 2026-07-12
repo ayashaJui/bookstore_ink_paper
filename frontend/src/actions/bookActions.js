@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showSnackbar } from "./snackbarActions";
 
 import {
   BOOK_AUTHOR_FAIL,
@@ -367,6 +368,7 @@ export const createBook = (book) => async (dispatch, getState) => {
       type: BOOK_CREATE_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Book created successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -380,6 +382,7 @@ export const createBook = (book) => async (dispatch, getState) => {
       type: BOOK_CREATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -405,11 +408,11 @@ export const updateBook = (book) => async (dispatch, getState) => {
       type: BOOK_UPDATE_SUCCESS,
       payload: data,
     });
-
     dispatch({
       type: BOOK_DETAILS_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Book updated successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -423,6 +426,7 @@ export const updateBook = (book) => async (dispatch, getState) => {
       type: BOOK_UPDATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -445,6 +449,7 @@ export const deleteBook = (id) => async (dispatch, getState) => {
     await axios.delete(`${bookUrl}/${id}`, config);
 
     dispatch({ type: BOOK_DELETE_SUCCESS });
+    dispatch(showSnackbar("Book deleted."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -457,6 +462,7 @@ export const deleteBook = (id) => async (dispatch, getState) => {
       type: BOOK_DELETE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 

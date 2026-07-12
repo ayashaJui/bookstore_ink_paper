@@ -37,6 +37,7 @@ import CreateEditBlog from "./screens/CreateEditBlog";
 import ForgotPassword from "./screens/ForgotPassword";
 import ResetPassword from "./screens/ResetPassword";
 import Messages from "./screens/admin/Messages";
+import GlobalSnackbar from "./layouts/GlobalSnackbar";
 
 axios.defaults.withCredentials = true;
 
@@ -107,6 +108,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <GlobalSnackbar />
       </div>
     </BrowserRouter>
   );

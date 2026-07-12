@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showSnackbar } from "./snackbarActions";
 
 import {
   USER_LOGIN_FAIL,
@@ -272,6 +273,7 @@ export const updateIsAdmin = (id, user) => async (dispatch, getState) => {
       type: USER_UPDATE_ISADMIN_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("User role updated."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -353,6 +355,7 @@ export const createUser = (user) => async (dispatch, getState) => {
       type: USER_CREATE_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("User created successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -366,6 +369,7 @@ export const createUser = (user) => async (dispatch, getState) => {
       type: USER_CREATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -391,11 +395,11 @@ export const updateUser = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_SUCCESS,
       payload: data,
     });
-
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("User updated successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -409,6 +413,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
       type: USER_UPDATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -431,6 +436,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     await axios.delete(`${userUrl}/${id}`, config);
 
     dispatch({ type: USER_DELETE_SUCCESS });
+    dispatch(showSnackbar("User deleted."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -443,6 +449,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
       type: USER_DELETE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showSnackbar } from "./snackbarActions";
 
 import {
   BLOG_BY_BOOK_FAIL,
@@ -238,6 +239,7 @@ export const updateIsHidden = (id, blog) => async (dispatch, getState) => {
       type: BLOG_UPDATE_ISHIDDEN_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar(`Blog ${data.isHidden ? "hidden" : "unhidden"}.`));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -251,6 +253,7 @@ export const updateIsHidden = (id, blog) => async (dispatch, getState) => {
       type: BLOG_UPDATE_ISHIDDEN_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -276,6 +279,7 @@ export const createBlog = (blog) => async (dispatch, getState) => {
       type: BLOG_CREATE_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Blog published successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -289,6 +293,7 @@ export const createBlog = (blog) => async (dispatch, getState) => {
       type: BLOG_CREATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -314,11 +319,11 @@ export const updateBlog = (blog) => async (dispatch, getState) => {
       type: BLOG_UPDATE_SUCCESS,
       payload: data,
     });
-
     dispatch({
       type: BLOG_DETAILS_SUCCESS,
       payload: data,
     });
+    dispatch(showSnackbar("Blog updated successfully."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -332,6 +337,7 @@ export const updateBlog = (blog) => async (dispatch, getState) => {
       type: BLOG_UPDATE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 
@@ -397,6 +403,7 @@ export const deleteBlog = (id) => async (dispatch, getState) => {
     await axios.delete(`${blogUrl}/${id}`, config);
 
     dispatch({ type: BLOG_DELETE_SUCCESS });
+    dispatch(showSnackbar("Blog deleted."));
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -409,6 +416,7 @@ export const deleteBlog = (id) => async (dispatch, getState) => {
       type: BLOG_DELETE_FAIL,
       payload: message,
     });
+    dispatch(showSnackbar(message, "error"));
   }
 };
 

@@ -142,28 +142,6 @@ const Users = () => {
       <Divider />
 
       <Box sx={{ mt: 5 }}>
-        {updateAdminSuccess && (
-          <Message severity={"success"} title={"Updated"} marginY={3}>
-            {" "}
-            User info has been updated{" "}
-          </Message>
-        )}
-        {updateUserSuccess && (
-          <Message severity={"success"} title={"Updated"} marginY={3}>
-            {" "}
-            User info has been updated{" "}
-          </Message>
-        )}
-        {createUserSuccess && (
-          <Message severity={"success"} title={"Created"} marginY={3}>
-            New user has been created
-          </Message>
-        )}
-        {deleteUserSuccess && (
-          <Message severity={"success"} title={"Deleted"} marginY={3}>
-            User has been deleted
-          </Message>
-        )}
         {loading ? (
           <Loader />
         ) : error ? (
