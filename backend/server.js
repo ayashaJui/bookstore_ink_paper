@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import colors from "colors";
 import connectDB from "./config/db.js";
 import path, { dirname } from "path";
+import swaggerUi from "swagger-ui-express";
 
 import bookRoutes from "./routes/bookRoutes.js";
 import authorRoutes from "./routes/authorRoutes.js";
@@ -14,6 +15,7 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 import { fileURLToPath } from "url";
+import swaggerSpec from "./swagger.js";
 
 dotenv.config();
 
@@ -29,6 +31,8 @@ app.use(corsMiddleware);
 // app.get("/", (req, res) => {
 //   res.send("running");
 // });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/books", bookRoutes);
 app.use("/api/authors", authorRoutes);

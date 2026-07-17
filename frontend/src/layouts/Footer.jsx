@@ -1,4 +1,5 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Typography } from "@mui/material";
+import ApiIcon from "@mui/icons-material/Api";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -48,6 +49,27 @@ const Footer = () => {
               </Typography>
             </Grid>
           </Grid>
+        </Grid>
+
+        <Grid item sx={{ display: "flex", alignItems: "center" }}>
+          <Chip
+            component="a"
+            href={`${process.env.REACT_APP_BASE_URL}/api-docs`}
+            target="_blank"
+            rel="noopener noreferrer"
+            icon={<ApiIcon />}
+            label="API Docs"
+            clickable
+            size="small"
+            sx={{
+              bgcolor: "#272643",
+              color: "#e3f6f5",
+              "& .MuiChip-icon": { color: "#e3f6f5" },
+              "&:hover": { bgcolor: "#2c698d" },
+              fontWeight: 500,
+              letterSpacing: 0.5,
+            }}
+          />
         </Grid>
 
         <Grid item>

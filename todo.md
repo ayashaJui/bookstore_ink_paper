@@ -24,8 +24,6 @@
 
 
 
-- [ ] **Debug `console.log` left in UserProfile**
-  `UserProfile.jsx:174` — `console.log("delete")` is left inside the account deletion handler. Should be removed before production.
 
 ---
 
@@ -67,8 +65,6 @@
 - [ ] **Footer social media links**
   Add real social media links to the footer. Standard for any professional site.
 
-- [ ] **About page — team / member section**
-  Add member info to the About page. Good for portfolio presentation.
 
 ---
 

@@ -176,7 +176,6 @@ const UserProfile = () => {
     event.preventDefault();
     dispatch(requestDeleteProfile(user._id));
     dispatch(logout());
-    console.log("delete");
   };
 
   const handleEdit = (event, id) => {
